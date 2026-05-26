@@ -159,12 +159,13 @@ em {
   font-family: 'Cause', 'Comic Sans MS', cursive;
   font-size: 1.55rem;
   font-weight: 600;
-  color: var(--dark);
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(45, 27, 14, 0.35);
   white-space: nowrap;
 }
 
 .logo em {
-  color: var(--orange);
+  color: #fff;
   font-weight: 400;
 }
 
