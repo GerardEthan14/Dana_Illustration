@@ -1,0 +1,261 @@
+{
+  "nav": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "shop": "Shop",
+    "commissions": "Commissions",
+    "about": "About",
+    "contact": "Contact",
+    "cart": "Cart"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Children's book illustrator",
+      "title": "Bringing to life the",
+      "titleAccent": "worlds of childhood",
+      "subtitle": "Picture books, custom portraits, and little printed treasures — crafted with tenderness for the young and the young at heart.",
+      "ctaPrimary": "Order a commission",
+      "ctaSecondary": "See the portfolio",
+      "tag": "Latest book",
+      "tagWork": "Mira's Adventure"
+    },
+    "ctaCards": {
+      "portfolio": {
+        "title": "Portfolio",
+        "description": "Picture books, characters and worlds I've given life to."
+      },
+      "commissions": {
+        "title": "Commissions",
+        "description": "A custom illustration for you or your loved ones."
+      },
+      "shop": {
+        "title": "Shop",
+        "description": "Stickers, prints and digital files."
+      }
+    },
+    "portfolio": {
+      "eyebrow": "Portfolio",
+      "title": "A few recent works",
+      "viewAll": "See the full portfolio"
+    },
+    "commissions": {
+      "eyebrow": "Commissions",
+      "titlePart1": "An illustration",
+      "titleAccent": "just for you",
+      "subtitle": "Choose the formula that suits you. Every creation is unique, hand-drawn with love.",
+      "featured": "Most popular",
+      "fromPrice": "Starting at",
+      "learnMore": "Learn more",
+      "requestQuote": "Request a quote",
+      "items": {
+        "animal": {
+          "title": "Pet portrait",
+          "price": "€65",
+          "description": "A custom illustration of your companion, delivered digitally within 2 weeks."
+        },
+        "cover": {
+          "title": "Book cover",
+          "price": "€350",
+          "description": "To give your children's book a face — custom quote depending on the project."
+        },
+        "custom": {
+          "title": "Custom illustration",
+          "price": "€90",
+          "description": "For a unique gift: family, couple, wedding, birth, or special project."
+        }
+      }
+    },
+    "newsletter": {
+      "title": "Stay in the loop",
+      "description": "A gentle letter, every now and then. No spam, promise.",
+      "placeholder": "your@email.com",
+      "submit": "Subscribe"
+    }
+  },
+  "footer": {
+    "tagline": "Children's book illustrator — based in Belgium, available everywhere.",
+    "siteMap": "Site map",
+    "follow": "Follow me",
+    "legal": "Legal",
+    "instagram": "Instagram",
+    "email": "Email",
+    "mentions": "Legal notice",
+    "terms": "Terms of sale",
+    "privacy": "Privacy policy",
+    "copyright": "All rights reserved"
+  },
+  "comingSoon": {
+    "title": "Coming soon",
+    "description": "This page is being prepared. Check back soon.",
+    "backHome": "Back to home"
+  },
+  "portfolioPage": {
+    "eyebrow": "Portfolio",
+    "title": "My book",
+    "subtitle": "A selection of my illustrations, children's books, and custom creations — flip through online or download as PDF.",
+    "downloadPdf": "Download the book (PDF)",
+    "lastUpdated": "Updated on",
+    "browserUnsupported": "Your browser does not display embedded PDFs.",
+    "emptyTitle": "The book is on its way",
+    "emptyDescription": "The portfolio will be online soon. Check back in a few days."
+  },
+  "commissionsPage": {
+    "hero": {
+      "eyebrow": "Commissions",
+      "title": "An illustration",
+      "titleAccent": "just for you",
+      "subtitle": "Bring a memory, a character or a story to life. Every creation is unique, hand-drawn with patience and tenderness.",
+      "ctaScroll": "Request a quote",
+      "stats": [
+        { "number": "50+", "label": "Commissions delivered" },
+        { "number": "2 wks", "label": "Average turnaround" },
+        { "number": "100%", "label": "Satisfaction" }
+      ]
+    },
+    "process": {
+      "eyebrow": "How it works",
+      "title": "A simple process, in 5 steps",
+      "subtitle": "From your first idea to the final piece, I'm with you at every step.",
+      "steps": [
+        {
+          "title": "Your request",
+          "description": "Fill out the form with your idea, references and budget."
+        },
+        {
+          "title": "Custom quote",
+          "description": "I get back to you within 48h with a detailed quote and estimated turnaround."
+        },
+        {
+          "title": "Creative brief",
+          "description": "We chat by email to nail down your vision: mood, colors, style."
+        },
+        {
+          "title": "Creation",
+          "description": "I draw. A sketch is sent for your validation before finalization."
+        },
+        {
+          "title": "Delivery",
+          "description": "You receive your illustration in high resolution, ready to print or share."
+        }
+      ]
+    },
+    "formulas": {
+      "eyebrow": "Formulas",
+      "title": "Choose your formula",
+      "subtitle": "Three formulas to fit your project. Custom if none of them match.",
+      "fromPrice": "Starting at",
+      "delay": "Turnaround",
+      "format": "Format",
+      "includes": "Includes",
+      "cta": "Request this formula",
+      "items": {
+        "animal": {
+          "title": "Pet portrait",
+          "subtitle": "To immortalize your companion",
+          "price": "€65",
+          "delay": "2 weeks",
+          "format": "High-resolution digital file (JPEG + PDF)",
+          "description": "A soft and tender illustration of your pet, drawn from your photos. Perfect as a gift or to decorate your home.",
+          "includes": [
+            "Custom illustration drawn from your photos",
+            "1 sketch for validation",
+            "2 revisions included",
+            "High-resolution digital file",
+            "Personal usage rights"
+          ]
+        },
+        "cover": {
+          "title": "Book cover",
+          "subtitle": "For authors and publishers",
+          "price": "€350",
+          "delay": "4 to 6 weeks",
+          "format": "Print + web file, multiple formats",
+          "description": "Give your children's book a face. Custom quote depending on complexity, format, and usage rights.",
+          "includes": [
+            "Study of the world and characters",
+            "2 art direction proposals",
+            "3 revisions included",
+            "Print- and web-ready files",
+            "Editorial rights transfer (to discuss)"
+          ]
+        },
+        "custom": {
+          "title": "Custom illustration",
+          "subtitle": "For a unique gift",
+          "price": "€90",
+          "delay": "3 weeks",
+          "format": "High-resolution digital file (JPEG + PDF)",
+          "description": "Family, couple, wedding, birth, birthday… A handmade illustration to celebrate the people you love.",
+          "includes": [
+            "Illustration with up to 4 characters",
+            "Custom background and atmosphere",
+            "1 sketch for validation",
+            "2 revisions included",
+            "High-resolution digital file"
+          ]
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "q": "What are the usual turnaround times?",
+          "a": "It depends on the formula. Plan 2 weeks for a pet portrait, 3 weeks for a custom illustration, and 4 to 6 weeks for a book cover. I give you a precise turnaround in the quote."
+        },
+        {
+          "q": "How does payment work?",
+          "a": "A 30% deposit is required to lock in the project. The balance is due upon delivery of the final file. Payment by bank transfer or Stripe."
+        },
+        {
+          "q": "Can I request changes?",
+          "a": "Yes, every formula includes a number of revisions. Beyond that, additional revisions are billed at the hourly rate (€40/h)."
+        },
+        {
+          "q": "Who owns the copyright?",
+          "a": "You get a personal, non-exclusive usage right. For commercial use (published book, derivative product), an additional rights transfer is needed — I include it in the quote if needed."
+        },
+        {
+          "q": "Do you work internationally?",
+          "a": "Yes, I work with clients all over the world. All communication is by email, and delivery is digital."
+        },
+        {
+          "q": "Do you do illustrations on other themes (adults, pro events)?",
+          "a": "My world is children's book illustration, but I'm open to other projects if the spirit speaks to me. Feel free to reach out."
+        }
+      ]
+    },
+    "form": {
+      "eyebrow": "Request",
+      "title": "Request your quote",
+      "subtitle": "Fill out this form and I'll get back to you within 48h with a custom quote.",
+      "type": "Commission type",
+      "typeOptions": {
+        "animal": "Pet portrait",
+        "cover": "Book cover",
+        "custom": "Custom illustration",
+        "other": "Other project"
+      },
+      "name": "Your name",
+      "namePlaceholder": "Marie Smith",
+      "email": "Your email",
+      "emailPlaceholder": "your@email.com",
+      "description": "Describe your project",
+      "descriptionPlaceholder": "Tell me what you have in mind: characters, mood, context, intentions…",
+      "budget": "Budget",
+      "budgetPlaceholder": "E.g. €100-200",
+      "deadline": "Deadline",
+      "deadlinePlaceholder": "E.g. before June 15",
+      "references": "Reference photos",
+      "referencesHint": "JPG, PNG · max 5 files of 5 MB each",
+      "referencesAdd": "Add photos",
+      "consent": "I agree to be contacted by email about this project.",
+      "submit": "Send request",
+      "submitting": "Sending…",
+      "successTitle": "Thank you!",
+      "successMessage": "Your request has been received. I'll get back to you within 48h with a custom quote.",
+      "errorMessage": "An error occurred. Please retry or contact me directly by email."
+    }
+  }
+}

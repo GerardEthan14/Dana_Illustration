@@ -1,0 +1,261 @@
+{
+  "nav": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "shop": "Winkel",
+    "commissions": "Bestellingen",
+    "about": "Over",
+    "contact": "Contact",
+    "cart": "Winkelmand"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Kinderboekillustrator",
+      "title": "Tot leven brengen van",
+      "titleAccent": "kinderwerelden",
+      "subtitle": "Prentenboeken, portretten op maat en kleine geprinte schatten — met zachtheid bedacht voor klein en groot.",
+      "ctaPrimary": "Een opdracht plaatsen",
+      "ctaSecondary": "Bekijk de portfolio",
+      "tag": "Laatste boek",
+      "tagWork": "Mira op avontuur"
+    },
+    "ctaCards": {
+      "portfolio": {
+        "title": "Portfolio",
+        "description": "Prentenboeken, personages en werelden die ik tot leven heb gebracht."
+      },
+      "commissions": {
+        "title": "Bestellingen",
+        "description": "Een illustratie op maat voor jou of een dierbare."
+      },
+      "shop": {
+        "title": "Winkel",
+        "description": "Stickers, prints en digitale bestanden."
+      }
+    },
+    "portfolio": {
+      "eyebrow": "Portfolio",
+      "title": "Een greep uit mijn recente werk",
+      "viewAll": "Bekijk de hele portfolio"
+    },
+    "commissions": {
+      "eyebrow": "Bestellingen",
+      "titlePart1": "Een illustratie",
+      "titleAccent": "speciaal voor jou",
+      "subtitle": "Kies de formule die bij je past. Elke creatie is uniek, met liefde met de hand getekend.",
+      "featured": "Meest gevraagd",
+      "fromPrice": "Vanaf",
+      "learnMore": "Meer info",
+      "requestQuote": "Offerte aanvragen",
+      "items": {
+        "animal": {
+          "title": "Dierenportret",
+          "price": "65€",
+          "description": "Een gepersonaliseerde illustratie van je trouwe vriend, digitaal geleverd binnen 2 weken."
+        },
+        "cover": {
+          "title": "Boekomslag",
+          "price": "350€",
+          "description": "Om je kinderboek een gezicht te geven — offerte op maat afhankelijk van het project."
+        },
+        "custom": {
+          "title": "Persoonlijke illustratie",
+          "price": "90€",
+          "description": "Voor een uniek cadeau: familie, koppel, huwelijk, geboorte of bijzonder project."
+        }
+      }
+    },
+    "newsletter": {
+      "title": "Blijf op de hoogte",
+      "description": "Een zachte brief, af en toe. Geen spam, beloofd.",
+      "placeholder": "jouw@email.com",
+      "submit": "Inschrijven"
+    }
+  },
+  "footer": {
+    "tagline": "Kinderboekillustrator — gevestigd in België, overal beschikbaar.",
+    "siteMap": "Sitemap",
+    "follow": "Volg mij",
+    "legal": "Juridisch",
+    "instagram": "Instagram",
+    "email": "E-mail",
+    "mentions": "Wettelijke vermeldingen",
+    "terms": "Verkoopsvoorwaarden",
+    "privacy": "Privacybeleid",
+    "copyright": "Alle rechten voorbehouden"
+  },
+  "comingSoon": {
+    "title": "Binnenkort beschikbaar",
+    "description": "Deze pagina is in voorbereiding. Kom binnenkort terug om te kijken.",
+    "backHome": "Terug naar home"
+  },
+  "portfolioPage": {
+    "eyebrow": "Portfolio",
+    "title": "Mijn book",
+    "subtitle": "Een selectie van mijn illustraties, kinderboeken en creaties op maat — blader online of download als PDF.",
+    "downloadPdf": "Download het book (PDF)",
+    "lastUpdated": "Bijgewerkt op",
+    "browserUnsupported": "Je browser toont geen ingesloten PDF's.",
+    "emptyTitle": "Het book wordt voorbereid",
+    "emptyDescription": "Het portfolio komt binnenkort online. Kom over enkele dagen terug."
+  },
+  "commissionsPage": {
+    "hero": {
+      "eyebrow": "Bestellingen",
+      "title": "Een illustratie",
+      "titleAccent": "speciaal voor jou",
+      "subtitle": "Breng een herinnering, een personage of een verhaal tot leven. Elke creatie is uniek, met geduld en tederheid met de hand getekend.",
+      "ctaScroll": "Offerte aanvragen",
+      "stats": [
+        { "number": "50+", "label": "Geleverde opdrachten" },
+        { "number": "2 wk", "label": "Gemiddelde levertijd" },
+        { "number": "100%", "label": "Tevredenheid" }
+      ]
+    },
+    "process": {
+      "eyebrow": "Hoe het werkt",
+      "title": "Een eenvoudig proces in 5 stappen",
+      "subtitle": "Van je eerste idee tot het eindwerk, ik begeleid je bij elke stap.",
+      "steps": [
+        {
+          "title": "Jouw aanvraag",
+          "description": "Je vult het formulier in met je idee, referenties en budget."
+        },
+        {
+          "title": "Persoonlijke offerte",
+          "description": "Binnen 48u stuur ik je een gedetailleerde offerte met geschatte levertijd."
+        },
+        {
+          "title": "Creatieve briefing",
+          "description": "We mailen om jouw visie scherp te krijgen: sfeer, kleuren, stijl."
+        },
+        {
+          "title": "Creatie",
+          "description": "Ik teken. Je krijgt een schets ter validatie voor de finalisatie."
+        },
+        {
+          "title": "Levering",
+          "description": "Je ontvangt je illustratie in hoge resolutie, klaar om af te drukken of te delen."
+        }
+      ]
+    },
+    "formulas": {
+      "eyebrow": "Formules",
+      "title": "Kies je formule",
+      "subtitle": "Drie formules om je project te ondersteunen. Op maat als geen enkele bij je past.",
+      "fromPrice": "Vanaf",
+      "delay": "Levertijd",
+      "format": "Formaat",
+      "includes": "Inbegrepen",
+      "cta": "Deze formule aanvragen",
+      "items": {
+        "animal": {
+          "title": "Dierenportret",
+          "subtitle": "Om je trouwe vriend te vereeuwigen",
+          "price": "65€",
+          "delay": "2 weken",
+          "format": "Digitaal bestand in hoge resolutie (JPEG + PDF)",
+          "description": "Een zachte en tedere illustratie van je dier, getekend op basis van je foto's. Ideaal als geschenk of om je interieur op te fleuren.",
+          "includes": [
+            "Persoonlijke illustratie op basis van jouw foto's",
+            "1 schets ter validatie",
+            "2 retouches inbegrepen",
+            "Digitaal bestand in hoge resolutie",
+            "Persoonlijk gebruiksrecht"
+          ]
+        },
+        "cover": {
+          "title": "Boekomslag",
+          "subtitle": "Voor auteurs en uitgevers",
+          "price": "350€",
+          "delay": "4 tot 6 weken",
+          "format": "Print- en webbestand, verschillende formaten",
+          "description": "Geef je kinderboek een gezicht. Persoonlijke offerte naargelang complexiteit, formaat en gebruiksrechten.",
+          "includes": [
+            "Studie van de wereld en personages",
+            "2 voorstellen van artistieke richting",
+            "3 retouches inbegrepen",
+            "Bestanden klaar voor druk en web",
+            "Overdracht van uitgeefrechten in overleg"
+          ]
+        },
+        "custom": {
+          "title": "Persoonlijke illustratie",
+          "subtitle": "Voor een uniek geschenk",
+          "price": "90€",
+          "delay": "3 weken",
+          "format": "Digitaal bestand in hoge resolutie (JPEG + PDF)",
+          "description": "Familie, koppel, huwelijk, geboorte, verjaardag… Een handgemaakte illustratie om de mensen die je liefhebt te vieren.",
+          "includes": [
+            "Illustratie tot 4 personages",
+            "Persoonlijk decor en sfeer",
+            "1 schets ter validatie",
+            "2 retouches inbegrepen",
+            "Digitaal bestand in hoge resolutie"
+          ]
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Veelgestelde vragen",
+      "items": [
+        {
+          "q": "Wat zijn de gebruikelijke levertijden?",
+          "a": "Dat hangt af van de formule. Reken op 2 weken voor een dierenportret, 3 weken voor een persoonlijke illustratie en 4 tot 6 weken voor een boekomslag. Ik geef je een precieze levertijd in de offerte."
+        },
+        {
+          "q": "Hoe verloopt de betaling?",
+          "a": "Een aanbetaling van 30% wordt gevraagd om het project te bevestigen. Het saldo betaal je bij de levering van het eindbestand. Betaling via bankoverschrijving of Stripe."
+        },
+        {
+          "q": "Kan ik wijzigingen vragen?",
+          "a": "Ja, elke formule omvat een aantal retouches. Daarbuiten worden bijkomende retouches gefactureerd aan het uurtarief (€40/u)."
+        },
+        {
+          "q": "Aan wie behoren de auteursrechten toe?",
+          "a": "Je krijgt een persoonlijk en niet-exclusief gebruiksrecht. Voor commercieel gebruik (gepubliceerd boek, afgeleid product) is een bijkomende rechtenoverdracht nodig — ik neem dit indien nodig op in de offerte."
+        },
+        {
+          "q": "Werk je internationaal?",
+          "a": "Ja, ik werk met klanten over de hele wereld. Alle communicatie verloopt via e-mail en de levering is digitaal."
+        },
+        {
+          "q": "Maak je illustraties rond andere thema's (volwassenen, pro events)?",
+          "a": "Mijn wereld is kinderboekillustratie, maar ik sta open voor andere projecten als de geest me aanspreekt. Aarzel niet om me te contacteren."
+        }
+      ]
+    },
+    "form": {
+      "eyebrow": "Aanvraag",
+      "title": "Vraag je offerte aan",
+      "subtitle": "Vul dit formulier in en ik kom binnen 48u terug met een persoonlijke offerte.",
+      "type": "Type bestelling",
+      "typeOptions": {
+        "animal": "Dierenportret",
+        "cover": "Boekomslag",
+        "custom": "Persoonlijke illustratie",
+        "other": "Ander project"
+      },
+      "name": "Jouw naam",
+      "namePlaceholder": "Marie Janssens",
+      "email": "Jouw e-mail",
+      "emailPlaceholder": "jouw@email.com",
+      "description": "Beschrijf je project",
+      "descriptionPlaceholder": "Vertel me wat je in gedachten hebt: personages, sfeer, context, intenties…",
+      "budget": "Gewenst budget",
+      "budgetPlaceholder": "Bv. 100-200€",
+      "deadline": "Gewenste deadline",
+      "deadlinePlaceholder": "Bv. vóór 15 juni",
+      "references": "Referentiefoto's",
+      "referencesHint": "JPG, PNG · max 5 bestanden van 5 MB",
+      "referencesAdd": "Foto's toevoegen",
+      "consent": "Ik geef toestemming om gecontacteerd te worden via e-mail over dit project.",
+      "submit": "Aanvraag versturen",
+      "submitting": "Bezig met versturen…",
+      "successTitle": "Bedankt!",
+      "successMessage": "Je aanvraag is goed ontvangen. Ik kom binnen 48u terug met een persoonlijke offerte.",
+      "errorMessage": "Er is een fout opgetreden. Probeer opnieuw of contacteer me rechtstreeks per e-mail."
+    }
+  }
+}

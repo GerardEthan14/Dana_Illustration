@@ -1,0 +1,261 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "portfolio": "Portfolio",
+    "shop": "Boutique",
+    "commissions": "Commissions",
+    "about": "À propos",
+    "contact": "Contact",
+    "cart": "Panier"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Illustratrice jeunesse",
+      "title": "Donner vie aux",
+      "titleAccent": "univers d'enfance",
+      "subtitle": "Albums, portraits sur mesure, et petits trésors imprimés — pensés avec douceur pour les petits et les grands.",
+      "ctaPrimary": "Commander une commission",
+      "ctaSecondary": "Voir le portfolio",
+      "tag": "Dernier album",
+      "tagWork": "Mira à l'aventure"
+    },
+    "ctaCards": {
+      "portfolio": {
+        "title": "Portfolio",
+        "description": "Albums, personnages et univers que j'ai donné vie."
+      },
+      "commissions": {
+        "title": "Commissions",
+        "description": "Une illustration sur mesure pour vous ou vos proches."
+      },
+      "shop": {
+        "title": "Boutique",
+        "description": "Stickers, prints et fichiers numériques."
+      }
+    },
+    "portfolio": {
+      "eyebrow": "Portfolio",
+      "title": "Quelques travaux récents",
+      "viewAll": "Voir tout le portfolio"
+    },
+    "commissions": {
+      "eyebrow": "Commissions",
+      "titlePart1": "Une illustration",
+      "titleAccent": "rien que pour vous",
+      "subtitle": "Choisissez la formule qui vous correspond. Chaque création est unique, dessinée à la main avec amour.",
+      "featured": "Le plus demandé",
+      "fromPrice": "À partir de",
+      "learnMore": "En savoir plus",
+      "requestQuote": "Demander un devis",
+      "items": {
+        "animal": {
+          "title": "Portrait d'animal",
+          "price": "65€",
+          "description": "Une illustration personnalisée de votre compagnon, livrée numériquement en 2 semaines."
+        },
+        "cover": {
+          "title": "Couverture de livre",
+          "price": "350€",
+          "description": "Pour donner un visage à votre album jeunesse — devis personnalisé selon le projet."
+        },
+        "custom": {
+          "title": "Illustration personnalisée",
+          "price": "90€",
+          "description": "Pour un cadeau unique : famille, couple, mariage, naissance, projet spécial."
+        }
+      }
+    },
+    "newsletter": {
+      "title": "Recevez les nouveautés",
+      "description": "Une lettre douce, de temps en temps. Pas de spam, promis.",
+      "placeholder": "votre@email.com",
+      "submit": "S'inscrire"
+    }
+  },
+  "footer": {
+    "tagline": "Illustratrice jeunesse — basée en Belgique, disponible partout.",
+    "siteMap": "Plan du site",
+    "follow": "Suivez-moi",
+    "legal": "Légal",
+    "instagram": "Instagram",
+    "email": "Email",
+    "mentions": "Mentions légales",
+    "terms": "Conditions de vente",
+    "privacy": "Politique de confidentialité",
+    "copyright": "Tous droits réservés"
+  },
+  "comingSoon": {
+    "title": "Bientôt disponible",
+    "description": "Cette page est en cours de préparation. Reviens vite la consulter.",
+    "backHome": "Retour à l'accueil"
+  },
+  "portfolioPage": {
+    "eyebrow": "Portfolio",
+    "title": "Mon book",
+    "subtitle": "Une sélection de mes illustrations, livres jeunesse et créations sur mesure — feuilletez ou téléchargez en PDF.",
+    "downloadPdf": "Télécharger le book (PDF)",
+    "lastUpdated": "Mis à jour le",
+    "browserUnsupported": "Votre navigateur n'affiche pas les PDF intégrés.",
+    "emptyTitle": "Le book se prépare",
+    "emptyDescription": "Le portfolio sera bientôt en ligne. Reviens d'ici quelques jours."
+  },
+  "commissionsPage": {
+    "hero": {
+      "eyebrow": "Commissions",
+      "title": "Une illustration",
+      "titleAccent": "rien que pour vous",
+      "subtitle": "Donnez vie à un souvenir, à un personnage ou à une histoire. Chaque création est unique, dessinée à la main avec patience et tendresse.",
+      "ctaScroll": "Demander un devis",
+      "stats": [
+        { "number": "50+", "label": "Commandes livrées" },
+        { "number": "2 sem.", "label": "Délai moyen" },
+        { "number": "100%", "label": "Satisfaction" }
+      ]
+    },
+    "process": {
+      "eyebrow": "Comment ça marche",
+      "title": "Un processus simple, en 5 étapes",
+      "subtitle": "De votre première idée à l'œuvre finale, je vous accompagne à chaque étape.",
+      "steps": [
+        {
+          "title": "Votre demande",
+          "description": "Vous remplissez le formulaire avec votre idée, vos références et votre budget."
+        },
+        {
+          "title": "Devis personnalisé",
+          "description": "Je vous reviens sous 48h avec un devis détaillé et un délai estimé."
+        },
+        {
+          "title": "Brief créatif",
+          "description": "On échange par email pour cerner votre vision : ambiance, couleurs, style."
+        },
+        {
+          "title": "Création",
+          "description": "Je dessine. Une esquisse vous est envoyée pour validation avant la finalisation."
+        },
+        {
+          "title": "Livraison",
+          "description": "Vous recevez votre illustration en haute résolution, prête à imprimer ou partager."
+        }
+      ]
+    },
+    "formulas": {
+      "eyebrow": "Formules",
+      "title": "Choisissez votre formule",
+      "subtitle": "Trois formules pour s'adapter à votre projet. Sur mesure si rien ne vous correspond.",
+      "fromPrice": "À partir de",
+      "delay": "Délai",
+      "format": "Format",
+      "includes": "Inclus",
+      "cta": "Demander cette formule",
+      "items": {
+        "animal": {
+          "title": "Portrait d'animal",
+          "subtitle": "Pour immortaliser votre compagnon",
+          "price": "65€",
+          "delay": "2 semaines",
+          "format": "Fichier numérique haute résolution (JPEG + PDF)",
+          "description": "Une illustration douce et tendre de votre animal, dessinée à partir de vos photos. Idéale en cadeau ou pour décorer son intérieur.",
+          "includes": [
+            "Illustration personnalisée à partir de vos photos",
+            "1 esquisse pour validation",
+            "2 retouches incluses",
+            "Fichier numérique haute résolution",
+            "Droits d'usage personnel"
+          ]
+        },
+        "cover": {
+          "title": "Couverture de livre",
+          "subtitle": "Pour les auteurs et éditeurs",
+          "price": "350€",
+          "delay": "4 à 6 semaines",
+          "format": "Fichier print + web, formats multiples",
+          "description": "Donnez un visage à votre album jeunesse. Devis personnalisé selon la complexité, le format et les droits d'usage.",
+          "includes": [
+            "Étude de l'univers et des personnages",
+            "2 propositions de direction artistique",
+            "3 retouches incluses",
+            "Fichiers prêts pour l'impression et le web",
+            "Cession de droits éditoriaux à discuter"
+          ]
+        },
+        "custom": {
+          "title": "Illustration personnalisée",
+          "subtitle": "Pour un cadeau unique",
+          "price": "90€",
+          "delay": "3 semaines",
+          "format": "Fichier numérique haute résolution (JPEG + PDF)",
+          "description": "Famille, couple, mariage, naissance, anniversaire… Une illustration faite main pour célébrer ceux que vous aimez.",
+          "includes": [
+            "Illustration jusqu'à 4 personnages",
+            "Décor et ambiance personnalisés",
+            "1 esquisse pour validation",
+            "2 retouches incluses",
+            "Fichier numérique haute résolution"
+          ]
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Questions fréquentes",
+      "items": [
+        {
+          "q": "Quels sont les délais habituels ?",
+          "a": "Cela dépend de la formule. Comptez 2 semaines pour un portrait d'animal, 3 semaines pour une illustration personnalisée et 4 à 6 semaines pour une couverture de livre. Je vous donne un délai précis dans le devis."
+        },
+        {
+          "q": "Comment se passe le paiement ?",
+          "a": "Un acompte de 30% est demandé pour bloquer le projet. Le solde est dû à la livraison du fichier final. Paiement par virement bancaire ou Stripe."
+        },
+        {
+          "q": "Puis-je demander des modifications ?",
+          "a": "Oui, chaque formule inclut un nombre de retouches. Au-delà, des retouches supplémentaires sont facturées au tarif horaire (40€/h)."
+        },
+        {
+          "q": "À qui appartiennent les droits d'auteur ?",
+          "a": "Vous obtenez un droit d'usage personnel et non-exclusif. Pour un usage commercial (livre publié, produit dérivé), une cession de droits supplémentaire est nécessaire — je l'inclus dans le devis si besoin."
+        },
+        {
+          "q": "Travaillez-vous à l'international ?",
+          "a": "Oui, je travaille avec des clients partout dans le monde. Toute la communication se fait par email, et la livraison est numérique."
+        },
+        {
+          "q": "Faites-vous des illustrations sur d'autres thèmes (adultes, événements pro) ?",
+          "a": "Mon univers est l'illustration jeunesse, mais je suis ouverte à d'autres projets si l'esprit me parle. N'hésitez pas à me contacter pour en discuter."
+        }
+      ]
+    },
+    "form": {
+      "eyebrow": "Demande",
+      "title": "Demandez votre devis",
+      "subtitle": "Remplissez ce formulaire et je vous reviens sous 48h avec un devis personnalisé.",
+      "type": "Type de commission",
+      "typeOptions": {
+        "animal": "Portrait d'animal",
+        "cover": "Couverture de livre",
+        "custom": "Illustration personnalisée",
+        "other": "Autre projet"
+      },
+      "name": "Votre nom",
+      "namePlaceholder": "Marie Dupont",
+      "email": "Votre email",
+      "emailPlaceholder": "votre@email.com",
+      "description": "Décrivez votre projet",
+      "descriptionPlaceholder": "Parlez-moi de ce que vous avez en tête : personnages, ambiance, contexte, intentions…",
+      "budget": "Budget souhaité",
+      "budgetPlaceholder": "Ex. 100-200€",
+      "deadline": "Délai souhaité",
+      "deadlinePlaceholder": "Ex. avant le 15 juin",
+      "references": "Photos de référence",
+      "referencesHint": "JPG, PNG · max 5 fichiers de 5 Mo chacun",
+      "referencesAdd": "Ajouter des photos",
+      "consent": "J'accepte d'être recontactée par email pour discuter de ce projet.",
+      "submit": "Envoyer la demande",
+      "submitting": "Envoi en cours…",
+      "successTitle": "Merci !",
+      "successMessage": "Votre demande a bien été envoyée. Je reviens vers vous sous 48h avec un devis personnalisé.",
+      "errorMessage": "Une erreur est survenue. Réessayez ou contactez-moi directement par email."
+    }
+  }
+}
