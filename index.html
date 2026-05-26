@@ -6,7 +6,7 @@
   <title>Dana Illustration · Illustratrice jeunesse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300..600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cause:wght@400..700&family=Inter:wght@300..600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,6 +14,8 @@
   <header class="site-header">
     <nav class="nav">
       <a class="logo" href="#">Dana <em>Illustration</em></a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
 
       <ul class="nav-links">
         <li><a href="#" class="active">Accueil</a></li>
@@ -36,25 +38,24 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           <span class="cart-count">0</span>
         </button>
+        <label for="nav-toggle" class="nav-burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </label>
       </div>
     </nav>
   </header>
 
   <section class="hero">
-    <div class="hero-text">
-      <p class="eyebrow">Illustratrice jeunesse</p>
-      <h1>Donner vie aux<br><em>univers d'enfance</em>.</h1>
-      <p class="hero-subtitle">Albums, portraits sur mesure, et petits trésors imprimés — pensés avec douceur pour les petits et les grands.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="#commissions">Commander une commission</a>
-        <a class="btn btn-ghost" href="#portfolio">Voir le portfolio →</a>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow">Illustratrice jeunesse</p>
+        <h1>Donner vie aux<br><em>univers d'enfance</em>.</h1>
+        <p class="hero-subtitle">Albums, portraits sur mesure, et petits trésors imprimés — pensés avec douceur pour les petits et les grands.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#commissions">Commander une commission</a>
+          <a class="btn btn-ghost" href="#portfolio">Voir le portfolio →</a>
+        </div>
       </div>
-    </div>
-    <div class="hero-image">
-      <div class="hero-image-frame">
-        <img src="photo/couverture%20de%20livre/screenshot%202026-05-07%20at%2022-15-18%20(2)%20instagram.png" alt="Couverture du livre Mira à l'aventure">
-      </div>
-      <div class="hero-tag">Dernier album · <em>Mira à l'aventure</em></div>
     </div>
   </section>
 
@@ -79,20 +80,23 @@
   <section class="portfolio-preview" id="portfolio">
     <div class="section-head">
       <p class="eyebrow">Portfolio</p>
-      <h2>Quelques travaux récents</h2>
+      <h2>Mon portfolio <em>illustration</em></h2>
     </div>
     <div class="portfolio-grid">
-      <a class="portfolio-item" href="#"><img src="photo/portfolio/screenshot%202026-05-07%20at%2022-15-28%20(2)%20instagram.png" alt=""></a>
-      <a class="portfolio-item" href="#"><img src="photo/commision%20animal/screenshot%202026-05-07%20at%2022-15-51%20(2)%20instagram.png" alt=""></a>
-      <a class="portfolio-item" href="#"><img src="photo/portfolio/screenshot%202026-05-07%20at%2022-15-34%20(2)%20instagram.png" alt=""></a>
-      <a class="portfolio-item" href="#"><img src="photo/couverture%20de%20livre/screenshot%202026-05-07%20at%2022-16-21%20(2)%20instagram.png" alt=""></a>
-      <a class="portfolio-item" href="#"><img src="photo/portfolio/screenshot%202026-05-07%20at%2022-15-43%20(2)%20instagram.png" alt=""></a>
-      <a class="portfolio-item" href="#"><img src="photo/commision%20animal/screenshot%202026-05-07%20at%2022-16-07%20(2)%20instagram.png" alt=""></a>
-      <a class="portfolio-item" href="#"><img src="photo/portfolio/screenshot%202026-05-07%20at%2022-17-02%20(2)%20instagram.png" alt=""></a>
-      <a class="portfolio-item" href="#"><img src="photo/couverture%20de%20livre/screenshot%202026-05-07%20at%2022-16-26%20(2)%20instagram.png" alt=""></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-01.jpg" alt="Portfolio Dana Leriche — couverture" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-02.jpg" alt="Portfolio Dana Leriche — à propos" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-03.jpg" alt="Portfolio Dana Leriche — Mira, character design" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-04.jpg" alt="Portfolio Dana Leriche — couvertures de livre" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-05.jpg" alt="Portfolio Dana Leriche — character design" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-06.jpg" alt="Portfolio Dana Leriche — animaux" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-07.jpg" alt="Portfolio Dana Leriche — doubles-pages" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-08.jpg" alt="Portfolio Dana Leriche — doubles-pages" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-09.jpg" alt="Portfolio Dana Leriche — projets personnels" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-10.jpg" alt="Portfolio Dana Leriche — projets personnels" loading="lazy"></a>
+      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-11.jpg" alt="Portfolio Dana Leriche — merci" loading="lazy"></a>
     </div>
     <div class="section-cta">
-      <a class="link-arrow" href="#">Voir tout le portfolio →</a>
+      <a class="btn btn-primary" href="portfolio.pdf" target="_blank" rel="noopener">Télécharger le portfolio (PDF)</a>
     </div>
   </section>
 
