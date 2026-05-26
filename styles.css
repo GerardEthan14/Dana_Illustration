@@ -679,6 +679,141 @@ em {
 }
 
 /* ============================================
+   About
+   ============================================ */
+.about {
+  padding: 6rem 2.5rem;
+}
+
+.about-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.82fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-photo {
+  display: flex;
+  justify-content: center;
+}
+
+.about-photo img {
+  width: 100%;
+  max-width: 22rem;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.about-text h2 {
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  margin-bottom: 1.5rem;
+}
+
+.about-text h2 em { color: var(--orange); }
+
+.about-text p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 1.1rem;
+  max-width: 34rem;
+}
+
+.about-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+.about-location svg { color: var(--orange); flex-shrink: 0; }
+
+/* ============================================
+   Contact
+   ============================================ */
+.contact {
+  padding: 6rem 2.5rem 7rem;
+  background: var(--cream-warm);
+}
+
+.contact-inner {
+  max-width: 44rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  margin-bottom: 1rem;
+}
+
+.contact h2 em { color: var(--orange); }
+
+.contact-tagline {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+.contact-methods {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.75rem;
+  text-align: left;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--orange-soft);
+}
+
+.contact-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--peach-light);
+  color: var(--orange);
+  flex-shrink: 0;
+}
+
+.contact-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.contact-value {
+  font-size: 1rem;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 960px) {
@@ -704,7 +839,11 @@ em {
   .commission-card.featured { transform: none; }
   .commission-card.featured:hover { transform: translateY(-5px); }
   .footer-cols { grid-template-columns: 1fr 1fr; }
-  .portfolio-preview, .commissions-preview, .newsletter { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .portfolio-preview, .commissions-preview, .newsletter, .about, .contact { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about-photo img { max-width: 16rem; }
+  .contact-methods { flex-direction: column; }
+  .contact-card { width: 100%; }
 
   /* Mobile navigation: burger toggles a dropdown panel */
   .nav-burger { display: flex; }
