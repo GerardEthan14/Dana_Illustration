@@ -72,38 +72,17 @@
     <div class="shop-carousel">
       <button class="shop-arrow shop-arrow-prev" aria-label="Précédent">‹</button>
       <div class="shop-cards">
-        <article class="shop-card">
-          <div class="shop-image">
-            <img src="photo/shop/print-heron.jpg" alt="Print héron — illustration d'un héron rose">
-            <button class="shop-add" aria-label="Ajouter au panier">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
-            </button>
-          </div>
-          <h3 class="shop-name">Print héron</h3>
-          <p class="shop-price">4,99€ EUR</p>
+        <article class="shop-card shop-card-shopify" aria-label="Print héron">
+          <div id="product-component-1780409746470"></div>
         </article>
-        <article class="shop-card">
-          <div class="shop-image">
-            <img src="photo/shop/print-messager-sagittaire.jpg" alt="Print messager sagittaire — illustration d'un oiseau aux ailes déployées">
-            <button class="shop-add" aria-label="Ajouter au panier">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
-            </button>
-          </div>
-          <h3 class="shop-name">Print messager sagittaire</h3>
-          <p class="shop-price">4,99€ EUR</p>
+        <article class="shop-card shop-card-shopify" aria-label="Print messager sagittaire">
+          <div id="product-component-1780409833988"></div>
         </article>
-        <article class="shop-card">
-          <div class="shop-image">
-            <img src="photo/shop/print-canard.jpg" alt="Print canard — illustration d'un canard colvert en vol">
-            <button class="shop-add" aria-label="Ajouter au panier">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
-            </button>
-          </div>
-          <h3 class="shop-name">Print canard</h3>
-          <p class="shop-price">4,99€ EUR</p>
+        <article class="shop-card shop-card-shopify" aria-label="Print canard">
+          <div id="product-component-1780409800784"></div>
         </article>
         <article class="shop-card shop-card-shopify" aria-label="Print cygne">
-          <div id='product-component-1780408570955'></div>
+          <div id="product-component-1780408570955"></div>
         </article>
       </div>
       <button class="shop-arrow shop-arrow-next" aria-label="Suivant">›</button>
@@ -265,104 +244,85 @@
   </script>
 
   <!-- Shopify Buy Button -->
-  <script type="text/javascript">
-  /*<![CDATA[*/
+  <script>
   (function () {
-    var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-    if (window.ShopifyBuy) {
-      if (window.ShopifyBuy.UI) {
-        ShopifyBuyInit();
-      } else {
-        loadScript();
+    var products = [
+      { id: '15486773494100', node: 'product-component-1780409746470' }, // héron
+      { id: '15486778245460', node: 'product-component-1780409833988' }, // messager sagittaire
+      { id: '15486775296340', node: 'product-component-1780409800784' }, // canard
+      { id: '15486746689876', node: 'product-component-1780408570955' }, // cygne
+    ];
+
+    var btnStyle = {
+      "color": "#74550d",
+      ":hover": { "color": "#74550d", "background-color": "#d4bb73" },
+      "background-color": "#ecd080",
+      ":focus": { "background-color": "#d4bb73" },
+      "border-radius": "40px"
+    };
+
+    var options = {
+      "product": {
+        "styles": {
+          "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
+          "button": btnStyle
+        },
+        "text": { "button": "Ajouter au panier" }
+      },
+      "modalProduct": {
+        "contents": { "img": false, "imgWithCarousel": true, "button": false, "buttonWithQuantity": true },
+        "styles": {
+          "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
+          "button": btnStyle
+        },
+        "text": { "button": "Ajouter au panier" }
+      },
+      "cart": {
+        "styles": { "button": btnStyle },
+        "text": { "total": "Sous-total", "button": "Commander" }
+      },
+      "toggle": {
+        "styles": {
+          "toggle": {
+            "background-color": "#ecd080",
+            ":hover": { "background-color": "#d4bb73" },
+            ":focus": { "background-color": "#d4bb73" }
+          },
+          "count": { "color": "#74550d", ":hover": { "color": "#74550d" } },
+          "iconPath": { "fill": "#74550d" }
+        }
       }
-    } else {
-      loadScript();
-    }
-    function loadScript() {
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = scriptURL;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-      script.onload = ShopifyBuyInit;
-    }
-    function ShopifyBuyInit() {
+    };
+
+    function init() {
       var client = ShopifyBuy.buildClient({
         domain: 'u17zw5-c9.myshopify.com',
         storefrontAccessToken: '67936409c1773375c0943c4b698564c4',
       });
       ShopifyBuy.UI.onReady(client).then(function (ui) {
-        ui.createComponent('product', {
-          id: '15486746689876',
-          node: document.getElementById('product-component-1780408570955'),
-          moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
-          options: {
-            "product": {
-              "styles": {
-                "product": {
-                  "@media (min-width: 601px)": {
-                    "max-width": "100%",
-                    "margin-left": "0",
-                    "margin-bottom": "0"
-                  }
-                },
-                "button": {
-                  "color": "#74550d",
-                  ":hover": { "color": "#74550d", "background-color": "#d4bb73" },
-                  "background-color": "#ecd080",
-                  ":focus": { "background-color": "#d4bb73" },
-                  "border-radius": "40px"
-                }
-              },
-              "text": { "button": "Ajouter au panier" }
-            },
-            "productSet": {
-              "styles": { "products": { "@media (min-width: 601px)": { "margin-left": "0" } } }
-            },
-            "modalProduct": {
-              "contents": { "img": false, "imgWithCarousel": true, "button": false, "buttonWithQuantity": true },
-              "styles": {
-                "product": {
-                  "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0px", "margin-bottom": "0px" }
-                },
-                "button": {
-                  "color": "#74550d",
-                  ":hover": { "color": "#74550d", "background-color": "#d4bb73" },
-                  "background-color": "#ecd080",
-                  ":focus": { "background-color": "#d4bb73" },
-                  "border-radius": "40px"
-                }
-              },
-              "text": { "button": "Ajouter au panier" }
-            },
-            "cart": {
-              "styles": {
-                "button": {
-                  "color": "#74550d",
-                  ":hover": { "color": "#74550d", "background-color": "#d4bb73" },
-                  "background-color": "#ecd080",
-                  ":focus": { "background-color": "#d4bb73" },
-                  "border-radius": "40px"
-                }
-              },
-              "text": { "total": "Sous-total", "button": "Commander" }
-            },
-            "toggle": {
-              "styles": {
-                "toggle": {
-                  "background-color": "#ecd080",
-                  ":hover": { "background-color": "#d4bb73" },
-                  ":focus": { "background-color": "#d4bb73" }
-                },
-                "count": { "color": "#74550d", ":hover": { "color": "#74550d" } },
-                "iconPath": { "fill": "#74550d" }
-              }
-            }
-          }
+        products.forEach(function (p) {
+          var node = document.getElementById(p.node);
+          if (!node) return;
+          ui.createComponent('product', {
+            id: p.id,
+            node: node,
+            moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
+            options: options
+          });
         });
       });
     }
+
+    if (window.ShopifyBuy && window.ShopifyBuy.UI) {
+      init();
+    } else {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+      s.onload = init;
+      document.head.appendChild(s);
+    }
   })();
-  /*]]>*/
   </script>
 
 </body>
