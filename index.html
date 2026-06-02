@@ -238,8 +238,16 @@
         const gap = parseFloat(cs.columnGap || cs.gap || 0);
         return card.offsetWidth + gap;
       };
-      c.querySelector('.shop-arrow-prev')?.addEventListener('click', () => track.scrollBy({left: -step(), behavior: 'smooth'}));
-      c.querySelector('.shop-arrow-next')?.addEventListener('click', () => track.scrollBy({left: step(), behavior: 'smooth'}));
+      const atEnd = () => track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      const atStart = () => track.scrollLeft <= 4;
+      c.querySelector('.shop-arrow-prev')?.addEventListener('click', () => {
+        if (atStart()) track.scrollTo({left: track.scrollWidth, behavior: 'smooth'});
+        else track.scrollBy({left: -step(), behavior: 'smooth'});
+      });
+      c.querySelector('.shop-arrow-next')?.addEventListener('click', () => {
+        if (atEnd()) track.scrollTo({left: 0, behavior: 'smooth'});
+        else track.scrollBy({left: step(), behavior: 'smooth'});
+      });
     });
   </script>
 

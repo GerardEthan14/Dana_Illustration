@@ -164,7 +164,7 @@ em {
    ============================================ */
 .site-header {
   padding: 1rem 2.5rem;
-  background: var(--cream-warm);
+  background: var(--cream);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -475,14 +475,19 @@ em {
   -ms-overflow-style: none;
   padding-bottom: 0.25rem;
   min-width: 0;
+  justify-content: center;
 }
 
 .shop-cards::-webkit-scrollbar { display: none; }
 
 .shop-card {
   text-align: left;
-  scroll-snap-align: start;
+  scroll-snap-align: center;
   min-width: 0;
+}
+
+.shop-card-shopify > div {
+  width: 100%;
 }
 
 .shop-image {
@@ -1020,7 +1025,9 @@ em {
     pointer-events: none;
     transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
   }
-  .nav-links a { padding: 0.65rem 0; font-size: 1.05rem; }
+  .nav-links a { padding: 0.65rem 1rem; font-size: 1.05rem; border-radius: 0.5rem; }
+  .nav-links a::after { display: none; }
+  .nav-links a.active { background: var(--cream-warm); }
   .nav-toggle:checked ~ .nav-links {
     max-height: 22rem;
     opacity: 1;
