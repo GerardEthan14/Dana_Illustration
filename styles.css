@@ -475,19 +475,39 @@ em {
   -ms-overflow-style: none;
   padding-bottom: 0.25rem;
   min-width: 0;
-  justify-content: center;
+  /* alignement à gauche : centrer un conteneur qui déborde rogne la 1re carte */
+  justify-content: start;
+  align-items: start;
 }
 
 .shop-cards::-webkit-scrollbar { display: none; }
 
 .shop-card {
   text-align: left;
-  scroll-snap-align: center;
+  scroll-snap-align: start;
   min-width: 0;
 }
 
 .shop-card-shopify > div {
   width: 100%;
+}
+
+/* Uniformise les cartes Shopify : chaque image dans une boîte au même ratio,
+   peu importe les proportions natives du produit (nécessite iframe: false) */
+.shop-card-shopify .shopify-buy__product-img-wrapper {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.shop-card-shopify .shopify-buy__product-img-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 .shop-image {

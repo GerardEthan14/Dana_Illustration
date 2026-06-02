@@ -43,6 +43,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
 
   var options = {
     "product": {
+      "iframe": false,
       "styles": {
         "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
         "button": btnStyle
