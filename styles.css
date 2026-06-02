@@ -1108,6 +1108,108 @@ em {
   width: 100%;
 }
 
+.shop-grid .shop-card[hidden] {
+  display: none;
+}
+
+/* ---- Navigation par catégories ---- */
+.shop-cats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.shop-cat {
+  position: relative;
+}
+
+.shop-cat-btn {
+  font-family: 'Cause', cursive;
+  font-size: 1.2rem;
+  padding: 0.65rem 2rem;
+  border: 1.5px solid var(--olive);
+  border-radius: var(--radius-pill);
+  background: var(--mustard-soft);
+  color: var(--olive-dark);
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+/* Teintes par catégorie (clin d'œil aux pastilles de la maquette) */
+.shop-cat[data-cat="stickers"] .shop-cat-btn { background: var(--peach); }
+.shop-cat[data-cat="affiche"]  .shop-cat-btn { background: var(--olive-soft); color: var(--cream); border-color: var(--olive-dark); }
+.shop-cat[data-cat="autres"]   .shop-cat-btn { background: var(--cream-warm); }
+
+.shop-cat-btn:hover {
+  transform: translateY(-2px);
+}
+
+.shop-cat.is-active .shop-cat-btn {
+  background: var(--olive);
+  color: var(--cream);
+  border-color: var(--olive-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---- Liste déroulante de sous-catégories ---- */
+.shop-subcats {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: max(100%, 9rem);
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem;
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  z-index: 30;
+  display: none;
+}
+
+.shop-cat.is-active .shop-subcats {
+  display: block;
+}
+
+.shop-subcat-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.9rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-family: 'Cause', cursive;
+  font-size: 1rem;
+  color: var(--dark);
+  transition: background 0.15s ease;
+}
+
+.shop-subcat-btn:hover {
+  background: var(--peach-light);
+}
+
+.shop-subcat-btn.is-active {
+  background: var(--mustard-soft);
+  color: var(--olive-dark);
+}
+
+/* ---- Panneaux de produits ---- */
+.shop-panel[hidden] {
+  display: none;
+}
+
+.shop-empty {
+  text-align: center;
+  font-family: 'Cause', cursive;
+  font-size: 1.25rem;
+  color: var(--muted);
+  padding: 4rem 1rem;
+}
+
 /* ============================================
    Refuge full page
    ============================================ */
