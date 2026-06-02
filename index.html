@@ -6,7 +6,7 @@
   <title>Dana Illustration · Illustratrice jeunesse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Cause:wght@400..700&family=Inter:wght@300..600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Margarine&family=Cause:wght@400..700&family=Nunito+Sans:wght@300..600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,7 +23,9 @@
         <li><a href="#" class="active">Accueil</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="#boutique">Boutique</a></li>
-        <li><a href="#refuge" class="nav-refuge">Le Refuge Club</a></li>
+        <li><a href="#refuge" class="nav-refuge" aria-label="Le Refuge Club">
+          <img src="photo/logo-refuge-club.png" alt="Le Refuge Club">
+        </a></li>
         <li><a href="#apropos">À propos</a></li>
       </ul>
 
@@ -43,11 +45,11 @@
   </header>
 
   <section class="hero">
+    <img class="hero-banner" src="photo/banner-no-bg.png" alt="Une fillette suivie d'un éléphant, un guépard, un perroquet, un singe et un pingouin — illustration de Dana">
     <div class="hero-text">
       <h1>Illustratrice jeunesse</h1>
       <p class="hero-subtitle">Passionnée, je donne vie à vos idées dans un monde doux inspiré par la nature et les animaux</p>
     </div>
-    <img class="hero-banner" src="photo/banner.jpg" alt="Une fillette suivie d'un éléphant, un guépard, un perroquet, un singe et un pingouin — illustration de Dana">
   </section>
 
   <section class="refuge-club" id="refuge">
@@ -85,6 +87,26 @@
             </button>
           </div>
           <h3 class="shop-name">Print messager sagittaire</h3>
+          <p class="shop-price">4,99€ EUR</p>
+        </article>
+        <article class="shop-card">
+          <div class="shop-image">
+            <img src="photo/shop/print-canard.jpg" alt="Print canard — illustration d'un canard colvert en vol">
+            <button class="shop-add" aria-label="Ajouter au panier">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
+            </button>
+          </div>
+          <h3 class="shop-name">Print canard</h3>
+          <p class="shop-price">4,99€ EUR</p>
+        </article>
+        <article class="shop-card">
+          <div class="shop-image">
+            <img src="photo/shop/print-cygne.jpg" alt="Print cygne — illustration d'un cygne aux ailes déployées">
+            <button class="shop-add" aria-label="Ajouter au panier">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
+            </button>
+          </div>
+          <h3 class="shop-name">Print cygne</h3>
           <p class="shop-price">4,99€ EUR</p>
         </article>
       </div>
@@ -172,11 +194,10 @@
   <section class="about" id="apropos">
     <div class="about-inner">
       <div class="about-photo">
-        <img src="photo/dana-portrait.png" alt="Portrait de Dana, illustratrice jeunesse">
+        <img src="photo/dana-portrait.jpg" alt="Dana Leriche, illustratrice jeunesse">
       </div>
       <div class="about-text">
-        <p class="eyebrow">À propos</p>
-        <h2>Qui <em>suis-je</em> ?</h2>
+        <h2>À propos</h2>
         <p>Je m'appelle Dana, illustratrice belge de 21 ans. Passionnée de dessin depuis toujours, je crée des univers et aventures peuplés de personnages doux et d'animaux du monde entier.</p>
         <p>Mon but est d'ouvrir les enfants au monde, éveiller leur curiosité et leur donner envie d'explorer ce qui les entoure.</p>
         <p class="about-location">
