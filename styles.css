@@ -979,6 +979,207 @@ em {
 }
 
 /* ============================================
+   Sub-page header (Portfolio / Boutique / etc.)
+   ============================================ */
+.page-header {
+  text-align: center;
+  padding: 4rem 2.5rem 2.5rem;
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.page-header h1 {
+  font-size: clamp(2.75rem, 6vw, 4.5rem);
+  color: var(--olive);
+  margin-bottom: 1rem;
+}
+
+.page-header p {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* ============================================
+   Portfolio full page wrapper
+   ============================================ */
+.portfolio-full {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 1rem 2.5rem 6rem;
+}
+
+/* ============================================
+   Portfolio teaser (homepage)
+   ============================================ */
+.portfolio-teaser {
+  padding: 5rem 2.5rem;
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.portfolio-teaser-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.portfolio-cover {
+  display: block;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s;
+}
+
+.portfolio-cover:hover { transform: translateY(-4px); }
+
+.portfolio-cover img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.portfolio-teaser-text h2 {
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  margin-bottom: 1rem;
+  color: var(--olive);
+}
+
+.portfolio-teaser-text p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-bottom: 1.75rem;
+  line-height: 1.7;
+}
+
+/* ============================================
+   About teaser (homepage)
+   ============================================ */
+.about-teaser {
+  padding: 5rem 2.5rem 6rem;
+  background: var(--cream);
+}
+
+.about-teaser .about-text .btn-pill {
+  margin-top: 1.25rem;
+}
+
+/* ============================================
+   Boutique full page
+   ============================================ */
+.shop-full {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 1rem 2.5rem 6rem;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.shop-grid .shop-card {
+  text-align: left;
+}
+
+.shop-grid .shop-card-shopify > div {
+  width: 100%;
+}
+
+/* ============================================
+   Refuge full page
+   ============================================ */
+.refuge-full {
+  padding: 4rem 2.5rem 4rem;
+}
+
+.refuge-full .refuge-logo {
+  max-width: min(34rem, 80%);
+  margin-bottom: 1.5rem;
+}
+
+.refuge-tagline {
+  color: var(--olive-dark);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  max-width: 38rem;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+.refuge-detail {
+  padding: 4rem 2.5rem 6rem;
+  background: var(--cream);
+}
+
+.refuge-detail-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.refuge-detail-inner > h2 {
+  text-align: center;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: var(--olive);
+  margin-bottom: 3rem;
+}
+
+.refuge-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-bottom: 5rem;
+}
+
+.refuge-feature {
+  background: var(--cream-warm);
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius);
+  text-align: center;
+  border: 1px solid rgba(74, 89, 40, 0.1);
+}
+
+.refuge-feature-icon {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+
+.refuge-feature h3 {
+  font-size: 1.2rem;
+  color: var(--olive-dark);
+  margin-bottom: 0.5rem;
+  font-family: 'Cause', cursive;
+}
+
+.refuge-feature p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.refuge-cta-block {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--cream-warm);
+  border-radius: var(--radius);
+  max-width: 38rem;
+  margin: 0 auto;
+}
+
+.refuge-cta-block h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--olive);
+  margin-bottom: 0.75rem;
+}
+
+.refuge-cta-block p {
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 720px) {
@@ -989,6 +1190,11 @@ em {
     width: auto;
     margin: 0 auto 1.5rem;
     padding: 0 1rem;
+  }
+  .portfolio-teaser-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
   }
 }
 

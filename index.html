@@ -9,24 +9,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Margarine&family=Cause:wght@400..700&family=Nunito+Sans:wght@300..600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="page-home">
 
   <header class="site-header">
     <nav class="nav">
-      <a class="logo" href="#" aria-label="Dana Leriche, illustratrice">
+      <a class="logo" href="index.html" aria-label="Dana Leriche, illustratrice">
         <img src="photo/logo-dana-leriche.png" alt="Dana Leriche, illustratrice">
       </a>
 
       <input type="checkbox" id="nav-toggle" class="nav-toggle">
 
       <ul class="nav-links">
-        <li><a href="#" class="active">Accueil</a></li>
-        <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#boutique">Boutique</a></li>
-        <li><a href="#refuge" class="nav-refuge" aria-label="Le Refuge Club">
+        <li><a href="index.html" class="active">Accueil</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="refuge.html" class="nav-refuge" aria-label="Le Refuge Club">
           <img src="photo/logo-refuge-club.png" alt="Le Refuge Club">
         </a></li>
-        <li><a href="#apropos">À propos</a></li>
+        <li><a href="apropos.html">À propos</a></li>
       </ul>
 
       <div class="nav-actions">
@@ -55,19 +55,18 @@
     </div>
   </section>
 
-  <section class="refuge-club" id="refuge">
+  <section class="refuge-club">
     <div class="refuge-inner">
       <img class="refuge-logo" src="photo/logo-refuge-club.png" alt="Le Refuge Club">
       <div class="refuge-body">
         <p>Abonnement postal mensuel destiné aux enfants curieux qui aiment les animaux.</p>
-        <p>Les enfants ne reçoivent jamais de courrier, ils seront très contents d'en recevoir chaque mois.</p>
         <p>Un instant loin des écrans pour apprendre et découvrir de nouveaux animaux chaque mois à travers des activités ludiques et de belles illustrations douces.</p>
       </div>
-      <a class="btn btn-pill" href="#">Je rejoins l'aventure !</a>
+      <a class="btn btn-pill" href="refuge.html">Découvrir Le Refuge Club →</a>
     </div>
   </section>
 
-  <section class="shop-preview" id="boutique">
+  <section class="shop-preview">
     <h2>Dernières nouveautés</h2>
     <div class="shop-carousel">
       <button class="shop-arrow shop-arrow-prev" aria-label="Précédent">‹</button>
@@ -88,125 +87,32 @@
       <button class="shop-arrow shop-arrow-next" aria-label="Suivant">›</button>
     </div>
     <div class="section-cta">
-      <a class="btn btn-pill" href="#">En découvrir d'autres</a>
+      <a class="btn btn-pill" href="boutique.html">Voir toute la boutique →</a>
     </div>
   </section>
 
-  <section class="portfolio-preview" id="portfolio">
-    <div class="section-head">
-      <p class="eyebrow">Portfolio</p>
-      <h2>Mon portfolio <em>illustration</em></h2>
-    </div>
-    <div class="portfolio-grid">
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-01.jpg" alt="Portfolio Dana Leriche — couverture" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-02.jpg" alt="Portfolio Dana Leriche — à propos" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-03.jpg" alt="Portfolio Dana Leriche — Mira, character design" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-04.jpg" alt="Portfolio Dana Leriche — couvertures de livre" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-05.jpg" alt="Portfolio Dana Leriche — character design" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-06.jpg" alt="Portfolio Dana Leriche — animaux" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-07.jpg" alt="Portfolio Dana Leriche — doubles-pages" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-08.jpg" alt="Portfolio Dana Leriche — doubles-pages" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-09.jpg" alt="Portfolio Dana Leriche — projets personnels" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-10.jpg" alt="Portfolio Dana Leriche — projets personnels" loading="lazy"></a>
-      <a class="portfolio-item" href="portfolio.pdf" target="_blank" rel="noopener"><img src="photo/portfolio-pages/portfolio-11.jpg" alt="Portfolio Dana Leriche — merci" loading="lazy"></a>
-    </div>
-    <div class="section-cta">
-      <a class="btn btn-primary" href="portfolio.pdf" target="_blank" rel="noopener">Télécharger le portfolio (PDF)</a>
+  <section class="portfolio-teaser">
+    <div class="portfolio-teaser-inner">
+      <a class="portfolio-cover" href="portfolio.html">
+        <img src="photo/portfolio-pages/portfolio-01.jpg" alt="Couverture du portfolio — Dana Leriche" loading="lazy">
+      </a>
+      <div class="portfolio-teaser-text">
+        <h2>Mon portfolio</h2>
+        <p>Albums jeunesse, character design, illustrations personnelles — découvrez mon univers en images.</p>
+        <a class="btn btn-pill" href="portfolio.html">Voir le portfolio →</a>
+      </div>
     </div>
   </section>
 
-  <section class="commissions-preview" id="commissions">
-    <div class="section-head">
-      <p class="eyebrow">Commissions</p>
-      <h2>Une illustration <em>rien que pour vous</em></h2>
-      <p class="section-sub">Choisissez la formule qui vous correspond. Chaque création est unique, dessinée à la main avec amour.</p>
-    </div>
-
-    <div class="commission-cards">
-      <article class="commission-card">
-        <div class="commission-image">
-          <img src="photo/commision%20animal/screenshot%202026-05-07%20at%2022-15-56%20(2)%20instagram.png" alt="">
-        </div>
-        <div class="commission-body">
-          <h3>Portrait d'animal</h3>
-          <p class="price">À partir de 65€</p>
-          <p>Une illustration personnalisée de votre compagnon, livrée numériquement en 2 semaines.</p>
-          <a class="link-arrow" href="#">En savoir plus →</a>
-        </div>
-      </article>
-
-      <article class="commission-card featured">
-        <div class="commission-image">
-          <img src="photo/couverture%20de%20livre/screenshot%202026-05-07%20at%2022-15-18%20(2)%20instagram.png" alt="">
-        </div>
-        <div class="commission-body">
-          <span class="badge">Le plus demandé</span>
-          <h3>Couverture de livre</h3>
-          <p class="price">À partir de 350€</p>
-          <p>Pour donner un visage à votre album jeunesse — devis personnalisé selon le projet.</p>
-          <a class="link-arrow" href="#">En savoir plus →</a>
-        </div>
-      </article>
-
-      <article class="commission-card">
-        <div class="commission-image">
-          <img src="photo/portfolio/screenshot%202026-05-07%20at%2022-15-28%20(2)%20instagram.png" alt="">
-        </div>
-        <div class="commission-body">
-          <h3>Illustration personnalisée</h3>
-          <p class="price">À partir de 90€</p>
-          <p>Pour un cadeau unique : famille, couple, mariage, naissance, projet spécial.</p>
-          <a class="link-arrow" href="#">En savoir plus →</a>
-        </div>
-      </article>
-    </div>
-
-    <div class="section-cta">
-      <a class="btn btn-primary" href="#">Demander un devis</a>
-    </div>
-  </section>
-
-  <section class="about" id="apropos">
+  <section class="about-teaser">
     <div class="about-inner">
       <div class="about-photo">
         <img src="photo/dana-portrait.jpg" alt="Dana Leriche, illustratrice jeunesse">
       </div>
       <div class="about-text">
         <h2>À propos</h2>
-        <p>Je m'appelle Dana, illustratrice belge de 21 ans. Passionnée de dessin depuis toujours, je crée des univers et aventures peuplés de personnages doux et d'animaux du monde entier.</p>
-        <p>Mon but est d'ouvrir les enfants au monde, éveiller leur curiosité et leur donner envie d'explorer ce qui les entoure.</p>
-        <p class="about-location">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-          Basée en Belgique
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="contact" id="contact">
-    <div class="contact-inner">
-      <p class="eyebrow">Contact</p>
-      <h2>Travaillons <em>ensemble</em></h2>
-      <p class="contact-tagline">Disponible pour collaborations et projets.</p>
-      <div class="contact-methods">
-        <a class="contact-card" href="mailto:dana_illustration@gmail.com">
-          <span class="contact-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
-          </span>
-          <span class="contact-meta">
-            <span class="contact-label">Email</span>
-            <span class="contact-value">dana_illustration@gmail.com</span>
-          </span>
-        </a>
-        <a class="contact-card" href="https://instagram.com/dana_illustration" target="_blank" rel="noopener">
-          <span class="contact-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
-          </span>
-          <span class="contact-meta">
-            <span class="contact-label">Instagram</span>
-            <span class="contact-value">@dana_illustration</span>
-          </span>
-        </a>
+        <p>Je m'appelle Dana, illustratrice belge de 21 ans. Je crée des univers doux peuplés de personnages attachants et d'animaux du monde entier.</p>
+        <a class="btn btn-pill" href="apropos.html">En savoir plus →</a>
       </div>
     </div>
   </section>
@@ -227,111 +133,7 @@
     </div>
   </footer>
 
-  <script>
-    document.querySelectorAll('.shop-carousel').forEach(c => {
-      const track = c.querySelector('.shop-cards');
-      if (!track) return;
-      const step = () => {
-        const card = track.querySelector('.shop-card');
-        if (!card) return track.clientWidth;
-        const cs = getComputedStyle(track);
-        const gap = parseFloat(cs.columnGap || cs.gap || 0);
-        return card.offsetWidth + gap;
-      };
-      const atEnd = () => track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
-      const atStart = () => track.scrollLeft <= 4;
-      c.querySelector('.shop-arrow-prev')?.addEventListener('click', () => {
-        if (atStart()) track.scrollTo({left: track.scrollWidth, behavior: 'smooth'});
-        else track.scrollBy({left: -step(), behavior: 'smooth'});
-      });
-      c.querySelector('.shop-arrow-next')?.addEventListener('click', () => {
-        if (atEnd()) track.scrollTo({left: 0, behavior: 'smooth'});
-        else track.scrollBy({left: step(), behavior: 'smooth'});
-      });
-    });
-  </script>
-
-  <!-- Shopify Buy Button -->
-  <script>
-  (function () {
-    var products = [
-      { id: '15486773494100', node: 'product-component-1780409746470' }, // héron
-      { id: '15486778245460', node: 'product-component-1780409833988' }, // messager sagittaire
-      { id: '15486775296340', node: 'product-component-1780409800784' }, // canard
-      { id: '15486746689876', node: 'product-component-1780408570955' }, // cygne
-    ];
-
-    var btnStyle = {
-      "color": "#74550d",
-      ":hover": { "color": "#74550d", "background-color": "#d4bb73" },
-      "background-color": "#ecd080",
-      ":focus": { "background-color": "#d4bb73" },
-      "border-radius": "40px"
-    };
-
-    var options = {
-      "product": {
-        "styles": {
-          "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
-          "button": btnStyle
-        },
-        "text": { "button": "Ajouter au panier" }
-      },
-      "modalProduct": {
-        "contents": { "img": false, "imgWithCarousel": true, "button": false, "buttonWithQuantity": true },
-        "styles": {
-          "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
-          "button": btnStyle
-        },
-        "text": { "button": "Ajouter au panier" }
-      },
-      "cart": {
-        "styles": { "button": btnStyle },
-        "text": { "total": "Sous-total", "button": "Commander" }
-      },
-      "toggle": {
-        "styles": {
-          "toggle": {
-            "background-color": "#ecd080",
-            ":hover": { "background-color": "#d4bb73" },
-            ":focus": { "background-color": "#d4bb73" }
-          },
-          "count": { "color": "#74550d", ":hover": { "color": "#74550d" } },
-          "iconPath": { "fill": "#74550d" }
-        }
-      }
-    };
-
-    function init() {
-      var client = ShopifyBuy.buildClient({
-        domain: 'u17zw5-c9.myshopify.com',
-        storefrontAccessToken: '67936409c1773375c0943c4b698564c4',
-      });
-      ShopifyBuy.UI.onReady(client).then(function (ui) {
-        products.forEach(function (p) {
-          var node = document.getElementById(p.node);
-          if (!node) return;
-          ui.createComponent('product', {
-            id: p.id,
-            node: node,
-            moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
-            options: options
-          });
-        });
-      });
-    }
-
-    if (window.ShopifyBuy && window.ShopifyBuy.UI) {
-      init();
-    } else {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-      s.onload = init;
-      document.head.appendChild(s);
-    }
-  })();
-  </script>
+  <script src="script.js" defer></script>
 
 </body>
 </html>

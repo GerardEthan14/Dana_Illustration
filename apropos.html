@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos · Dana Illustration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Margarine&family=Cause:wght@400..700&family=Nunito+Sans:wght@300..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-apropos">
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html" aria-label="Dana Leriche, illustratrice">
+        <img src="photo/logo-dana-leriche.png" alt="Dana Leriche, illustratrice">
+      </a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="refuge.html" class="nav-refuge" aria-label="Le Refuge Club">
+          <img src="photo/logo-refuge-club.png" alt="Le Refuge Club">
+        </a></li>
+        <li><a href="apropos.html" class="active">À propos</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="search-btn" aria-label="Recherche">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </button>
+        <button class="cart-btn" aria-label="Panier">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-count">0</span>
+        </button>
+        <label for="nav-toggle" class="nav-burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </label>
+      </div>
+    </nav>
+  </header>
+
+  <section class="about">
+    <div class="about-inner">
+      <div class="about-photo">
+        <img src="photo/dana-portrait.jpg" alt="Dana Leriche, illustratrice jeunesse">
+      </div>
+      <div class="about-text">
+        <h2>À propos</h2>
+        <p>Je m'appelle Dana, illustratrice belge de 21 ans. Passionnée de dessin depuis toujours, je crée des univers et aventures peuplés de personnages doux et d'animaux du monde entier.</p>
+        <p>Mon but est d'ouvrir les enfants au monde, éveiller leur curiosité et leur donner envie d'explorer ce qui les entoure.</p>
+        <p class="about-location">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Basée en Belgique
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="contact-inner">
+      <h2>Travaillons ensemble</h2>
+      <p class="contact-tagline">Disponible pour collaborations et projets sur mesure.</p>
+      <div class="contact-methods">
+        <a class="contact-card" href="mailto:dana_illustration@gmail.com">
+          <span class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+          </span>
+          <span class="contact-meta">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">dana_illustration@gmail.com</span>
+          </span>
+        </a>
+        <a class="contact-card" href="https://instagram.com/dana_illustration" target="_blank" rel="noopener">
+          <span class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
+          </span>
+          <span class="contact-meta">
+            <span class="contact-label">Instagram</span>
+            <span class="contact-value">@dana_illustration</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 danaLeriche</p>
+      <ul class="footer-payments" aria-label="Moyens de paiement">
+        <li class="pay-pill">Pay</li>
+        <li class="pay-pill">Bancontact</li>
+        <li class="pay-pill">G Pay</li>
+        <li class="pay-pill pay-mc"></li>
+        <li class="pay-pill pay-maestro"></li>
+        <li class="pay-pill">Klarna</li>
+        <li class="pay-pill">UnionPay</li>
+        <li class="pay-pill pay-visa">VISA</li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+
+</body>
+</html>
