@@ -6,14 +6,17 @@
   <title>Dana Illustration · Illustratrice jeunesse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cause:wght@400..700&family=Inter:wght@300..600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Cause:wght@400..700&family=Inter:wght@300..600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
   <header class="site-header">
     <nav class="nav">
-      <a class="logo" href="#">Dana <em>Illustration</em></a>
+      <a class="logo" href="#" aria-label="Dana Leriche, illustratrice">
+        <span class="logo-name">Dana Leriche</span>
+        <span class="logo-tagline">illustratrice</span>
+      </a>
 
       <input type="checkbox" id="nav-toggle" class="nav-toggle">
 
@@ -21,19 +24,14 @@
         <li><a href="#" class="active">Accueil</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="#boutique">Boutique</a></li>
-        <li><a href="#commissions">Commissions</a></li>
+        <li><a href="#refuge" class="nav-refuge">Le Refuge Club</a></li>
         <li><a href="#apropos">À propos</a></li>
-        <li><a href="#contact">Contact</a></li>
       </ul>
 
       <div class="nav-actions">
-        <div class="lang-switcher">
-          <button class="lang-active">FR</button>
-          <span>·</span>
-          <button>NL</button>
-          <span>·</span>
-          <button>EN</button>
-        </div>
+        <button class="search-btn" aria-label="Recherche">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </button>
         <button class="cart-btn" aria-label="Panier">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           <span class="cart-count">0</span>
@@ -46,36 +44,56 @@
   </header>
 
   <section class="hero">
+    <div class="hero-text">
+      <h1>Illustratrice jeunesse</h1>
+      <p class="hero-subtitle">Passionnée, je donne vie à vos idées dans un monde doux inspiré par la nature et les animaux</p>
+    </div>
     <img class="hero-banner" src="photo/banner.jpg" alt="Une fillette suivie d'un éléphant, un guépard, un perroquet, un singe et un pingouin — illustration de Dana">
-    <div class="hero-inner">
-      <div class="hero-text">
-        <p class="eyebrow">Illustratrice jeunesse</p>
-        <h1>Donner vie aux<br><em>univers d'enfance</em></h1>
-        <p class="hero-subtitle">Albums, portraits sur mesure, et petits trésors imprimés — pensés avec douceur pour les petits et les grands.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="#commissions">Commander une commission</a>
-          <a class="btn btn-ghost" href="#portfolio">Voir le portfolio →</a>
-        </div>
+  </section>
+
+  <section class="refuge-club" id="refuge">
+    <div class="refuge-inner">
+      <h2 class="refuge-logo">Le Refuge <em>Club</em></h2>
+      <div class="refuge-body">
+        <p>Abonnement postal mensuel destiné aux enfants curieux qui aiment les animaux.</p>
+        <p>Les enfants ne reçoivent jamais de courrier, ils seront très contents d'en recevoir chaque mois.</p>
+        <p>Un instant loin des écrans pour apprendre et découvrir de nouveaux animaux chaque mois à travers des activités ludiques et de belles illustrations douces.</p>
       </div>
+      <a class="btn btn-pill" href="#">Je rejoins l'aventure !</a>
     </div>
   </section>
 
-  <section class="cta-blocks">
-    <a class="cta-card" href="#portfolio">
-      <h3>Portfolio</h3>
-      <p>Albums, personnages et univers que j'ai donné vie.</p>
-      <span class="cta-arrow">→</span>
-    </a>
-    <a class="cta-card" href="#commissions">
-      <h3>Commissions</h3>
-      <p>Une illustration sur mesure pour vous ou vos proches.</p>
-      <span class="cta-arrow">→</span>
-    </a>
-    <a class="cta-card" href="#boutique">
-      <h3>Boutique</h3>
-      <p>Stickers, prints et fichiers numériques.</p>
-      <span class="cta-arrow">→</span>
-    </a>
+  <section class="shop-preview" id="boutique">
+    <h2>Dernières nouveautés</h2>
+    <div class="shop-carousel">
+      <button class="shop-arrow shop-arrow-prev" aria-label="Précédent">‹</button>
+      <div class="shop-cards">
+        <article class="shop-card">
+          <div class="shop-image">
+            <img src="photo/shop/print-heron.jpg" alt="Print héron — illustration d'un héron rose">
+            <button class="shop-add" aria-label="Ajouter au panier">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
+            </button>
+          </div>
+          <h3 class="shop-name">Print héron</h3>
+          <p class="shop-price">4,99€ EUR</p>
+        </article>
+        <article class="shop-card">
+          <div class="shop-image">
+            <img src="photo/shop/print-messager-sagittaire.jpg" alt="Print messager sagittaire — illustration d'un oiseau aux ailes déployées">
+            <button class="shop-add" aria-label="Ajouter au panier">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
+            </button>
+          </div>
+          <h3 class="shop-name">Print messager sagittaire</h3>
+          <p class="shop-price">4,99€ EUR</p>
+        </article>
+      </div>
+      <button class="shop-arrow shop-arrow-next" aria-label="Suivant">›</button>
+    </div>
+    <div class="section-cta">
+      <a class="btn btn-pill" href="#">En découvrir d'autres</a>
+    </div>
   </section>
 
   <section class="portfolio-preview" id="portfolio">
@@ -198,52 +216,19 @@
     </div>
   </section>
 
-  <section class="newsletter">
-    <div class="newsletter-inner">
-      <h2>Recevez les nouveautés</h2>
-      <p>Une lettre douce, de temps en temps. Pas de spam, promis.</p>
-      <form>
-        <input type="email" placeholder="votre@email.com" required>
-        <button type="submit">S'inscrire</button>
-      </form>
-    </div>
-  </section>
-
   <footer class="site-footer">
-    <div class="footer-cols">
-      <div class="footer-brand">
-        <h4>Dana <em>Illustration</em></h4>
-        <p>Illustratrice jeunesse — basée en Belgique, disponible partout.</p>
-      </div>
-      <div>
-        <h5>Plan du site</h5>
-        <ul>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#boutique">Boutique</a></li>
-          <li><a href="#commissions">Commissions</a></li>
-          <li><a href="#apropos">À propos</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5>Suivez-moi</h5>
-        <ul>
-          <li><a href="https://instagram.com/dana_illustration" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a href="#">Email</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5>Légal</h5>
-        <ul>
-          <li><a href="#">Mentions légales</a></li>
-          <li><a href="#">Conditions de vente</a></li>
-          <li><a href="#">Politique de confidentialité</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2026 Dana Illustration · Tous droits réservés</p>
-      <p>Maquette · v0.1</p>
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 danaLeriche</p>
+      <ul class="footer-payments" aria-label="Moyens de paiement">
+        <li class="pay-pill">Pay</li>
+        <li class="pay-pill">Bancontact</li>
+        <li class="pay-pill">G Pay</li>
+        <li class="pay-pill pay-mc"></li>
+        <li class="pay-pill pay-maestro"></li>
+        <li class="pay-pill">Klarna</li>
+        <li class="pay-pill">UnionPay</li>
+        <li class="pay-pill pay-visa">VISA</li>
+      </ul>
     </div>
   </footer>
 
