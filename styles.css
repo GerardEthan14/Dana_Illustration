@@ -1193,6 +1193,12 @@ em {
   padding: 4rem 1rem;
 }
 
+/* Le panier flottant de Shopify est masqué : on ouvre le panier depuis
+   le bouton panier de l'en-tête (.cart-btn). */
+.shopify-buy-frame--toggle {
+  display: none !important;
+}
+
 /* ============================================
    Refuge full page
    ============================================ */

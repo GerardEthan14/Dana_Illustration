@@ -217,12 +217,47 @@ function wireBoutique(root, ui) {
   };
 
   // Boîte d'image uniforme (ratio constant) — rendu par Shopify dans l'iframe.
+  // object-fit: contain => l'image entière tient dans la boîte sans être déformée.
   var imgUniform = {
-    "img": { "height": "calc(100% - 15px)", "position": "absolute", "left": "0", "right": "0", "top": "0" },
+    "img": {
+      "height": "calc(100% - 15px)",
+      "position": "absolute",
+      "left": "0",
+      "right": "0",
+      "top": "0",
+      "width": "100%",
+      "object-fit": "contain"
+    },
     "imgWrapper": { "padding-top": "calc(75% + 15px)", "position": "relative", "height": "0" }
   };
 
-  var brandCart = { "styles": { "button": brandBtn }, "text": { "total": "Sous-total", "button": "Commander" } };
+  // Met à jour le compteur du panier de l'en-tête à partir du panier Shopify.
+  function updateCartCount(cartComp) {
+    try {
+      var items = (cartComp && cartComp.model && cartComp.model.lineItems) || [];
+      var n = items.reduce(function (s, li) { return s + (li.quantity || 0); }, 0);
+      document.querySelectorAll('.cart-count').forEach(function (c) { c.textContent = n; });
+    } catch (e) { /* noop */ }
+  }
+
+  // Branche le bouton panier de l'en-tête sur le panier Shopify.
+  function bindHeaderCart(ui) {
+    document.querySelectorAll('.cart-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var cart = ui.components && ui.components.cart && ui.components.cart[0];
+        if (cart && typeof cart.open === 'function') cart.open();
+      });
+    });
+  }
+
+  var brandCart = {
+    "events": {
+      "afterRender": updateCartCount,
+      "updateItemQuantity": updateCartCount
+    },
+    "styles": { "button": brandBtn },
+    "text": { "total": "Sous-total", "button": "Commander" }
+  };
   var brandToggle = {
     "styles": {
       "toggle": {
@@ -321,6 +356,7 @@ function wireBoutique(root, ui) {
           options: productOptions
         });
       });
+      bindHeaderCart(ui);
     });
   }
 
