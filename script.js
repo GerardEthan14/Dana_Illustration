@@ -217,12 +217,119 @@ function wireBoutique(root, ui) {
   };
 
   // Boîte d'image uniforme (ratio constant) — rendu par Shopify dans l'iframe.
+  // object-fit: contain => l'image entière tient dans la boîte sans être déformée.
   var imgUniform = {
-    "img": { "height": "calc(100% - 15px)", "position": "absolute", "left": "0", "right": "0", "top": "0" },
+    "img": {
+      "height": "calc(100% - 15px)",
+      "position": "absolute",
+      "left": "0",
+      "right": "0",
+      "top": "0",
+      "width": "100%",
+      "object-fit": "contain"
+    },
     "imgWrapper": { "padding-top": "calc(75% + 15px)", "position": "relative", "height": "0" }
   };
 
-  var brandCart = { "styles": { "button": brandBtn }, "text": { "total": "Sous-total", "button": "Commander" } };
+  // Met à jour le compteur du panier de l'en-tête à partir du panier Shopify.
+  function updateCartCount(cartComp) {
+    try {
+      var items = (cartComp && cartComp.model && cartComp.model.lineItems) || [];
+      var n = items.reduce(function (s, li) { return s + (li.quantity || 0); }, 0);
+      document.querySelectorAll('.cart-count').forEach(function (c) { c.textContent = n; });
+    } catch (e) { /* noop */ }
+  }
+
+  // Branche le bouton panier de l'en-tête sur le panier Shopify.
+  function bindHeaderCart(ui) {
+    document.querySelectorAll('.cart-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var cart = ui.components && ui.components.cart && ui.components.cart[0];
+        if (cart && typeof cart.open === 'function') cart.open();
+      });
+    });
+  }
+
+  // Crée (une seule fois) la fenêtre de recherche et la renvoie.
+  function buildSearchOverlay() {
+    var overlay = document.querySelector('.search-overlay');
+    if (overlay) return overlay;
+    overlay = el('div', 'search-overlay');
+    overlay.hidden = true;
+    overlay.innerHTML =
+      '<div class="search-box">' +
+        '<div class="search-form">' +
+          '<input type="search" class="search-input" placeholder="Rechercher un produit…" aria-label="Rechercher un produit">' +
+          '<button type="button" class="search-close" aria-label="Fermer la recherche">×</button>' +
+        '</div>' +
+        '<p class="search-status"></p>' +
+        '<div class="search-results"></div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+    return overlay;
+  }
+
+  // Branche la loupe de l'en-tête sur une vraie recherche produits Shopify.
+  function setupSearch(client, ui) {
+    var btns = document.querySelectorAll('.search-btn');
+    if (!btns.length) return;
+    var overlay = buildSearchOverlay();
+    var input = overlay.querySelector('.search-input');
+    var results = overlay.querySelector('.search-results');
+    var status = overlay.querySelector('.search-status');
+
+    function open() { overlay.hidden = false; document.body.style.overflow = 'hidden'; input.focus(); }
+    function close() { overlay.hidden = true; document.body.style.overflow = ''; }
+
+    btns.forEach(function (b) { b.addEventListener('click', open); });
+    overlay.querySelector('.search-close').addEventListener('click', close);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !overlay.hidden) close(); });
+
+    var timer, reqId = 0;
+    input.addEventListener('input', function () {
+      clearTimeout(timer);
+      var term = input.value.trim();
+      if (term.length < 2) { results.innerHTML = ''; status.textContent = ''; return; }
+      timer = setTimeout(function () { runSearch(term); }, 300);
+    });
+
+    function runSearch(term) {
+      var myId = ++reqId;
+      status.textContent = 'Recherche…';
+      results.innerHTML = '';
+      client.product.fetchQuery({ first: 30, query: term }).then(function (products) {
+        if (myId !== reqId) return; // une recherche plus récente a pris le relais
+        if (!products || !products.length) { status.textContent = 'Aucun produit trouvé.'; return; }
+        status.textContent = '';
+        products.forEach(function (p) {
+          var card = el('article', 'shop-card shop-card-shopify');
+          var mount = el('div');
+          card.appendChild(mount);
+          results.appendChild(card);
+          ui.createComponent('product', {
+            id: numericId(p.id),
+            node: mount,
+            moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
+            options: window.SHOP_OPTIONS.product
+          });
+        });
+      }).catch(function (err) {
+        if (myId !== reqId) return;
+        status.textContent = 'Erreur lors de la recherche.';
+        console.error('Recherche Shopify :', err);
+      });
+    }
+  }
+
+  var brandCart = {
+    "events": {
+      "afterRender": updateCartCount,
+      "updateItemQuantity": updateCartCount
+    },
+    "styles": { "button": brandBtn },
+    "text": { "total": "Sous-total", "button": "Commander" }
+  };
   var brandToggle = {
     "styles": {
       "toggle": {
@@ -301,9 +408,8 @@ function wireBoutique(root, ui) {
   var boutiqueRoot = document.querySelector('[data-shop-catalog]');
   var featuredNodes = featured.filter(function (p) { return document.getElementById(p.node); });
 
-  // Rien à charger sur cette page.
-  if (!boutiqueRoot && !featuredNodes.length) return;
-
+  // Shopify est initialisé sur toutes les pages pour que la recherche et le
+  // panier de l'en-tête (présents partout) fonctionnent.
   function init() {
     var client = ShopifyBuy.buildClient({
       domain: 'u17zw5-c9.myshopify.com',
@@ -321,6 +427,8 @@ function wireBoutique(root, ui) {
           options: productOptions
         });
       });
+      bindHeaderCart(ui);
+      setupSearch(client, ui);
     });
   }
 

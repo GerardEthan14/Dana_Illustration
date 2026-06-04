@@ -1193,6 +1193,92 @@ em {
   padding: 4rem 1rem;
 }
 
+/* Le panier flottant de Shopify est masqué : on ouvre le panier depuis
+   le bouton panier de l'en-tête (.cart-btn). */
+.shopify-buy-frame--toggle {
+  display: none !important;
+}
+
+/* ---- Fenêtre de recherche produits ---- */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  padding: 6vh 1rem 1rem;
+  background: rgba(45, 27, 14, 0.45);
+}
+
+.search-overlay[hidden] {
+  display: none;
+}
+
+.search-box {
+  display: flex;
+  flex-direction: column;
+  width: min(60rem, 100%);
+  max-height: 88vh;
+  padding: 1.25rem;
+  background: var(--cream);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.search-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--dark);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--olive);
+}
+
+.search-close {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--olive);
+  background: #ecd080;
+  color: #74550d;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.search-close:hover {
+  background: #d4bb73;
+}
+
+.search-status {
+  text-align: center;
+  color: var(--muted);
+  padding: 0.5rem;
+}
+
+.search-results {
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  padding: 0.25rem;
+}
+
 /* ============================================
    Refuge full page
    ============================================ */
