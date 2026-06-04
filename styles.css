@@ -1110,27 +1110,23 @@ em {
 .shop-cat-btn {
   font-family: 'Cause', cursive;
   font-size: 1.2rem;
-  padding: 0.65rem 2rem;
-  border: 1.5px solid var(--olive);
-  border-radius: var(--radius-pill);
-  background: var(--mustard-soft);
-  color: var(--olive-dark);
+  padding: 0.7rem 2rem;
+  border: none;
+  border-radius: 40px;
+  /* Même apparence que les boutons "Ajouter au panier" de Shopify */
+  background: #ecd080;
+  color: #74550d;
   transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
 }
 
-/* Teintes par catégorie (clin d'œil aux pastilles de la maquette) */
-.shop-cat[data-cat="stickers"] .shop-cat-btn { background: var(--peach); }
-.shop-cat[data-cat="affiche"]  .shop-cat-btn { background: var(--olive-soft); color: var(--cream); border-color: var(--olive-dark); }
-.shop-cat[data-cat="autres"]   .shop-cat-btn { background: var(--cream-warm); }
-
 .shop-cat-btn:hover {
+  background: #d4bb73;
   transform: translateY(-2px);
 }
 
 .shop-cat.is-active .shop-cat-btn {
   background: var(--olive);
   color: var(--cream);
-  border-color: var(--olive-dark);
   box-shadow: var(--shadow-sm);
 }
 
@@ -1175,8 +1171,8 @@ em {
 }
 
 .shop-subcat-btn.is-active {
-  background: var(--mustard-soft);
-  color: var(--olive-dark);
+  background: #ecd080;
+  color: #74550d;
 }
 
 /* ---- Panneaux de produits ---- */
