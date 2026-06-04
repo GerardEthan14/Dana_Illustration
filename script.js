@@ -21,166 +21,162 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
   });
 });
 
-// ===== Catalogue boutique =====
-// Mapping temporaire catégorie -> sous-catégories -> produits.
-// (En attendant de pouvoir utiliser de vraies collections Shopify : le jour venu,
-//  il suffira de remplacer ce tableau par les données renvoyées par l'API Storefront,
-//  la mise en page ne change pas.)
-//
-// Pour ajouter un produit : ajoute une entrée { shopifyId: 'ID', sub: 'id-sous-cat' }
-// dans la catégorie voulue. "sub" vide ('') = pas de sous-catégorie / visible partout.
-var SHOP_CATALOG = [
-  {
-    id: 'stickers', label: 'Stickers',
-    subcategories: [],
-    products: []
-  },
-  {
-    id: 'prints', label: 'Prints',
-    subcategories: [],
-    products: [
-      { shopifyId: '15486773494100', sub: '' }, // héron
-      { shopifyId: '15486778245460', sub: '' }, // messager sagittaire
-      { shopifyId: '15486775296340', sub: '' }, // canard
-      { shopifyId: '15486746689876', sub: '' }, // cygne
-    ]
-  },
-  {
-    id: 'affiche', label: 'Affiche',
-    // Exemple de sous-catégories (tailles). À adapter par catégorie.
-    subcategories: [
-      { id: 'a6', label: 'A6' },
-      { id: 'a5', label: 'A5' },
-      { id: 'a4', label: 'A4' },
-      { id: 'a3', label: 'A3' },
-      { id: 'a2', label: 'A2' },
-      { id: 'a1', label: 'A1' },
-    ],
-    products: []
-  },
-  {
-    id: 'autres', label: 'Autres',
-    subcategories: [],
-    products: []
-  }
-];
-
-// Construit la navigation par catégories + les grilles de produits dans `root`.
-// Renvoie la liste des points de montage Shopify [{ id, node }] à initialiser.
-function buildBoutique(root, catalog) {
-  var mounts = [];
-  // Catégorie active par défaut : la première qui contient des produits.
-  var withProducts = catalog.filter(function (c) { return c.products && c.products.length; });
-  var defaultCat = (withProducts[0] || catalog[0]).id;
-
-  var nav = document.createElement('nav');
-  nav.className = 'shop-cats';
-  nav.setAttribute('aria-label', 'Catégories de la boutique');
-
-  var panels = document.createElement('div');
-  panels.className = 'shop-panels';
-
-  catalog.forEach(function (cat) {
-    var isActive = cat.id === defaultCat;
-
-    // --- Pastille de catégorie (+ liste déroulante de sous-catégories) ---
-    var catEl = document.createElement('div');
-    catEl.className = 'shop-cat' + (isActive ? ' is-active' : '');
-    catEl.dataset.cat = cat.id;
-
-    var catBtn = document.createElement('button');
-    catBtn.type = 'button';
-    catBtn.className = 'shop-cat-btn';
-    catBtn.textContent = cat.label;
-    catBtn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-    catEl.appendChild(catBtn);
-
-    if (cat.subcategories && cat.subcategories.length) {
-      var sublist = document.createElement('ul');
-      sublist.className = 'shop-subcats';
-      sublist.setAttribute('role', 'menu');
-      sublist.appendChild(makeSubcat('', 'Tout', true));
-      cat.subcategories.forEach(function (s) {
-        sublist.appendChild(makeSubcat(s.id, s.label, false));
-      });
-      catEl.appendChild(sublist);
-    }
-    nav.appendChild(catEl);
-
-    // --- Panneau de produits de la catégorie ---
-    var panel = document.createElement('div');
-    panel.className = 'shop-panel';
-    panel.dataset.cat = cat.id;
-    if (!isActive) panel.hidden = true;
-
-    if (cat.products && cat.products.length) {
-      var grid = document.createElement('div');
-      grid.className = 'shop-grid';
-      cat.products.forEach(function (p, j) {
-        var nodeId = 'shop-' + cat.id + '-' + j;
-        var card = document.createElement('article');
-        card.className = 'shop-card shop-card-shopify';
-        card.dataset.sub = p.sub || '';
-        var mount = document.createElement('div');
-        mount.id = nodeId;
-        card.appendChild(mount);
-        grid.appendChild(card);
-        mounts.push({ id: p.shopifyId, node: nodeId });
-      });
-      panel.appendChild(grid);
-    } else {
-      var empty = document.createElement('p');
-      empty.className = 'shop-empty';
-      empty.textContent = 'Bientôt disponible 🌿';
-      panel.appendChild(empty);
-    }
-    panels.appendChild(panel);
-  });
-
-  root.appendChild(nav);
-  root.appendChild(panels);
-  wireBoutique(root);
-  return mounts;
+/* ============================================================
+   Boutique pilotée par les collections Shopify
+   ------------------------------------------------------------
+   - Un onglet est créé automatiquement pour chaque collection.
+   - Convention de nommage pour les sous-catégories :
+       "Prints"        -> onglet "Prints" (sans sous-menu)
+       "Prints / A5"   -> onglet "Prints", entrée "A5" dans le menu déroulant
+       "Prints / A4"   -> se range sous le même onglet "Prints"
+   - Les produits sont affichés par le composant "collection" de Shopify :
+     ajoute un produit à une collection sur Shopify, il apparaît tout seul.
+   ============================================================ */
+function el(tag, className) {
+  var n = document.createElement(tag);
+  if (className) n.className = className;
+  return n;
 }
 
-function makeSubcat(subId, label, active) {
-  var li = document.createElement('li');
-  var b = document.createElement('button');
+function subBtn(sub, label, active) {
+  var li = el('li');
+  var b = el('button', 'shop-subcat-btn' + (active ? ' is-active' : ''));
   b.type = 'button';
-  b.className = 'shop-subcat-btn' + (active ? ' is-active' : '');
-  b.dataset.sub = subId;
+  b.dataset.sub = sub;
   b.setAttribute('role', 'menuitem');
   b.textContent = label;
   li.appendChild(b);
   return li;
 }
 
-function wireBoutique(root) {
-  function activateCat(catId) {
+// Regroupe les collections en catégories (parent) + sous-catégories (enfant)
+// d'après la convention "Parent / Enfant".
+function groupCollections(collections) {
+  var order = [];
+  var map = {};
+  collections.forEach(function (col) {
+    var title = (col.title || '').trim();
+    if (!title) return;
+    var parts = title.split(/\s*\/\s*/);
+    var parent = parts[0].trim();
+    var child = parts.length >= 2 ? parts.slice(1).join(' / ').trim() : '';
+    if (!map[parent]) {
+      map[parent] = { label: parent, items: [] };
+      order.push(parent);
+    }
+    map[parent].items.push({ id: col.id, sub: child });
+  });
+  return order.map(function (k) { return map[k]; });
+}
+
+function buildBoutique(root, client, ui) {
+  root.innerHTML = '<p class="shop-loading">Chargement de la boutique…</p>';
+  client.collection.fetchAll(250).then(function (collections) {
+    if (!collections || !collections.length) {
+      root.innerHTML = '<p class="shop-empty">La boutique sera bientôt disponible 🌿</p>';
+      return;
+    }
+    renderBoutique(root, groupCollections(collections), ui);
+  }).catch(function (err) {
+    root.innerHTML = '<p class="shop-empty">Impossible de charger la boutique pour le moment.</p>';
+    console.error('Erreur de chargement des collections Shopify :', err);
+  });
+}
+
+function renderBoutique(root, groups, ui) {
+  root.innerHTML = '';
+  var nav = el('nav', 'shop-cats');
+  nav.setAttribute('aria-label', 'Catégories de la boutique');
+  var panels = el('div', 'shop-panels');
+
+  groups.forEach(function (group, gi) {
+    var active = gi === 0;
+    var catId = 'cat-' + gi;
+
+    // --- Pastille de catégorie (+ liste déroulante éventuelle) ---
+    var catEl = el('div', 'shop-cat' + (active ? ' is-active' : ''));
+    catEl.dataset.cat = catId;
+
+    var btn = el('button', 'shop-cat-btn');
+    btn.type = 'button';
+    btn.textContent = group.label;
+    btn.setAttribute('aria-expanded', active ? 'true' : 'false');
+    catEl.appendChild(btn);
+
+    var hasSubs = group.items.some(function (it) { return it.sub; });
+    if (hasSubs) {
+      var ul = el('ul', 'shop-subcats');
+      ul.setAttribute('role', 'menu');
+      ul.appendChild(subBtn('', 'Tout', true));
+      group.items.forEach(function (it) {
+        if (it.sub) ul.appendChild(subBtn(it.sub, it.sub, false));
+      });
+      catEl.appendChild(ul);
+    }
+    nav.appendChild(catEl);
+
+    // --- Panneau : un composant "collection" Shopify par (sous-)collection ---
+    var panel = el('div', 'shop-panel');
+    panel.dataset.cat = catId;
+    panel.hidden = !active;
+    group.items.forEach(function (it) {
+      var holder = el('div', 'shop-collection');
+      holder.dataset.sub = it.sub || '';
+      holder.dataset.collectionId = it.id;
+      panel.appendChild(holder);
+    });
+    panels.appendChild(panel);
+  });
+
+  root.appendChild(nav);
+  root.appendChild(panels);
+  wireBoutique(root, ui);
+  mountPanel(root.querySelector('.shop-panel:not([hidden])'), ui);
+}
+
+// Crée (à la demande) les composants collection d'un panneau.
+function mountPanel(panel, ui) {
+  if (!panel) return;
+  panel.querySelectorAll('.shop-collection').forEach(function (holder) {
+    if (holder.dataset.mounted) return;
+    holder.dataset.mounted = '1';
+    ui.createComponent('collection', {
+      id: holder.dataset.collectionId,
+      node: holder,
+      moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
+      options: window.SHOP_OPTIONS.collection
+    });
+  });
+}
+
+function wireBoutique(root, ui) {
+  function activate(catId) {
     root.querySelectorAll('.shop-cat').forEach(function (c) {
       var on = c.dataset.cat === catId;
       c.classList.toggle('is-active', on);
       c.querySelector('.shop-cat-btn').setAttribute('aria-expanded', on ? 'true' : 'false');
     });
     root.querySelectorAll('.shop-panel').forEach(function (p) {
-      p.hidden = p.dataset.cat !== catId;
+      var on = p.dataset.cat === catId;
+      p.hidden = !on;
+      if (on) mountPanel(p, ui);
     });
   }
 
-  function filterSub(catEl, subId) {
+  function filterSub(catEl, sub) {
     catEl.querySelectorAll('.shop-subcat-btn').forEach(function (b) {
-      b.classList.toggle('is-active', b.dataset.sub === subId);
+      b.classList.toggle('is-active', b.dataset.sub === sub);
     });
     var panel = root.querySelector('.shop-panel[data-cat="' + catEl.dataset.cat + '"]');
     if (!panel) return;
-    panel.querySelectorAll('.shop-card').forEach(function (card) {
-      card.hidden = subId !== '' && card.dataset.sub !== subId;
+    panel.querySelectorAll('.shop-collection').forEach(function (h) {
+      h.hidden = sub !== '' && h.dataset.sub !== sub;
     });
   }
 
   root.querySelectorAll('.shop-cat').forEach(function (catEl) {
     catEl.querySelector('.shop-cat-btn').addEventListener('click', function () {
-      activateCat(catEl.dataset.cat);
+      activate(catEl.dataset.cat);
     });
     catEl.querySelectorAll('.shop-subcat-btn').forEach(function (sb) {
       sb.addEventListener('click', function (e) {
@@ -193,7 +189,7 @@ function wireBoutique(root) {
 
 // ===== Shopify Buy Button =====
 (function () {
-  var btnStyle = {
+  var brandBtn = {
     "color": "#74550d",
     ":hover": { "color": "#74550d", "background-color": "#d4bb73" },
     "background-color": "#ecd080",
@@ -201,41 +197,81 @@ function wireBoutique(root) {
     "border-radius": "40px"
   };
 
-  var options = {
-    "product": {
-      "iframe": false,
-      "styles": {
-        "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
-        "button": btnStyle
-      },
-      "text": { "button": "Ajouter au panier" }
-    },
-    "modalProduct": {
-      "contents": { "img": false, "imgWithCarousel": true, "button": false, "buttonWithQuantity": true },
-      "styles": {
-        "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
-        "button": btnStyle
-      },
-      "text": { "button": "Ajouter au panier" }
-    },
-    "cart": {
-      "styles": { "button": btnStyle },
-      "text": { "total": "Sous-total", "button": "Commander" }
-    },
-    "toggle": {
-      "styles": {
-        "toggle": {
-          "background-color": "#ecd080",
-          ":hover": { "background-color": "#d4bb73" },
-          ":focus": { "background-color": "#d4bb73" }
-        },
-        "count": { "color": "#74550d", ":hover": { "color": "#74550d" } },
-        "iconPath": { "fill": "#74550d" }
-      }
-    }
+  // Boîte d'image uniforme (ratio constant) — rendu par Shopify dans l'iframe.
+  var imgUniform = {
+    "img": { "height": "calc(100% - 15px)", "position": "absolute", "left": "0", "right": "0", "top": "0" },
+    "imgWrapper": { "padding-top": "calc(75% + 15px)", "position": "relative", "height": "0" }
   };
 
-  // Produits mis en avant dans le carrousel "Dernières nouveautés" (page d'accueil).
+  var brandCart = { "styles": { "button": brandBtn }, "text": { "total": "Sous-total", "button": "Commander" } };
+  var brandToggle = {
+    "styles": {
+      "toggle": {
+        "background-color": "#ecd080",
+        ":hover": { "background-color": "#d4bb73" },
+        ":focus": { "background-color": "#d4bb73" }
+      },
+      "count": { "color": "#74550d", ":hover": { "color": "#74550d" } },
+      "iconPath": { "fill": "#74550d" }
+    }
+  };
+  var brandModal = {
+    "contents": { "img": false, "imgWithCarousel": true, "button": false, "buttonWithQuantity": true },
+    "styles": {
+      "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
+      "button": brandBtn
+    },
+    "text": { "button": "Ajouter au panier" }
+  };
+
+  // Options du carrousel d'accueil : une carte produit qui remplit sa case.
+  var productOptions = {
+    "product": {
+      "styles": {
+        "product": Object.assign(
+          { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
+          imgUniform
+        ),
+        "button": brandBtn
+      },
+      "text": { "button": "Ajouter au panier" }
+    },
+    "modalProduct": brandModal,
+    "cart": brandCart,
+    "toggle": brandToggle
+  };
+
+  // Options de la grille boutique : 4 produits par ligne, images uniformes.
+  var collectionOptions = {
+    "product": {
+      "styles": {
+        "product": Object.assign(
+          {
+            "@media (min-width: 601px)": {
+              "max-width": "calc(25% - 20px)",
+              "width": "calc(25% - 20px)",
+              "margin-left": "20px",
+              "margin-bottom": "50px"
+            }
+          },
+          imgUniform
+        ),
+        "button": brandBtn
+      },
+      "text": { "button": "Ajouter au panier" }
+    },
+    "productSet": {
+      "styles": { "products": { "@media (min-width: 601px)": { "margin-left": "-20px" } } }
+    },
+    "modalProduct": brandModal,
+    "cart": brandCart,
+    "toggle": brandToggle
+  };
+
+  // Exposé pour mountPanel() (boutique).
+  window.SHOP_OPTIONS = { product: productOptions, collection: collectionOptions };
+
+  // Produits mis en avant dans le carrousel "Dernières nouveautés" (accueil).
   var featured = [
     { id: '15486773494100', node: 'product-component-1780409746470' }, // héron
     { id: '15486778245460', node: 'product-component-1780409833988' }, // messager sagittaire
@@ -243,20 +279,11 @@ function wireBoutique(root) {
     { id: '15486746689876', node: 'product-component-1780408570955' }, // cygne
   ];
 
-  // Détermine les produits à afficher : boutique complète (data-shop-catalog)
-  // ou carrousel d'accueil (noeuds fixes dans le HTML).
-  var mounts = [];
   var boutiqueRoot = document.querySelector('[data-shop-catalog]');
-  if (boutiqueRoot) {
-    mounts = buildBoutique(boutiqueRoot, SHOP_CATALOG);
-  } else {
-    featured.forEach(function (p) {
-      if (document.getElementById(p.node)) mounts.push(p);
-    });
-  }
+  var featuredNodes = featured.filter(function (p) { return document.getElementById(p.node); });
 
-  // Rien à afficher sur cette page.
-  if (!mounts.length) return;
+  // Rien à charger sur cette page.
+  if (!boutiqueRoot && !featuredNodes.length) return;
 
   function init() {
     var client = ShopifyBuy.buildClient({
@@ -264,14 +291,15 @@ function wireBoutique(root) {
       storefrontAccessToken: '67936409c1773375c0943c4b698564c4',
     });
     ShopifyBuy.UI.onReady(client).then(function (ui) {
-      mounts.forEach(function (p) {
-        var node = document.getElementById(p.node);
-        if (!node) return;
+      if (boutiqueRoot) {
+        buildBoutique(boutiqueRoot, client, ui);
+      }
+      featuredNodes.forEach(function (p) {
         ui.createComponent('product', {
           id: p.id,
-          node: node,
+          node: document.getElementById(p.node),
           moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
-          options: options
+          options: productOptions
         });
       });
     });
