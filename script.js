@@ -49,6 +49,21 @@ function subBtn(sub, label, active) {
   return li;
 }
 
+// Le composant "collection" de Shopify attend un id numérique, alors que
+// collection.fetchAll() renvoie un GID (parfois encodé en base64). On extrait
+// l'id numérique pour les deux formats.
+function numericId(id) {
+  var s = String(id == null ? '' : id);
+  if (s.indexOf('gid://') === -1) {
+    try {
+      var dec = atob(s);
+      if (dec.indexOf('gid://') !== -1) s = dec;
+    } catch (e) { /* pas du base64 : on garde tel quel */ }
+  }
+  var m = s.match(/(\d+)\D*$/);
+  return m ? m[1] : s;
+}
+
 // Regroupe les collections en catégories (parent) + sous-catégories (enfant)
 // d'après la convention "Parent / Enfant".
 function groupCollections(collections) {
@@ -72,7 +87,11 @@ function groupCollections(collections) {
 function buildBoutique(root, client, ui) {
   root.innerHTML = '<p class="shop-loading">Chargement de la boutique…</p>';
   client.collection.fetchAll(250).then(function (collections) {
-    if (!collections || !collections.length) {
+    // On exclut la collection "Frontpage" générée automatiquement par Shopify.
+    collections = (collections || []).filter(function (c) {
+      return c.handle !== 'frontpage' && (c.title || '').trim().toLowerCase() !== 'home page';
+    });
+    if (!collections.length) {
       root.innerHTML = '<p class="shop-empty">La boutique sera bientôt disponible 🌿</p>';
       return;
     }
@@ -122,7 +141,7 @@ function renderBoutique(root, groups, ui) {
     group.items.forEach(function (it) {
       var holder = el('div', 'shop-collection');
       holder.dataset.sub = it.sub || '';
-      holder.dataset.collectionId = it.id;
+      holder.dataset.collectionId = numericId(it.id);
       panel.appendChild(holder);
     });
     panels.appendChild(panel);
