@@ -289,31 +289,32 @@ function wireBoutique(root, ui) {
     return null;
   }
 
-  // Superpose (invisible) l'iframe du toggle natif pile sur l'icône panier de
-  // l'en-tête : ainsi le clic atterrit sur le vrai bouton Shopify, qui ouvre le
-  // tiroir de façon 100 % fiable. On garde notre joli bouton visible dessous.
+  // Place le VRAI bouton panier natif de Shopify (visible, à sa taille
+  // naturelle — c'est lui qui ouvre le tiroir de façon fiable) pile à
+  // l'emplacement de l'icône panier de l'en-tête, et masque notre icône custom.
+  // On ne redimensionne pas l'iframe : on garde tout le bouton cliquable.
   function overlayToggleOnHeaderCart(frame, cartBtn) {
     function sync() {
       var r = cartBtn.getBoundingClientRect();
+      var fw = frame.offsetWidth || r.width;
+      var fh = frame.offsetHeight || r.height;
       var s = frame.style;
       s.setProperty('position', 'fixed', 'important');
-      s.setProperty('top', r.top + 'px', 'important');
-      s.setProperty('left', r.left + 'px', 'important');
+      s.setProperty('top', (r.top + r.height / 2 - fh / 2) + 'px', 'important');
+      s.setProperty('left', (r.left + r.width / 2 - fw / 2) + 'px', 'important');
       s.setProperty('right', 'auto', 'important');
       s.setProperty('bottom', 'auto', 'important');
-      s.setProperty('width', r.width + 'px', 'important');
-      s.setProperty('height', r.height + 'px', 'important');
-      s.setProperty('min-width', '0', 'important');
-      s.setProperty('min-height', '0', 'important');
       s.setProperty('margin', '0', 'important');
       s.setProperty('border', '0', 'important');
-      s.setProperty('opacity', '0', 'important');
       s.setProperty('z-index', '200', 'important');
+      s.setProperty('opacity', '1', 'important');
     }
+    // On masque l'icône custom mais on garde son emplacement (pour le calage).
+    cartBtn.style.visibility = 'hidden';
     sync();
     window.addEventListener('resize', sync);
     window.addEventListener('scroll', sync, true);
-    // Shopify peut re-styler l'iframe juste après sa création : on resynchronise
+    // Shopify peut re-styler l'iframe juste après création : on resynchronise
     // pendant quelques secondes pour garder notre positionnement prioritaire.
     var n = 0;
     var t = setInterval(function () { sync(); if (++n > 25) clearInterval(t); }, 200);
