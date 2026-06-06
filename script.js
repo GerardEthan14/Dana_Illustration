@@ -241,11 +241,16 @@ function wireBoutique(root, ui) {
   }
 
   // Branche le bouton panier de l'en-tête sur le panier Shopify.
+  // L'API officielle de buy-button-js pour ouvrir le panier est ui.openCart().
   function bindHeaderCart(ui) {
     document.querySelectorAll('.cart-btn').forEach(function (b) {
       b.addEventListener('click', function () {
-        var cart = ui.components && ui.components.cart && ui.components.cart[0];
-        if (cart && typeof cart.open === 'function') cart.open();
+        if (typeof ui.openCart === 'function') {
+          ui.openCart();
+        } else {
+          var cart = ui.components && ui.components.cart && ui.components.cart[0];
+          if (cart && typeof cart.open === 'function') cart.open();
+        }
       });
     });
   }
