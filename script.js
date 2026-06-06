@@ -240,24 +240,28 @@ function wireBoutique(root, ui) {
     } catch (e) { /* noop */ }
   }
 
-  // Ouvre le panier Shopify. Méthode fiable d'abord : déclencher le bouton du
-  // panier flottant natif (le seul qui ouvre réellement le tiroir), avec repli
-  // sur l'API du SDK si besoin.
+  // Ouvre le panier en déclenchant le bouton du panier flottant natif Shopify
+  // (le seul qui ouvre réellement le tiroir). On cherche le bouton dans le
+  // document principal puis dans toutes les iframes accessibles.
   function openShopifyCart(ui) {
-    // 1) Clic programmatique sur le toggle natif (dans son iframe).
-    try {
-      var frame = document.querySelector('iframe.shopify-buy-frame--toggle');
-      var doc = frame && (frame.contentDocument || (frame.contentWindow && frame.contentWindow.document));
-      var btn = (doc && doc.querySelector('.shopify-buy__cart-toggle'))
-             || document.querySelector('.shopify-buy__cart-toggle');
-      if (btn) { btn.click(); return; }
-    } catch (e) {}
-    // 2) Repli : API du SDK.
-    try { if (ui && typeof ui.openCart === 'function') { ui.openCart(); return; } } catch (e) {}
-    try {
-      var cart = ui && ui.components && ui.components.cart && ui.components.cart[0];
-      if (cart && typeof cart.open === 'function') cart.open();
-    } catch (e) {}
+    function clickToggleIn(doc) {
+      if (!doc) return false;
+      var btn = doc.querySelector('.shopify-buy__cart-toggle');
+      if (!btn) return false;
+      ['mousedown', 'mouseup', 'click'].forEach(function (type) {
+        btn.dispatchEvent(new MouseEvent(type, {
+          bubbles: true, cancelable: true, view: doc.defaultView || window
+        }));
+      });
+      return true;
+    }
+    if (clickToggleIn(document)) return;
+    var frames = document.querySelectorAll('iframe');
+    for (var i = 0; i < frames.length; i++) {
+      try { if (clickToggleIn(frames[i].contentDocument)) return; } catch (e) { /* iframe inaccessible */ }
+    }
+    // Repli : API du SDK.
+    try { if (ui && typeof ui.openCart === 'function') ui.openCart(); } catch (e) {}
   }
 
   function bindHeaderCart(ui) {
