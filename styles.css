@@ -1193,9 +1193,11 @@ em {
   padding: 4rem 1rem;
 }
 
-/* Panier flottant natif de Shopify laissé visible : c'est le bouton de panier
-   fiable (ouverture + persistance + compteur gérés par Shopify). Le bouton
-   panier de l'en-tête l'ouvre aussi via ui.openCart(). */
+/* Panier flottant natif de Shopify : c'est le bouton fiable (ouverture +
+   persistance + compteur gérés par Shopify). On le rend invisible et le JS le
+   superpose pile sur l'icône panier de l'en-tête, qui reste notre bouton
+   visible. Le clic atterrit ainsi sur le vrai bouton Shopify. */
+iframe.shopify-buy-frame--toggle { opacity: 0 !important; }
 
 /* ---- Fenêtre de recherche produits ---- */
 .search-overlay {

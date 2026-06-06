@@ -270,6 +270,61 @@ function wireBoutique(root, ui) {
     });
   }
 
+  // Repère l'iframe du panier flottant natif (celle qui contient le bouton
+  // toggle), quel que soit son nom de classe.
+  function findToggleFrame() {
+    var frames = document.querySelectorAll('iframe');
+    for (var i = 0; i < frames.length; i++) {
+      try {
+        var doc = frames[i].contentDocument;
+        if (doc && doc.querySelector('.shopify-buy__cart-toggle')) return frames[i];
+      } catch (e) { /* iframe inaccessible */ }
+    }
+    return null;
+  }
+
+  // Superpose (invisible) l'iframe du toggle natif pile sur l'icône panier de
+  // l'en-tête : ainsi le clic atterrit sur le vrai bouton Shopify, qui ouvre le
+  // tiroir de façon 100 % fiable. On garde notre joli bouton visible dessous.
+  function overlayToggleOnHeaderCart(frame, cartBtn) {
+    function sync() {
+      var r = cartBtn.getBoundingClientRect();
+      var s = frame.style;
+      s.setProperty('position', 'fixed', 'important');
+      s.setProperty('top', r.top + 'px', 'important');
+      s.setProperty('left', r.left + 'px', 'important');
+      s.setProperty('right', 'auto', 'important');
+      s.setProperty('bottom', 'auto', 'important');
+      s.setProperty('width', r.width + 'px', 'important');
+      s.setProperty('height', r.height + 'px', 'important');
+      s.setProperty('min-width', '0', 'important');
+      s.setProperty('min-height', '0', 'important');
+      s.setProperty('margin', '0', 'important');
+      s.setProperty('border', '0', 'important');
+      s.setProperty('opacity', '0', 'important');
+      s.setProperty('z-index', '200', 'important');
+    }
+    sync();
+    window.addEventListener('resize', sync);
+    window.addEventListener('scroll', sync, true);
+    // Shopify peut re-styler l'iframe juste après sa création : on resynchronise
+    // pendant quelques secondes pour garder notre positionnement prioritaire.
+    var n = 0;
+    var t = setInterval(function () { sync(); if (++n > 25) clearInterval(t); }, 200);
+  }
+
+  // Attend l'apparition du toggle natif puis le superpose sur l'en-tête.
+  function setupHeaderCartOverlay() {
+    var cartBtn = document.querySelector('.cart-btn');
+    if (!cartBtn) return;
+    var tries = 0;
+    var wait = setInterval(function () {
+      var frame = findToggleFrame();
+      if (frame) { clearInterval(wait); overlayToggleOnHeaderCart(frame, cartBtn); }
+      else if (++tries > 100) { clearInterval(wait); /* repli : clic JS */ }
+    }, 200);
+  }
+
   // Crée (une seule fois) la fenêtre de recherche et la renvoie.
   function buildSearchOverlay() {
     var overlay = document.querySelector('.search-overlay');
@@ -457,6 +512,7 @@ function wireBoutique(root, ui) {
         });
       });
       bindHeaderCart(ui);
+      setupHeaderCartOverlay();
       setupSearch(client, ui);
     });
   }
