@@ -296,12 +296,13 @@ function wireBoutique(root, ui) {
   function overlayToggleOnHeaderCart(frame, cartBtn) {
     function sync() {
       var r = cartBtn.getBoundingClientRect();
-      var fw = frame.offsetWidth || r.width;
-      var fh = frame.offsetHeight || r.height;
       var s = frame.style;
+      // Coin haut-gauche de l'emplacement de l'icône : toujours positif, donc
+      // jamais hors écran (le centrage sur la hauteur du toggle, grande par
+      // défaut, donnait un « top » négatif et le bouton sortait en haut).
       s.setProperty('position', 'fixed', 'important');
-      s.setProperty('top', (r.top + r.height / 2 - fh / 2) + 'px', 'important');
-      s.setProperty('left', (r.left + r.width / 2 - fw / 2) + 'px', 'important');
+      s.setProperty('top', Math.max(8, r.top) + 'px', 'important');
+      s.setProperty('left', Math.max(8, r.left) + 'px', 'important');
       s.setProperty('right', 'auto', 'important');
       s.setProperty('bottom', 'auto', 'important');
       s.setProperty('margin', '0', 'important');

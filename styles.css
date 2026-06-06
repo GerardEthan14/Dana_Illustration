@@ -1194,10 +1194,9 @@ em {
 }
 
 /* Panier flottant natif de Shopify : c'est le bouton fiable (ouverture +
-   persistance + compteur gérés par Shopify). On le masque par défaut, puis le
-   JS l'affiche (taille naturelle) pile à l'emplacement de l'icône panier de
-   l'en-tête. Le clic atterrit ainsi directement sur le vrai bouton Shopify. */
-iframe.shopify-buy-frame--toggle { opacity: 0 !important; }
+   persistance + compteur gérés par Shopify). Il reste TOUJOURS visible (au pire
+   à sa position d'origine) ; le JS le déplace, quand il le trouve, pile à
+   l'emplacement de l'icône panier de l'en-tête. Jamais d'état invisible. */
 
 /* ---- Fenêtre de recherche produits ---- */
 .search-overlay {
