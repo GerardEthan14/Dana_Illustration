@@ -241,17 +241,21 @@ function wireBoutique(root, ui) {
   }
 
   // Branche le bouton panier de l'en-tête sur le panier Shopify.
-  // L'API officielle de buy-button-js pour ouvrir le panier est ui.openCart().
+  // On essaie plusieurs API de buy-button-js selon la version du SDK.
+  function openShopifyCart(ui) {
+    try { if (typeof ui.openCart === 'function') { ui.openCart(); return; } } catch (e) {}
+    try {
+      var cart = ui.components && ui.components.cart && ui.components.cart[0];
+      if (cart) {
+        if (typeof cart.open === 'function') { cart.open(); return; }
+        if (typeof cart.toggleVisibility === 'function') { cart.toggleVisibility(true); return; }
+      }
+    } catch (e) {}
+  }
+
   function bindHeaderCart(ui) {
     document.querySelectorAll('.cart-btn').forEach(function (b) {
-      b.addEventListener('click', function () {
-        if (typeof ui.openCart === 'function') {
-          ui.openCart();
-        } else {
-          var cart = ui.components && ui.components.cart && ui.components.cart[0];
-          if (cart && typeof cart.open === 'function') cart.open();
-        }
-      });
+      b.addEventListener('click', function () { openShopifyCart(ui); });
     });
   }
 
@@ -421,6 +425,15 @@ function wireBoutique(root, ui) {
       storefrontAccessToken: '67936409c1773375c0943c4b698564c4',
     });
     ShopifyBuy.UI.onReady(client).then(function (ui) {
+      // Crée/restaure le panier (singleton) sur TOUTES les pages, pour que le
+      // panier persiste, que le compteur soit à jour et que le bouton de
+      // l'en-tête puisse l'ouvrir même sur les pages sans produit.
+      try {
+        ui.createComponent('cart', {
+          options: { cart: brandCart, toggle: brandToggle }
+        });
+      } catch (e) { console.error('Init panier Shopify :', e); }
+
       if (boutiqueRoot) {
         buildBoutique(boutiqueRoot, client, ui);
       }
