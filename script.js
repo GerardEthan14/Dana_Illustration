@@ -240,97 +240,34 @@ function wireBoutique(root, ui) {
     } catch (e) { /* noop */ }
   }
 
-  // Ouvre le panier en déclenchant le bouton du panier flottant natif Shopify
-  // (le seul qui ouvre réellement le tiroir). On cherche le bouton dans le
-  // document principal puis dans toutes les iframes accessibles.
+  // Composant panier Shopify (capturé à la création) : c'est l'API officielle
+  // pour ouvrir le tiroir, sans toucher aux iframes.
+  var cartComponent = null;
+
+  // Ouvre le panier via l'API officielle du SDK (cartComponent.open()), avec
+  // quelques replis si l'API change de forme selon la version du SDK.
   function openShopifyCart(ui) {
-    function clickToggleIn(doc) {
-      if (!doc) return false;
-      var btn = doc.querySelector('.shopify-buy__cart-toggle');
-      if (!btn) return false;
-      ['mousedown', 'mouseup', 'click'].forEach(function (type) {
-        btn.dispatchEvent(new MouseEvent(type, {
-          bubbles: true, cancelable: true, view: doc.defaultView || window
-        }));
-      });
-      return true;
-    }
-    if (clickToggleIn(document)) return;
-    var frames = document.querySelectorAll('iframe');
-    for (var i = 0; i < frames.length; i++) {
-      try { if (clickToggleIn(frames[i].contentDocument)) return; } catch (e) { /* iframe inaccessible */ }
-    }
-    // Repli : API du SDK.
-    try { if (ui && typeof ui.openCart === 'function') ui.openCart(); } catch (e) {}
+    try { if (cartComponent && typeof cartComponent.open === 'function') { cartComponent.open(); return; } } catch (e) {}
+    try {
+      var c = ui && ui.components && ui.components.cart && ui.components.cart[0];
+      if (c && typeof c.open === 'function') { c.open(); return; }
+    } catch (e) {}
+    try { if (ui && typeof ui.openCart === 'function') { ui.openCart(); return; } } catch (e) {}
+    // Dernier repli : clic sur le bouton toggle natif s'il est accessible.
+    try {
+      var frames = document.querySelectorAll('iframe');
+      for (var i = 0; i < frames.length; i++) {
+        var doc = frames[i].contentDocument;
+        var btn = doc && doc.querySelector('.shopify-buy__cart-toggle');
+        if (btn) { btn.click(); return; }
+      }
+    } catch (e) {}
   }
 
   function bindHeaderCart(ui) {
     document.querySelectorAll('.cart-btn').forEach(function (b) {
       b.addEventListener('click', function () { openShopifyCart(ui); });
     });
-  }
-
-  // Repère l'iframe du panier flottant natif. On la sélectionne PAR SA CLASSE :
-  // l'iframe Shopify est cross-origin, donc lire son contenu (contentDocument)
-  // échoue — mais sélectionner l'élément iframe lui-même fonctionne toujours,
-  // et un vrai clic utilisateur dessus déclenche bien le panier malgré le
-  // cross-origin.
-  function findToggleFrame() {
-    var byClass = document.querySelector('iframe.shopify-buy-frame--toggle');
-    if (byClass) return byClass;
-    // Repli : iframe accessible contenant le bouton toggle.
-    var frames = document.querySelectorAll('iframe');
-    for (var i = 0; i < frames.length; i++) {
-      try {
-        var doc = frames[i].contentDocument;
-        if (doc && doc.querySelector('.shopify-buy__cart-toggle')) return frames[i];
-      } catch (e) { /* iframe inaccessible */ }
-    }
-    return null;
-  }
-
-  // Place le VRAI bouton panier natif de Shopify (visible, à sa taille
-  // naturelle — c'est lui qui ouvre le tiroir de façon fiable) pile à
-  // l'emplacement de l'icône panier de l'en-tête, et masque notre icône custom.
-  // On ne redimensionne pas l'iframe : on garde tout le bouton cliquable.
-  function overlayToggleOnHeaderCart(frame, cartBtn) {
-    function sync() {
-      var r = cartBtn.getBoundingClientRect();
-      var s = frame.style;
-      // Coin haut-gauche de l'emplacement de l'icône : toujours positif, donc
-      // jamais hors écran (le centrage sur la hauteur du toggle, grande par
-      // défaut, donnait un « top » négatif et le bouton sortait en haut).
-      s.setProperty('position', 'fixed', 'important');
-      s.setProperty('top', Math.max(8, r.top) + 'px', 'important');
-      s.setProperty('left', Math.max(8, r.left) + 'px', 'important');
-      s.setProperty('right', 'auto', 'important');
-      s.setProperty('bottom', 'auto', 'important');
-      s.setProperty('margin', '0', 'important');
-      s.setProperty('border', '0', 'important');
-      s.setProperty('z-index', '200', 'important');
-      s.setProperty('opacity', '1', 'important');
-    }
-    // On masque l'icône custom mais on garde son emplacement (pour le calage).
-    cartBtn.style.visibility = 'hidden';
-    sync();
-    window.addEventListener('resize', sync);
-    window.addEventListener('scroll', sync, true);
-    // Shopify peut re-styler l'iframe juste après création : on resynchronise
-    // pendant quelques secondes pour garder notre positionnement prioritaire.
-    var n = 0;
-    var t = setInterval(function () { sync(); if (++n > 25) clearInterval(t); }, 200);
-  }
-
-  // Attend l'apparition du toggle natif puis le superpose sur l'en-tête.
-  function setupHeaderCartOverlay() {
-    var cartBtn = document.querySelector('.cart-btn');
-    if (!cartBtn) return;
-    var tries = 0;
-    var wait = setInterval(function () {
-      var frame = findToggleFrame();
-      if (frame) { clearInterval(wait); overlayToggleOnHeaderCart(frame, cartBtn); }
-      else if (++tries > 100) { clearInterval(wait); /* repli : clic JS */ }
-    }, 200);
   }
 
   // Crée (une seule fois) la fenêtre de recherche et la renvoie.
@@ -503,9 +440,16 @@ function wireBoutique(root, ui) {
       // panier persiste, que le compteur soit à jour et que le bouton de
       // l'en-tête puisse l'ouvrir même sur les pages sans produit.
       try {
-        ui.createComponent('cart', {
+        var cartPromise = ui.createComponent('cart', {
           options: { cart: brandCart, toggle: brandToggle }
         });
+        // createComponent renvoie (selon la version) le composant ou une
+        // promesse : on capture la référence pour pouvoir appeler .open().
+        if (cartPromise && typeof cartPromise.then === 'function') {
+          cartPromise.then(function (c) { cartComponent = c; });
+        } else if (cartPromise) {
+          cartComponent = cartPromise;
+        }
       } catch (e) { console.error('Init panier Shopify :', e); }
 
       if (boutiqueRoot) {
@@ -520,7 +464,6 @@ function wireBoutique(root, ui) {
         });
       });
       bindHeaderCart(ui);
-      setupHeaderCartOverlay();
       setupSearch(client, ui);
     });
   }
