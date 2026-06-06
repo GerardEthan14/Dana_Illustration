@@ -240,16 +240,23 @@ function wireBoutique(root, ui) {
     } catch (e) { /* noop */ }
   }
 
-  // Branche le bouton panier de l'en-tête sur le panier Shopify.
-  // On essaie plusieurs API de buy-button-js selon la version du SDK.
+  // Ouvre le panier Shopify. Méthode fiable d'abord : déclencher le bouton du
+  // panier flottant natif (le seul qui ouvre réellement le tiroir), avec repli
+  // sur l'API du SDK si besoin.
   function openShopifyCart(ui) {
-    try { if (typeof ui.openCart === 'function') { ui.openCart(); return; } } catch (e) {}
+    // 1) Clic programmatique sur le toggle natif (dans son iframe).
     try {
-      var cart = ui.components && ui.components.cart && ui.components.cart[0];
-      if (cart) {
-        if (typeof cart.open === 'function') { cart.open(); return; }
-        if (typeof cart.toggleVisibility === 'function') { cart.toggleVisibility(true); return; }
-      }
+      var frame = document.querySelector('iframe.shopify-buy-frame--toggle');
+      var doc = frame && (frame.contentDocument || (frame.contentWindow && frame.contentWindow.document));
+      var btn = (doc && doc.querySelector('.shopify-buy__cart-toggle'))
+             || document.querySelector('.shopify-buy__cart-toggle');
+      if (btn) { btn.click(); return; }
+    } catch (e) {}
+    // 2) Repli : API du SDK.
+    try { if (ui && typeof ui.openCart === 'function') { ui.openCart(); return; } } catch (e) {}
+    try {
+      var cart = ui && ui.components && ui.components.cart && ui.components.cart[0];
+      if (cart && typeof cart.open === 'function') cart.open();
     } catch (e) {}
   }
 
