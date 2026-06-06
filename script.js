@@ -270,9 +270,15 @@ function wireBoutique(root, ui) {
     });
   }
 
-  // Repère l'iframe du panier flottant natif (celle qui contient le bouton
-  // toggle), quel que soit son nom de classe.
+  // Repère l'iframe du panier flottant natif. On la sélectionne PAR SA CLASSE :
+  // l'iframe Shopify est cross-origin, donc lire son contenu (contentDocument)
+  // échoue — mais sélectionner l'élément iframe lui-même fonctionne toujours,
+  // et un vrai clic utilisateur dessus déclenche bien le panier malgré le
+  // cross-origin.
   function findToggleFrame() {
+    var byClass = document.querySelector('iframe.shopify-buy-frame--toggle');
+    if (byClass) return byClass;
+    // Repli : iframe accessible contenant le bouton toggle.
     var frames = document.querySelectorAll('iframe');
     for (var i = 0; i < frames.length; i++) {
       try {
