@@ -1193,10 +1193,9 @@ em {
   padding: 4rem 1rem;
 }
 
-/* Panier flottant natif de Shopify : c'est le bouton fiable (ouverture +
-   persistance + compteur gérés par Shopify). Il reste TOUJOURS visible (au pire
-   à sa position d'origine) ; le JS le déplace, quand il le trouve, pile à
-   l'emplacement de l'icône panier de l'en-tête. Jamais d'état invisible. */
+/* Panier flottant natif de Shopify : c'est LE bouton panier du site, présent
+   et cliquable sur chaque page (ouverture du tiroir, persistance et compteur
+   gérés par Shopify). On a retiré l'icône panier custom de l'en-tête. */
 
 /* ---- Fenêtre de recherche produits ---- */
 .search-overlay {
