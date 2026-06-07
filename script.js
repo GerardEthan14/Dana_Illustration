@@ -231,43 +231,13 @@ function wireBoutique(root, ui) {
     "imgWrapper": { "padding-top": "calc(75% + 15px)", "position": "relative", "height": "0" }
   };
 
-  // Met à jour le compteur du panier de l'en-tête à partir du panier Shopify.
+  // Met à jour le compteur du panier à partir du panier Shopify (si présent).
   function updateCartCount(cartComp) {
     try {
       var items = (cartComp && cartComp.model && cartComp.model.lineItems) || [];
       var n = items.reduce(function (s, li) { return s + (li.quantity || 0); }, 0);
       document.querySelectorAll('.cart-count').forEach(function (c) { c.textContent = n; });
     } catch (e) { /* noop */ }
-  }
-
-  // Composant panier Shopify (capturé à la création) : c'est l'API officielle
-  // pour ouvrir le tiroir, sans toucher aux iframes.
-  var cartComponent = null;
-
-  // Ouvre le panier via l'API officielle du SDK (cartComponent.open()), avec
-  // quelques replis si l'API change de forme selon la version du SDK.
-  function openShopifyCart(ui) {
-    try { if (cartComponent && typeof cartComponent.open === 'function') { cartComponent.open(); return; } } catch (e) {}
-    try {
-      var c = ui && ui.components && ui.components.cart && ui.components.cart[0];
-      if (c && typeof c.open === 'function') { c.open(); return; }
-    } catch (e) {}
-    try { if (ui && typeof ui.openCart === 'function') { ui.openCart(); return; } } catch (e) {}
-    // Dernier repli : clic sur le bouton toggle natif s'il est accessible.
-    try {
-      var frames = document.querySelectorAll('iframe');
-      for (var i = 0; i < frames.length; i++) {
-        var doc = frames[i].contentDocument;
-        var btn = doc && doc.querySelector('.shopify-buy__cart-toggle');
-        if (btn) { btn.click(); return; }
-      }
-    } catch (e) {}
-  }
-
-  function bindHeaderCart(ui) {
-    document.querySelectorAll('.cart-btn').forEach(function (b) {
-      b.addEventListener('click', function () { openShopifyCart(ui); });
-    });
   }
 
   // Crée (une seule fois) la fenêtre de recherche et la renvoie.
@@ -436,20 +406,13 @@ function wireBoutique(root, ui) {
       storefrontAccessToken: '67936409c1773375c0943c4b698564c4',
     });
     ShopifyBuy.UI.onReady(client).then(function (ui) {
-      // Crée/restaure le panier (singleton) sur TOUTES les pages, pour que le
-      // panier persiste, que le compteur soit à jour et que le bouton de
-      // l'en-tête puisse l'ouvrir même sur les pages sans produit.
+      // Crée le panier Shopify (avec son bouton flottant) sur TOUTES les pages :
+      // c'est le panier visible et cliquable, présent partout, qui ouvre le
+      // tiroir et persiste entre les pages.
       try {
-        var cartPromise = ui.createComponent('cart', {
+        ui.createComponent('cart', {
           options: { cart: brandCart, toggle: brandToggle }
         });
-        // createComponent renvoie (selon la version) le composant ou une
-        // promesse : on capture la référence pour pouvoir appeler .open().
-        if (cartPromise && typeof cartPromise.then === 'function') {
-          cartPromise.then(function (c) { cartComponent = c; });
-        } else if (cartPromise) {
-          cartComponent = cartPromise;
-        }
       } catch (e) { console.error('Init panier Shopify :', e); }
 
       if (boutiqueRoot) {
@@ -463,7 +426,6 @@ function wireBoutique(root, ui) {
           options: productOptions
         });
       });
-      bindHeaderCart(ui);
       setupSearch(client, ui);
     });
   }
