@@ -152,6 +152,68 @@ function groupCollections(collections) {
   return order.map(function (k) { return map[k]; });
 }
 
+// ===== Fiche produit en popup (sur NOTRE site, même panier Shopify) =====
+// Formate un prix Shopify en « 12,00 € ».
+function formatPrice(p) {
+  var v = p && p.variants && p.variants[0];
+  if (!v) return '';
+  var amt = (v.price && v.price.amount != null) ? v.price.amount : v.price;
+  var n = parseFloat(amt);
+  if (isNaN(n)) return '';
+  return n.toFixed(2).replace('.', ',') + ' €';
+}
+
+// Carte produit cliquable (image + titre + prix) qui ouvre le popup au clic.
+function renderProductCard(p, ui) {
+  var card = el('button', 'shop-card shop-card-custom');
+  card.type = 'button';
+  var img = (p.images && p.images[0] && p.images[0].src) || '';
+  var title = p.title || '';
+  card.innerHTML =
+    '<span class="pc-img">' + (img ? '<img src="' + img + '" alt="" loading="lazy">' : '') + '</span>' +
+    '<span class="pc-title"></span>' +
+    '<span class="pc-price">' + formatPrice(p) + '</span>';
+  card.querySelector('.pc-title').textContent = title;
+  card.setAttribute('aria-label', title);
+  card.addEventListener('click', function () { openProductModal(ui, p.id); });
+  return card;
+}
+
+// Crée (une seule fois) le popup de fiche produit et le renvoie.
+function buildProductOverlay() {
+  var overlay = document.querySelector('.product-modal');
+  if (overlay) return overlay;
+  overlay = el('div', 'product-modal');
+  overlay.hidden = true;
+  overlay.innerHTML =
+    '<div class="product-modal-box">' +
+      '<button type="button" class="product-modal-close" aria-label="Fermer">×</button>' +
+      '<div class="product-modal-body"></div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  function close() { overlay.hidden = true; document.body.style.overflow = ''; }
+  overlay.querySelector('.product-modal-close').addEventListener('click', close);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !overlay.hidden) close(); });
+  return overlay;
+}
+
+// Ouvre le popup pour un produit : on y monte un composant produit Shopify
+// détaillé (carrousel d'images + description + ajout au panier), même panier.
+function openProductModal(ui, productId) {
+  var overlay = buildProductOverlay();
+  var body = overlay.querySelector('.product-modal-body');
+  body.innerHTML = '';
+  ui.createComponent('product', {
+    id: numericId(productId),
+    node: body,
+    moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
+    options: window.SHOP_OPTIONS.productDetail
+  });
+  overlay.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
 function buildBoutique(root, client, ui) {
   root.innerHTML = '<p class="shop-loading">Chargement de la boutique…</p>';
   client.collection.fetchAll(250).then(function (collections) {
@@ -452,8 +514,31 @@ function wireBoutique(root, ui) {
     "toggle": brandToggle
   };
 
-  // Exposé pour mountPanel() (boutique).
-  window.SHOP_OPTIONS = { product: productOptions, collection: collectionOptions };
+  // Fiche produit détaillée affichée dans le popup (sur notre site) : carrousel
+  // d'images + titre + prix + options + quantité + bouton « Ajouter au panier ».
+  var productDetailOptions = {
+    "product": {
+      "contents": {
+        "img": false, "imgWithCarousel": true,
+        "title": true, "variantTitle": true,
+        "price": true, "options": true,
+        "quantity": true, "description": true,
+        "button": false, "buttonWithQuantity": true
+      },
+      "width": "100%",
+      "styles": {
+        "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
+        "button": brandBtn,
+        "title": { "font-size": "22px" }
+      },
+      "text": { "button": "Ajouter au panier" }
+    },
+    "cart": brandCart,
+    "toggle": brandToggle
+  };
+
+  // Exposé pour mountPanel() (boutique) et le popup fiche produit.
+  window.SHOP_OPTIONS = { product: productOptions, collection: collectionOptions, productDetail: productDetailOptions };
 
   var boutiqueRoot = document.querySelector('[data-shop-catalog]');
   var featuredHost = document.querySelector('.shop-cards[data-featured]');
@@ -475,16 +560,7 @@ function wireBoutique(root, ui) {
         if (!products.length) { featuredHost.innerHTML = empty; return; }
         featuredHost.innerHTML = '';
         products.forEach(function (p) {
-          var card = el('article', 'shop-card shop-card-shopify');
-          var mount = el('div');
-          card.appendChild(mount);
-          featuredHost.appendChild(card);
-          ui.createComponent('product', {
-            id: numericId(p.id),
-            node: mount,
-            moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
-            options: productOptions
-          });
+          featuredHost.appendChild(renderProductCard(p, ui));
         });
       });
     }).catch(function (err) {
