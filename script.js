@@ -49,45 +49,6 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
     }
   ];
 
-  // Logos de paiement (SVG inline, rendus reconnaissables et homogènes).
-  var tile = function (inner, bg) {
-    return '<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg">' +
-      '<rect width="40" height="24" rx="4" fill="' + (bg || '#ffffff') + '"/>' + inner + '</svg>';
-  };
-  var PAYMENTS = [
-    { name: 'Apple Pay', svg: tile(
-      '<path transform="translate(7.5 5.2) scale(0.5)" fill="#000" d="M9.6 3.2c.5-.6.8-1.4.7-2.2-.7 0-1.6.5-2.1 1.1-.5.5-.9 1.4-.7 2.2.8.06 1.6-.4 2.1-1.1zm.7 1.2c-1.2-.07-2.2.66-2.7.66-.6 0-1.4-.63-2.3-.62-1.2.02-2.3.69-2.9 1.74-1.2 2.1-.3 5.2.9 6.9.6.83 1.3 1.76 2.2 1.73.9-.04 1.2-.57 2.3-.57s1.4.57 2.3.55c1-.02 1.6-.85 2.2-1.68.7-.96.98-1.9.99-1.95-.02-.01-1.9-.73-1.92-2.9-.02-1.81 1.48-2.68 1.55-2.72-.85-1.25-2.17-1.39-2.64-1.42z"/>' +
-      '<text x="23" y="16" font-family="Helvetica,Arial,sans-serif" font-size="9" font-weight="600" fill="#000">Pay</text>'
-    ) },
-    { name: 'Bancontact', svg: tile(
-      '<text x="20" y="15.5" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="7" font-weight="700" fill="#005498">Bancontact</text>'
-    ) },
-    { name: 'Google Pay', svg: tile(
-      '<text x="11" y="16" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="11" font-weight="700" fill="#4285F4">G</text>' +
-      '<text x="26" y="16" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="9" font-weight="600" fill="#5F6368">Pay</text>'
-    ) },
-    { name: 'Mastercard', svg: tile(
-      '<circle cx="16" cy="12" r="6.2" fill="#EB001B"/>' +
-      '<circle cx="24" cy="12" r="6.2" fill="#F79E1B" fill-opacity="0.92"/>'
-    ) },
-    { name: 'Maestro', svg: tile(
-      '<circle cx="16" cy="12" r="6.2" fill="#0099DF"/>' +
-      '<circle cx="24" cy="12" r="6.2" fill="#ED0006" fill-opacity="0.9"/>'
-    ) },
-    { name: 'Klarna', svg: tile(
-      '<text x="20" y="16" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="8.5" font-weight="700" fill="#17120F">Klarna</text>',
-      '#FFB3C7'
-    ) },
-    { name: 'UnionPay', svg: tile(
-      '<rect x="6" y="6" width="9" height="12" rx="2" fill="#E21836"/>' +
-      '<rect x="15.5" y="6" width="9" height="12" rx="2" fill="#00447C"/>' +
-      '<rect x="25" y="6" width="9" height="12" rx="2" fill="#007B84"/>'
-    ) },
-    { name: 'Visa', svg: tile(
-      '<text x="20" y="16" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="10" font-weight="700" font-style="italic" fill="#1A1F71">VISA</text>'
-    ) }
-  ];
-
   // Liens vers les pages légales (ajoutés au pied de page de chaque page).
   var LEGAL = [
     { name: 'Mentions légales', href: 'mentions-legales.html' },
@@ -98,14 +59,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
 
   function enhanceFooter() {
     document.querySelectorAll('.site-footer').forEach(function (footer) {
-      // Logos de paiement
-      var pay = footer.querySelector('.footer-payments');
-      if (pay) {
-        pay.innerHTML = PAYMENTS.map(function (p) {
-          return '<li class="pay" aria-label="' + p.name + '">' + p.svg + '</li>';
-        }).join('');
-      }
-      // Barre réseaux sociaux (insérée avant les moyens de paiement)
+      // Barre réseaux sociaux
       var inner = footer.querySelector('.footer-inner');
       if (inner && SOCIALS.length && !inner.querySelector('.footer-social')) {
         var nav = document.createElement('nav');
@@ -114,8 +68,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
         nav.innerHTML = SOCIALS.map(function (s) {
           return '<a href="' + s.href + '" target="_blank" rel="noopener" aria-label="' + s.name + '">' + s.svg + '</a>';
         }).join('');
-        if (pay) inner.insertBefore(nav, pay);
-        else inner.appendChild(nav);
+        inner.appendChild(nav);
       }
       // Liens légaux (sous la ligne principale du pied de page)
       if (!footer.querySelector('.footer-legal')) {
@@ -346,47 +299,13 @@ function wireBoutique(root, ui) {
     "imgWrapper": { "padding-top": "calc(75% + 15px)", "position": "relative", "height": "0" }
   };
 
-  // Référence du composant panier Shopify (capturée à la création), pour
-  // pouvoir ouvrir le tiroir via l'API officielle.
-  var cartComponent = null;
-
-  // Met à jour le compteur du panier à partir du panier Shopify (si présent).
+  // Met à jour le compteur du panier (si un élément .cart-count existe).
   function updateCartCount(cartComp) {
     try {
-      var comp = cartComp || cartComponent;
-      var items = (comp && comp.model && comp.model.lineItems) || [];
+      var items = (cartComp && cartComp.model && cartComp.model.lineItems) || [];
       var n = items.reduce(function (s, li) { return s + (li.quantity || 0); }, 0);
       document.querySelectorAll('.cart-count').forEach(function (c) { c.textContent = n; });
     } catch (e) { /* noop */ }
-  }
-
-  // Ouvre le tiroir panier. Méthode officielle (cartComponent.open()) en
-  // priorité ; repli sur un vrai clic du bouton toggle natif si accessible.
-  function openCart() {
-    try { if (cartComponent && typeof cartComponent.open === 'function') { cartComponent.open(); return; } } catch (e) {}
-    try {
-      var frames = document.querySelectorAll('iframe');
-      for (var i = 0; i < frames.length; i++) {
-        var doc = frames[i].contentDocument;
-        var btn = doc && doc.querySelector('.shopify-buy__cart-toggle');
-        if (btn) { btn.click(); return; }
-      }
-    } catch (e) {}
-  }
-
-  // Bouton panier flottant, injecté sur CHAQUE page (toujours visible, sous
-  // notre contrôle total). Affiche le compteur et ouvre le tiroir Shopify.
-  function createFloatingCart() {
-    if (document.querySelector('.floating-cart')) return;
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'floating-cart';
-    b.setAttribute('aria-label', 'Panier');
-    b.innerHTML =
-      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' +
-      '<span class="cart-count">0</span>';
-    b.addEventListener('click', openCart);
-    document.body.appendChild(b);
   }
 
   // Crée (une seule fois) la fenêtre de recherche et la renvoie.
@@ -536,16 +455,43 @@ function wireBoutique(root, ui) {
   // Exposé pour mountPanel() (boutique).
   window.SHOP_OPTIONS = { product: productOptions, collection: collectionOptions };
 
-  // Produits mis en avant dans le carrousel "Dernières nouveautés" (accueil).
-  var featured = [
-    { id: '15486773494100', node: 'product-component-1780409746470' }, // héron
-    { id: '15486778245460', node: 'product-component-1780409833988' }, // messager sagittaire
-    { id: '15486775296340', node: 'product-component-1780409800784' }, // canard
-    { id: '15486746689876', node: 'product-component-1780408570955' }, // cygne
-  ];
-
   var boutiqueRoot = document.querySelector('[data-shop-catalog]');
-  var featuredNodes = featured.filter(function (p) { return document.getElementById(p.node); });
+  var featuredHost = document.querySelector('.shop-cards[data-featured]');
+
+  // Remplit le carrousel d'accueil avec les produits de la collection Shopify
+  // dont le nom est indiqué par data-featured (ex. « Nouveautés »). Dana gère
+  // ainsi le contenu directement depuis Shopify, le carrousel reste identique.
+  function buildFeatured(client, ui) {
+    if (!featuredHost) return;
+    var wanted = (featuredHost.getAttribute('data-featured') || '').trim().toLowerCase();
+    var empty = '<p class="shop-empty">Bientôt de nouvelles créations 🌿</p>';
+    client.collection.fetchAll(250).then(function (cols) {
+      var col = (cols || []).filter(function (c) {
+        return (c.title || '').trim().toLowerCase() === wanted;
+      })[0];
+      if (!col) { featuredHost.innerHTML = empty; return; }
+      return client.collection.fetchWithProducts(col.id, { productsFirst: 12 }).then(function (c2) {
+        var products = (c2 && c2.products) || [];
+        if (!products.length) { featuredHost.innerHTML = empty; return; }
+        featuredHost.innerHTML = '';
+        products.forEach(function (p) {
+          var card = el('article', 'shop-card shop-card-shopify');
+          var mount = el('div');
+          card.appendChild(mount);
+          featuredHost.appendChild(card);
+          ui.createComponent('product', {
+            id: numericId(p.id),
+            node: mount,
+            moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
+            options: productOptions
+          });
+        });
+      });
+    }).catch(function (err) {
+      featuredHost.innerHTML = '<p class="shop-empty">Impossible de charger les nouveautés.</p>';
+      console.error('Nouveautés Shopify :', err);
+    });
+  }
 
   // Shopify est initialisé sur toutes les pages pour que la recherche et le
   // panier de l'en-tête (présents partout) fonctionnent.
@@ -555,33 +501,18 @@ function wireBoutique(root, ui) {
       storefrontAccessToken: '67936409c1773375c0943c4b698564c4',
     });
     ShopifyBuy.UI.onReady(client).then(function (ui) {
-      // Crée le panier Shopify sur TOUTES les pages (persistance + compteur) et
-      // capture le composant pour l'ouvrir via l'API officielle.
+      // Crée le panier Shopify (avec son bouton/toggle natif) sur TOUTES les
+      // pages : c'est le panier du site, qui ouvre le tiroir et persiste.
       try {
-        var cartPromise = ui.createComponent('cart', {
+        ui.createComponent('cart', {
           options: { cart: brandCart, toggle: brandToggle }
         });
-        if (cartPromise && typeof cartPromise.then === 'function') {
-          cartPromise.then(function (c) { cartComponent = c; updateCartCount(c); });
-        } else if (cartPromise) {
-          cartComponent = cartPromise; updateCartCount(cartPromise);
-        }
       } catch (e) { console.error('Init panier Shopify :', e); }
-
-      // Notre bouton panier flottant, présent et fonctionnel sur chaque page.
-      createFloatingCart();
 
       if (boutiqueRoot) {
         buildBoutique(boutiqueRoot, client, ui);
       }
-      featuredNodes.forEach(function (p) {
-        ui.createComponent('product', {
-          id: p.id,
-          node: document.getElementById(p.node),
-          moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
-          options: productOptions
-        });
-      });
+      buildFeatured(client, ui);
       setupSearch(client, ui);
     });
   }
