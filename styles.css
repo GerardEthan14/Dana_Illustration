@@ -549,7 +549,7 @@ em {
   position: relative;
   background: #ffffff;
   border-radius: var(--radius);
-  max-width: 880px;
+  max-width: 520px;
   width: 100%;
   padding: 2.75rem 1.5rem 1.5rem;
   box-shadow: var(--shadow);
