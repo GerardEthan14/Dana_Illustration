@@ -362,7 +362,7 @@ em {
 
 .hero-text {
   position: absolute;
-  top: 4%;
+  top: 15%;
   left: 50%;
   transform: translateX(-50%);
   width: min(48rem, 92%);
@@ -815,42 +815,6 @@ em {
   font-family: 'Cause', cursive;
 }
 
-.footer-payments {
-  list-style: none;
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.pay-pill {
-  background: var(--cream);
-  border: 1px solid var(--border);
-  border-radius: 0.35rem;
-  padding: 0.25rem 0.55rem;
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--olive-dark);
-  min-width: 2.4rem;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.pay-mc { background: linear-gradient(90deg, #EB001B 0 50%, #F79E1B 50% 100%); border: none; min-width: 2.4rem; height: 1.4rem; }
-.pay-maestro { background: linear-gradient(90deg, #0099DF 0 50%, #ED0006 50% 100%); border: none; min-width: 2.4rem; height: 1.4rem; }
-.pay-visa { background: #1A1F71; color: #fff; }
-
-/* Logos de paiement (rendus via SVG par le JS) */
-.footer-payments .pay { display: flex; }
-.footer-payments .pay svg {
-  display: block;
-  height: 24px;
-  width: 40px;
-  border-radius: 4px;
-  box-shadow: 0 0 0 1px rgba(45, 27, 14, 0.10);
-}
-
 /* Liens légaux du pied de page */
 .footer-legal {
   width: 100%;
@@ -1266,41 +1230,6 @@ em {
   color: var(--muted);
   padding: 4rem 1rem;
 }
-
-/* Bouton panier flottant (le nôtre) : présent sur chaque page, toujours
-   visible, ouvre le tiroir Shopify via l'API officielle. Il remplace le bouton
-   natif de Shopify (masqué ci-dessous) pour un rendu fiable et maîtrisé. */
-.floating-cart {
-  position: fixed;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  z-index: 900;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.7rem 0.95rem;
-  background: var(--mustard, #ecd080);
-  color: var(--olive-dark, #74550d);
-  border: 1.5px solid var(--olive, #74550d);
-  border-radius: var(--radius-pill, 40px);
-  box-shadow: 0 6px 18px rgba(45, 27, 14, 0.18);
-  cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-}
-.floating-cart:hover { background: #d4bb73; transform: translateY(-2px); }
-.floating-cart .cart-count {
-  background: var(--olive, #74550d);
-  color: var(--cream, #fdf6e9);
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 0.05rem 0.45rem;
-  border-radius: var(--radius-pill, 40px);
-  min-width: 1.1rem;
-  text-align: center;
-}
-
-/* On masque le toggle natif de Shopify : notre bouton flottant le remplace. */
-iframe.shopify-buy-frame--toggle { display: none !important; }
 
 /* ---- Fenêtre de recherche produits ---- */
 .search-overlay {
