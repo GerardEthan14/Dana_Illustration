@@ -617,18 +617,6 @@ function wireBoutique(root, ui) {
       }
       buildFeatured(client, ui);
       setupSearch(client, ui);
-
-      // Boutons « Je m'abonne » du Refuge Club : ouvrent le popup fiche produit
-      // (sur notre site, même panier) à partir du handle Shopify du produit.
-      document.querySelectorAll('.refuge-cta[data-refuge-handle]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var handle = btn.getAttribute('data-refuge-handle');
-          client.product.fetchByHandle(handle).then(function (p) {
-            if (p && p.id) openProductModal(ui, p.id);
-            else { console.warn('Produit Refuge introuvable :', handle); }
-          }).catch(function (e) { console.error('Refuge fetch :', e); });
-        });
-      });
     });
   }
 
