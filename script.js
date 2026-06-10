@@ -546,7 +546,7 @@ function wireBoutique(root, ui) {
           "text-align": "left", "font-family": detailFont,
           "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" }
         },
-        "imgWrapper": { "order": "0", "max-width": "260px", "margin": "0 0 16px 0" },
+        "imgWrapper": { "order": "0", "max-width": "260px", "margin": "0 auto 16px auto" },
         "img": { "max-height": "300px" },
         "title": { "order": "1", "font-family": detailFont, "font-size": "24px", "font-weight": "700", "color": "#3A4520", "text-align": "left", "margin-bottom": "8px" },
         "description": { "order": "2", "font-family": detailFont, "color": "#2D1B0E", "line-height": "1.6", "text-align": "left", "margin-bottom": "16px" },
@@ -617,6 +617,18 @@ function wireBoutique(root, ui) {
       }
       buildFeatured(client, ui);
       setupSearch(client, ui);
+
+      // Boutons « Je m'abonne » du Refuge Club : ouvrent le popup fiche produit
+      // (sur notre site, même panier) à partir du handle Shopify du produit.
+      document.querySelectorAll('.refuge-cta[data-refuge-handle]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var handle = btn.getAttribute('data-refuge-handle');
+          client.product.fetchByHandle(handle).then(function (p) {
+            if (p && p.id) openProductModal(ui, p.id);
+            else { console.warn('Produit Refuge introuvable :', handle); }
+          }).catch(function (e) { console.error('Refuge fetch :', e); });
+        });
+      });
     });
   }
 
