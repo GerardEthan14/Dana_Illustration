@@ -1259,7 +1259,7 @@ em {
   display: none;
 }
 
-.shop-cat.is-active .shop-subcats {
+.shop-cat.is-open .shop-subcats {
   display: block;
 }
 
@@ -1291,8 +1291,20 @@ em {
   display: none;
 }
 
+.shop-collection {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 2rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
 .shop-collection[hidden] {
   display: none;
+}
+
+.shop-collection > .shop-loading,
+.shop-collection > .shop-empty {
+  grid-column: 1 / -1;
 }
 
 .shop-empty,
