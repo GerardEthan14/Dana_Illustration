@@ -514,22 +514,45 @@ function wireBoutique(root, ui) {
     "toggle": brandToggle
   };
 
-  // Fiche produit détaillée affichée dans le popup (sur notre site) : carrousel
-  // d'images + titre + prix + options + quantité + bouton « Ajouter au panier ».
+  // Fiche produit détaillée affichée dans le popup (sur notre site), stylée pour
+  // coller au site : fond blanc, police Avenir, bouton « pilule », description
+  // sous le titre, liste déroulante arrondie, sans choix de quantité.
+  var detailFont = "'Avenir', 'Avenir Next', 'Nunito Sans', sans-serif";
+  var detailBtn = {
+    "color": "#3A4520",
+    "background-color": "#E8D098",
+    "border": "1.5px solid #4A5928",
+    "border-radius": "999px",
+    "font-family": "Cause, cursive",
+    ":hover": { "background-color": "#4A5928", "color": "#FDF8F3", "border-color": "#4A5928" },
+    ":focus": { "background-color": "#4A5928", "color": "#FDF8F3", "border-color": "#4A5928" }
+  };
   var productDetailOptions = {
     "product": {
+      "googleFonts": ["Nunito Sans"],
       "contents": {
         "img": false, "imgWithCarousel": true,
-        "title": true, "variantTitle": true,
+        "title": true, "variantTitle": false,
         "price": true, "options": true,
-        "quantity": true, "description": true,
-        "button": false, "buttonWithQuantity": true
+        "quantity": false, "description": true,
+        "button": true, "buttonWithQuantity": false
       },
       "width": "100%",
       "styles": {
-        "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
-        "button": brandBtn,
-        "title": { "font-size": "22px" }
+        "product": {
+          "display": "flex", "flex-direction": "column",
+          "font-family": detailFont,
+          "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" }
+        },
+        "title": { "order": "1", "font-family": detailFont, "font-size": "24px", "font-weight": "700", "color": "#3A4520", "margin-bottom": "8px" },
+        "description": { "order": "2", "font-family": detailFont, "color": "#2D1B0E", "line-height": "1.6", "margin-bottom": "16px" },
+        "prices": { "order": "3", "margin-bottom": "12px" },
+        "price": { "font-family": detailFont, "color": "#3A4520", "font-size": "18px" },
+        "compareAt": { "font-family": detailFont, "color": "#6B5D4A" },
+        "options": { "order": "4", "margin-bottom": "14px" },
+        "select": { "border-radius": "999px", "border": "1.5px solid #4A5928", "color": "#3A4520", "font-family": detailFont, "padding": "10px 16px", "background-color": "#FFFFFF" },
+        "buttonWrapper": { "order": "5" },
+        "button": detailBtn
       },
       "text": { "button": "Ajouter au panier" }
     },
