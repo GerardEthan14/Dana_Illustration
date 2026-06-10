@@ -231,13 +231,47 @@ function wireBoutique(root, ui) {
     "imgWrapper": { "padding-top": "calc(75% + 15px)", "position": "relative", "height": "0" }
   };
 
+  // Référence du composant panier Shopify (capturée à la création), pour
+  // pouvoir ouvrir le tiroir via l'API officielle.
+  var cartComponent = null;
+
   // Met à jour le compteur du panier à partir du panier Shopify (si présent).
   function updateCartCount(cartComp) {
     try {
-      var items = (cartComp && cartComp.model && cartComp.model.lineItems) || [];
+      var comp = cartComp || cartComponent;
+      var items = (comp && comp.model && comp.model.lineItems) || [];
       var n = items.reduce(function (s, li) { return s + (li.quantity || 0); }, 0);
       document.querySelectorAll('.cart-count').forEach(function (c) { c.textContent = n; });
     } catch (e) { /* noop */ }
+  }
+
+  // Ouvre le tiroir panier. Méthode officielle (cartComponent.open()) en
+  // priorité ; repli sur un vrai clic du bouton toggle natif si accessible.
+  function openCart() {
+    try { if (cartComponent && typeof cartComponent.open === 'function') { cartComponent.open(); return; } } catch (e) {}
+    try {
+      var frames = document.querySelectorAll('iframe');
+      for (var i = 0; i < frames.length; i++) {
+        var doc = frames[i].contentDocument;
+        var btn = doc && doc.querySelector('.shopify-buy__cart-toggle');
+        if (btn) { btn.click(); return; }
+      }
+    } catch (e) {}
+  }
+
+  // Bouton panier flottant, injecté sur CHAQUE page (toujours visible, sous
+  // notre contrôle total). Affiche le compteur et ouvre le tiroir Shopify.
+  function createFloatingCart() {
+    if (document.querySelector('.floating-cart')) return;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'floating-cart';
+    b.setAttribute('aria-label', 'Panier');
+    b.innerHTML =
+      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' +
+      '<span class="cart-count">0</span>';
+    b.addEventListener('click', openCart);
+    document.body.appendChild(b);
   }
 
   // Crée (une seule fois) la fenêtre de recherche et la renvoie.
@@ -406,14 +440,21 @@ function wireBoutique(root, ui) {
       storefrontAccessToken: '67936409c1773375c0943c4b698564c4',
     });
     ShopifyBuy.UI.onReady(client).then(function (ui) {
-      // Crée le panier Shopify (avec son bouton flottant) sur TOUTES les pages :
-      // c'est le panier visible et cliquable, présent partout, qui ouvre le
-      // tiroir et persiste entre les pages.
+      // Crée le panier Shopify sur TOUTES les pages (persistance + compteur) et
+      // capture le composant pour l'ouvrir via l'API officielle.
       try {
-        ui.createComponent('cart', {
+        var cartPromise = ui.createComponent('cart', {
           options: { cart: brandCart, toggle: brandToggle }
         });
+        if (cartPromise && typeof cartPromise.then === 'function') {
+          cartPromise.then(function (c) { cartComponent = c; updateCartCount(c); });
+        } else if (cartPromise) {
+          cartComponent = cartPromise; updateCartCount(cartPromise);
+        }
       } catch (e) { console.error('Init panier Shopify :', e); }
+
+      // Notre bouton panier flottant, présent et fonctionnel sur chaque page.
+      createFloatingCart();
 
       if (boutiqueRoot) {
         buildBoutique(boutiqueRoot, client, ui);
