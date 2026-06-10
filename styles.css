@@ -1406,14 +1406,26 @@ em {
    Responsive
    ============================================ */
 @media (max-width: 720px) {
-  .hero { padding-top: 1.5rem; }
+  .hero { padding-top: 1rem; }
+  /* On recadre le vide transparent en haut du visuel (≈17%) pour que l'image
+     colle aux animaux : plus de bande vide ("surplus") sur mobile. */
+  .hero-stage { height: 47vw; overflow: hidden; }
+  .hero-banner {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: bottom;
+  }
+  /* Texte empilé au-dessus, descendu au plus près du visuel (juste au-dessus
+     des animaux, comme sur PC), sans empiéter dessus. */
   .hero-text {
     position: static;
     transform: none;
     width: auto;
-    margin: 2rem auto 1.5rem;
+    margin: 0.75rem auto 0.6rem;
     padding: 0 1rem;
   }
+  .hero-subtitle { font-size: 0.82rem; max-width: 28rem; }
   .portfolio-teaser-inner {
     grid-template-columns: 1fr;
     gap: 2rem;
