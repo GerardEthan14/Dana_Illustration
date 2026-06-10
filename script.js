@@ -225,14 +225,14 @@ function buildBoutique(root, client, ui) {
       root.innerHTML = '<p class="shop-empty">La boutique sera bientôt disponible 🌿</p>';
       return;
     }
-    renderBoutique(root, groupCollections(collections), ui);
+    renderBoutique(root, groupCollections(collections), client, ui);
   }).catch(function (err) {
     root.innerHTML = '<p class="shop-empty">Impossible de charger la boutique pour le moment.</p>';
     console.error('Erreur de chargement des collections Shopify :', err);
   });
 }
 
-function renderBoutique(root, groups, ui) {
+function renderBoutique(root, groups, client, ui) {
   root.innerHTML = '';
   var nav = el('nav', 'shop-cats');
   nav.setAttribute('aria-label', 'Catégories de la boutique');
@@ -249,7 +249,7 @@ function renderBoutique(root, groups, ui) {
     var btn = el('button', 'shop-cat-btn');
     btn.type = 'button';
     btn.textContent = group.label;
-    btn.setAttribute('aria-expanded', active ? 'true' : 'false');
+    btn.setAttribute('aria-expanded', 'false');
     catEl.appendChild(btn);
 
     var hasSubs = group.items.some(function (it) { return it.sub; });
@@ -264,14 +264,14 @@ function renderBoutique(root, groups, ui) {
     }
     nav.appendChild(catEl);
 
-    // --- Panneau : un composant "collection" Shopify par (sous-)collection ---
+    // --- Panneau : une grille de cartes produits par (sous-)collection ---
     var panel = el('div', 'shop-panel');
     panel.dataset.cat = catId;
     panel.hidden = !active;
     group.items.forEach(function (it) {
       var holder = el('div', 'shop-collection');
       holder.dataset.sub = it.sub || '';
-      holder.dataset.collectionId = numericId(it.id);
+      holder.dataset.gid = String(it.id);
       panel.appendChild(holder);
     });
     panels.appendChild(panel);
@@ -279,36 +279,47 @@ function renderBoutique(root, groups, ui) {
 
   root.appendChild(nav);
   root.appendChild(panels);
-  wireBoutique(root, ui);
-  mountPanel(root.querySelector('.shop-panel:not([hidden])'), ui);
+  wireBoutique(root, client, ui);
+  mountPanel(root.querySelector('.shop-panel:not([hidden])'), client, ui);
 }
 
-// Crée (à la demande) les composants collection d'un panneau.
-function mountPanel(panel, ui) {
+// Charge (à la demande) les produits d'un panneau et les affiche en cartes
+// cliquables qui ouvrent le popup fiche produit (comme les nouveautés).
+function mountPanel(panel, client, ui) {
   if (!panel) return;
   panel.querySelectorAll('.shop-collection').forEach(function (holder) {
     if (holder.dataset.mounted) return;
     holder.dataset.mounted = '1';
-    ui.createComponent('collection', {
-      id: holder.dataset.collectionId,
-      node: holder,
-      moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
-      options: window.SHOP_OPTIONS.collection
+    holder.innerHTML = '<p class="shop-loading">Chargement…</p>';
+    client.collection.fetchWithProducts(holder.dataset.gid, { productsFirst: 100 }).then(function (col) {
+      var products = (col && col.products) || [];
+      holder.innerHTML = '';
+      if (!products.length) { holder.innerHTML = '<p class="shop-empty">Bientôt de nouvelles créations 🌿</p>'; return; }
+      products.forEach(function (p) { holder.appendChild(renderProductCard(p, ui)); });
+    }).catch(function (e) {
+      holder.innerHTML = '<p class="shop-empty">Impossible de charger ces produits.</p>';
+      console.error('Collection boutique :', e);
     });
   });
 }
 
-function wireBoutique(root, ui) {
+function wireBoutique(root, client, ui) {
+  function closeMenus() {
+    root.querySelectorAll('.shop-cat').forEach(function (c) {
+      c.classList.remove('is-open');
+      var b = c.querySelector('.shop-cat-btn');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  }
+
   function activate(catId) {
     root.querySelectorAll('.shop-cat').forEach(function (c) {
-      var on = c.dataset.cat === catId;
-      c.classList.toggle('is-active', on);
-      c.querySelector('.shop-cat-btn').setAttribute('aria-expanded', on ? 'true' : 'false');
+      c.classList.toggle('is-active', c.dataset.cat === catId);
     });
     root.querySelectorAll('.shop-panel').forEach(function (p) {
       var on = p.dataset.cat === catId;
       p.hidden = !on;
-      if (on) mountPanel(p, ui);
+      if (on) mountPanel(p, client, ui);
     });
   }
 
@@ -324,15 +335,30 @@ function wireBoutique(root, ui) {
   }
 
   root.querySelectorAll('.shop-cat').forEach(function (catEl) {
-    catEl.querySelector('.shop-cat-btn').addEventListener('click', function () {
+    var hasSubs = !!catEl.querySelector('.shop-subcats');
+    catEl.querySelector('.shop-cat-btn').addEventListener('click', function (e) {
+      e.stopPropagation();
+      var wasOpen = catEl.classList.contains('is-open');
       activate(catEl.dataset.cat);
+      closeMenus();
+      // On ouvre le menu déroulant seulement s'il était fermé.
+      if (hasSubs && !wasOpen) {
+        catEl.classList.add('is-open');
+        catEl.querySelector('.shop-cat-btn').setAttribute('aria-expanded', 'true');
+      }
     });
     catEl.querySelectorAll('.shop-subcat-btn').forEach(function (sb) {
       sb.addEventListener('click', function (e) {
         e.stopPropagation();
         filterSub(catEl, sb.dataset.sub);
+        closeMenus(); // la liste se referme après le choix
       });
     });
+  });
+
+  // Clic en dehors d'une catégorie : on referme les menus déroulants.
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.shop-cat')) closeMenus();
   });
 }
 
