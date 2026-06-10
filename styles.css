@@ -547,7 +547,7 @@ em {
 .product-modal[hidden] { display: none; }
 .product-modal-box {
   position: relative;
-  background: var(--cream);
+  background: #ffffff;
   border-radius: var(--radius);
   max-width: 880px;
   width: 100%;
