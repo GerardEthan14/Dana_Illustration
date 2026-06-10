@@ -1193,9 +1193,40 @@ em {
   padding: 4rem 1rem;
 }
 
-/* Panier flottant natif de Shopify : c'est LE bouton panier du site, présent
-   et cliquable sur chaque page (ouverture du tiroir, persistance et compteur
-   gérés par Shopify). On a retiré l'icône panier custom de l'en-tête. */
+/* Bouton panier flottant (le nôtre) : présent sur chaque page, toujours
+   visible, ouvre le tiroir Shopify via l'API officielle. Il remplace le bouton
+   natif de Shopify (masqué ci-dessous) pour un rendu fiable et maîtrisé. */
+.floating-cart {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 0.95rem;
+  background: var(--mustard, #ecd080);
+  color: var(--olive-dark, #74550d);
+  border: 1.5px solid var(--olive, #74550d);
+  border-radius: var(--radius-pill, 40px);
+  box-shadow: 0 6px 18px rgba(45, 27, 14, 0.18);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.floating-cart:hover { background: #d4bb73; transform: translateY(-2px); }
+.floating-cart .cart-count {
+  background: var(--olive, #74550d);
+  color: var(--cream, #fdf6e9);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.05rem 0.45rem;
+  border-radius: var(--radius-pill, 40px);
+  min-width: 1.1rem;
+  text-align: center;
+}
+
+/* On masque le toggle natif de Shopify : notre bouton flottant le remplace. */
+iframe.shopify-buy-frame--toggle { display: none !important; }
 
 /* ---- Fenêtre de recherche produits ---- */
 .search-overlay {
