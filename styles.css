@@ -362,7 +362,7 @@ em {
 
 .hero-text {
   position: absolute;
-  top: 15%;
+  top: 11%;
   left: 50%;
   transform: translateX(-50%);
   width: min(48rem, 92%);
@@ -1411,7 +1411,7 @@ em {
     position: static;
     transform: none;
     width: auto;
-    margin: 0 auto 1.5rem;
+    margin: 2rem auto 1.5rem;
     padding: 0 1rem;
   }
   .portfolio-teaser-inner {
