@@ -25,12 +25,27 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
 // Injecté en JS (le pied de page est répété sur chaque page) ; les pastilles
 // texte présentes dans le HTML servent de repli si le JS ne s'exécute pas.
 (function () {
-  // Réseaux sociaux. Ajoute/complète les liens ici quand tu as les autres URL.
+  // Réseaux sociaux de Dana.
   var SOCIALS = [
     {
       name: 'Instagram',
-      href: 'https://instagram.com/dana_illustration',
+      href: 'https://www.instagram.com/dana.illustration',
       svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>'
+    },
+    {
+      name: 'TikTok',
+      href: 'https://www.tiktok.com/@dana_illustration',
+      svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16.5 3c.32 2.04 1.46 3.26 3.5 3.5v2.62c-1.18.12-2.2-.27-3.4-1.01v6.27a5.49 5.49 0 1 1-5.49-5.49c.26 0 .51.02.76.06v2.7a2.8 2.8 0 1 0 1.96 2.67V3h2.71z"/></svg>'
+    },
+    {
+      name: 'Facebook',
+      href: 'https://www.facebook.com/share/18yYLM9iJB/',
+      svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 21v-7.02h2.36l.35-2.74h-2.71V9.49c0-.79.22-1.33 1.36-1.33h1.45V5.71c-.25-.03-1.11-.11-2.11-.11-2.09 0-3.52 1.27-3.52 3.62v2.02H8.31v2.74h2.37V21h2.82z"/></svg>'
+    },
+    {
+      name: 'Pinterest',
+      href: 'https://pin.it/4JD7ZXP4x',
+      svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 3a9 9 0 0 0-3.28 17.38c-.08-.74-.15-1.88.03-2.69l1.08-4.58s-.27-.55-.27-1.37c0-1.28.74-2.24 1.67-2.24.79 0 1.17.59 1.17 1.3 0 .79-.5 1.98-.77 3.08-.22.93.47 1.68 1.38 1.68 1.66 0 2.94-1.75 2.94-4.28 0-2.24-1.61-3.8-3.9-3.8a4.05 4.05 0 0 0-4.22 4.06c0 .8.31 1.67.69 2.14.08.09.09.17.06.27l-.25 1.02c-.04.16-.13.2-.3.12-1.12-.52-1.82-2.16-1.82-3.48 0-2.83 2.06-5.43 5.94-5.43 3.12 0 5.54 2.22 5.54 5.19 0 3.1-1.95 5.59-4.66 5.59-.91 0-1.76-.47-2.06-1.03l-.56 2.13c-.2.78-.75 1.76-1.12 2.36A9 9 0 1 0 12 3z"/></svg>'
     }
   ];
 
@@ -73,6 +88,14 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
     ) }
   ];
 
+  // Liens vers les pages légales (ajoutés au pied de page de chaque page).
+  var LEGAL = [
+    { name: 'Mentions légales', href: 'mentions-legales.html' },
+    { name: 'CGV', href: 'cgv.html' },
+    { name: 'Confidentialité', href: 'confidentialite.html' },
+    { name: 'Retours & remboursements', href: 'retours.html' }
+  ];
+
   function enhanceFooter() {
     document.querySelectorAll('.site-footer').forEach(function (footer) {
       // Logos de paiement
@@ -93,6 +116,16 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
         }).join('');
         if (pay) inner.insertBefore(nav, pay);
         else inner.appendChild(nav);
+      }
+      // Liens légaux (sous la ligne principale du pied de page)
+      if (!footer.querySelector('.footer-legal')) {
+        var legal = document.createElement('nav');
+        legal.className = 'footer-legal';
+        legal.setAttribute('aria-label', 'Informations légales');
+        legal.innerHTML = LEGAL.map(function (l) {
+          return '<a href="' + l.href + '">' + l.name + '</a>';
+        }).join('');
+        (footer.querySelector('.footer-inner') || footer).appendChild(legal);
       }
     });
   }
