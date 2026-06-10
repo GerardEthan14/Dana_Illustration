@@ -1422,7 +1422,7 @@ em {
     position: static;
     transform: none;
     width: auto;
-    margin: 0.75rem auto 0.6rem;
+    margin: 1.6rem auto 0.6rem;
     padding: 0 1rem;
   }
   .hero-subtitle { font-size: 0.82rem; max-width: 28rem; }
