@@ -840,6 +840,35 @@ em {
 .pay-maestro { background: linear-gradient(90deg, #0099DF 0 50%, #ED0006 50% 100%); border: none; min-width: 2.4rem; height: 1.4rem; }
 .pay-visa { background: #1A1F71; color: #fff; }
 
+/* Logos de paiement (rendus via SVG par le JS) */
+.footer-payments .pay { display: flex; }
+.footer-payments .pay svg {
+  display: block;
+  height: 24px;
+  width: 40px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(45, 27, 14, 0.10);
+}
+
+/* Barre réseaux sociaux du pied de page */
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  color: var(--cream);
+  background: var(--olive);
+  transition: background 0.2s, transform 0.2s;
+}
+.footer-social a:hover { background: var(--olive-dark); transform: translateY(-2px); }
+
 /* ============================================
    About
    ============================================ */

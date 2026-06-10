@@ -21,6 +21,88 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
   });
 });
 
+// ===== Pied de page : vrais logos de paiement + réseaux sociaux =====
+// Injecté en JS (le pied de page est répété sur chaque page) ; les pastilles
+// texte présentes dans le HTML servent de repli si le JS ne s'exécute pas.
+(function () {
+  // Réseaux sociaux. Ajoute/complète les liens ici quand tu as les autres URL.
+  var SOCIALS = [
+    {
+      name: 'Instagram',
+      href: 'https://instagram.com/dana_illustration',
+      svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>'
+    }
+  ];
+
+  // Logos de paiement (SVG inline, rendus reconnaissables et homogènes).
+  var tile = function (inner, bg) {
+    return '<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect width="40" height="24" rx="4" fill="' + (bg || '#ffffff') + '"/>' + inner + '</svg>';
+  };
+  var PAYMENTS = [
+    { name: 'Apple Pay', svg: tile(
+      '<path transform="translate(7.5 5.2) scale(0.5)" fill="#000" d="M9.6 3.2c.5-.6.8-1.4.7-2.2-.7 0-1.6.5-2.1 1.1-.5.5-.9 1.4-.7 2.2.8.06 1.6-.4 2.1-1.1zm.7 1.2c-1.2-.07-2.2.66-2.7.66-.6 0-1.4-.63-2.3-.62-1.2.02-2.3.69-2.9 1.74-1.2 2.1-.3 5.2.9 6.9.6.83 1.3 1.76 2.2 1.73.9-.04 1.2-.57 2.3-.57s1.4.57 2.3.55c1-.02 1.6-.85 2.2-1.68.7-.96.98-1.9.99-1.95-.02-.01-1.9-.73-1.92-2.9-.02-1.81 1.48-2.68 1.55-2.72-.85-1.25-2.17-1.39-2.64-1.42z"/>' +
+      '<text x="23" y="16" font-family="Helvetica,Arial,sans-serif" font-size="9" font-weight="600" fill="#000">Pay</text>'
+    ) },
+    { name: 'Bancontact', svg: tile(
+      '<text x="20" y="15.5" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="7" font-weight="700" fill="#005498">Bancontact</text>'
+    ) },
+    { name: 'Google Pay', svg: tile(
+      '<text x="11" y="16" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="11" font-weight="700" fill="#4285F4">G</text>' +
+      '<text x="26" y="16" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="9" font-weight="600" fill="#5F6368">Pay</text>'
+    ) },
+    { name: 'Mastercard', svg: tile(
+      '<circle cx="16" cy="12" r="6.2" fill="#EB001B"/>' +
+      '<circle cx="24" cy="12" r="6.2" fill="#F79E1B" fill-opacity="0.92"/>'
+    ) },
+    { name: 'Maestro', svg: tile(
+      '<circle cx="16" cy="12" r="6.2" fill="#0099DF"/>' +
+      '<circle cx="24" cy="12" r="6.2" fill="#ED0006" fill-opacity="0.9"/>'
+    ) },
+    { name: 'Klarna', svg: tile(
+      '<text x="20" y="16" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="8.5" font-weight="700" fill="#17120F">Klarna</text>',
+      '#FFB3C7'
+    ) },
+    { name: 'UnionPay', svg: tile(
+      '<rect x="6" y="6" width="9" height="12" rx="2" fill="#E21836"/>' +
+      '<rect x="15.5" y="6" width="9" height="12" rx="2" fill="#00447C"/>' +
+      '<rect x="25" y="6" width="9" height="12" rx="2" fill="#007B84"/>'
+    ) },
+    { name: 'Visa', svg: tile(
+      '<text x="20" y="16" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="10" font-weight="700" font-style="italic" fill="#1A1F71">VISA</text>'
+    ) }
+  ];
+
+  function enhanceFooter() {
+    document.querySelectorAll('.site-footer').forEach(function (footer) {
+      // Logos de paiement
+      var pay = footer.querySelector('.footer-payments');
+      if (pay) {
+        pay.innerHTML = PAYMENTS.map(function (p) {
+          return '<li class="pay" aria-label="' + p.name + '">' + p.svg + '</li>';
+        }).join('');
+      }
+      // Barre réseaux sociaux (insérée avant les moyens de paiement)
+      var inner = footer.querySelector('.footer-inner');
+      if (inner && SOCIALS.length && !inner.querySelector('.footer-social')) {
+        var nav = document.createElement('nav');
+        nav.className = 'footer-social';
+        nav.setAttribute('aria-label', 'Réseaux sociaux');
+        nav.innerHTML = SOCIALS.map(function (s) {
+          return '<a href="' + s.href + '" target="_blank" rel="noopener" aria-label="' + s.name + '">' + s.svg + '</a>';
+        }).join('');
+        if (pay) inner.insertBefore(nav, pay);
+        else inner.appendChild(nav);
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', enhanceFooter);
+  } else {
+    enhanceFooter();
+  }
+})();
+
 /* ============================================================
    Boutique pilotée par les collections Shopify
    ------------------------------------------------------------
