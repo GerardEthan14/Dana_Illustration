@@ -132,8 +132,17 @@ function numericId(id) {
   return m ? m[1] : s;
 }
 
+// Lit un éventuel numéro d'ordre en tête d'un nom (« 1 Nouveautés », « 2. Prints »,
+// « 3 - Stickers »…) : renvoie l'ordre pour le tri et le libellé SANS le numéro.
+function parseOrdered(name) {
+  var s = (name || '').trim();
+  var m = s.match(/^(\d+)\s*[-.).\]]?\s*(.+)$/);
+  if (m) return { order: parseInt(m[1], 10), label: m[2].trim() };
+  return { order: 1e9, label: s };
+}
+
 // Regroupe les collections en catégories (parent) + sous-catégories (enfant)
-// d'après la convention "Parent / Enfant".
+// d'après la convention "Parent / Enfant", triées par numéro de tête (masqué).
 function groupCollections(collections) {
   var order = [];
   var map = {};
@@ -141,15 +150,24 @@ function groupCollections(collections) {
     var title = (col.title || '').trim();
     if (!title) return;
     var parts = title.split(/\s*\/\s*/);
-    var parent = parts[0].trim();
-    var child = parts.length >= 2 ? parts.slice(1).join(' / ').trim() : '';
-    if (!map[parent]) {
-      map[parent] = { label: parent, items: [] };
-      order.push(parent);
+    var p = parseOrdered(parts[0]);
+    var childRaw = parts.length >= 2 ? parts.slice(1).join(' / ').trim() : '';
+    var c = childRaw ? parseOrdered(childRaw) : { order: 1e9, label: '' };
+    if (!map[p.label]) {
+      map[p.label] = { label: p.label, order: p.order, items: [] };
+      order.push(p.label);
     }
-    map[parent].items.push({ id: col.id, sub: child });
+    // On garde le plus petit numéro rencontré pour la catégorie.
+    if (p.order < map[p.label].order) map[p.label].order = p.order;
+    map[p.label].items.push({ id: col.id, sub: c.label, subOrder: c.order });
   });
-  return order.map(function (k) { return map[k]; });
+  var groups = order.map(function (k) { return map[k]; });
+  // Tri des catégories par numéro, puis alphabétique pour celles sans numéro.
+  groups.sort(function (a, b) { return (a.order - b.order) || a.label.localeCompare(b.label); });
+  groups.forEach(function (g) {
+    g.items.sort(function (a, b) { return (a.subOrder - b.subOrder) || a.sub.localeCompare(b.sub); });
+  });
+  return groups;
 }
 
 // ===== Fiche produit en popup (sur NOTRE site, même panier Shopify) =====
@@ -605,7 +623,7 @@ function wireBoutique(root, client, ui) {
     var empty = '<p class="shop-empty">Bientôt de nouvelles créations 🌿</p>';
     client.collection.fetchAll(250).then(function (cols) {
       var col = (cols || []).filter(function (c) {
-        return (c.title || '').trim().toLowerCase() === wanted;
+        return parseOrdered(c.title || '').label.trim().toLowerCase() === wanted;
       })[0];
       if (!col) { featuredHost.innerHTML = empty; return; }
       return client.collection.fetchWithProducts(col.id, { productsFirst: 12 }).then(function (c2) {
