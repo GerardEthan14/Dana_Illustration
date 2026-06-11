@@ -661,6 +661,16 @@ function wireBoutique(root, client, ui) {
       }
       buildFeatured(client, ui);
       setupSearch(client, ui);
+
+      // Visuels du Refuge Club tirés directement des produits Shopify (Dana
+      // change l'image dans Shopify, le site se met à jour tout seul). L'image
+      // locale reste affichée en secours si la requête échoue.
+      document.querySelectorAll('img[data-refuge-img]').forEach(function (img) {
+        client.product.fetchByHandle(img.getAttribute('data-refuge-img')).then(function (p) {
+          var src = p && p.images && p.images[0] && p.images[0].src;
+          if (src) img.src = src;
+        }).catch(function (e) { console.error('Visuel Refuge :', e); });
+      });
     });
   }
 
