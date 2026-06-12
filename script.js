@@ -92,6 +92,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
   };
   function injectBanner() {
     if (!BANNER.html) return;
+    if (document.body.classList.contains('page-refuge')) return; // pas sur le Refuge Club
     try { if (localStorage.getItem('banner-dismissed') === BANNER.id) return; } catch (e) {}
     if (document.querySelector('.site-banner')) return;
     var bar = document.createElement('div');
@@ -195,6 +196,9 @@ function groupCollections(collections) {
 }
 
 // ===== Fiche produit en popup (sur NOTRE site, même panier Shopify) =====
+// Info d'expédition affichée dans le popup (modifiable ici, '' pour la retirer).
+var PRODUCT_SHIP_NOTE = '🚚 Premières expéditions le vendredi 19 juin.';
+
 // Formate un prix Shopify en « 12,00 € ».
 function formatPrice(p) {
   var v = p && p.variants && p.variants[0];
@@ -231,6 +235,7 @@ function buildProductOverlay() {
     '<div class="product-modal-box">' +
       '<button type="button" class="product-modal-close" aria-label="Fermer">×</button>' +
       '<div class="product-modal-body"></div>' +
+      (PRODUCT_SHIP_NOTE ? '<p class="product-modal-note">' + PRODUCT_SHIP_NOTE + '</p>' : '') +
     '</div>';
   document.body.appendChild(overlay);
   function close() { overlay.hidden = true; document.body.style.overflow = ''; }
