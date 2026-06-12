@@ -82,10 +82,34 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
       }
     });
   }
+  // ---- Bandeau d'annonce en haut du site ----
+  // Pour MODIFIER le message : change le texte ci-dessous. Pour le RETIRER :
+  // mets BANNER.html à '' (chaîne vide). Change BANNER.id pour le réafficher à
+  // ceux qui l'avaient fermé.
+  var BANNER = {
+    id: 'expeditions-2026-06-19',
+    html: '🌿 La boutique est ouverte ! Les premières expéditions partiront le <strong>vendredi 19 juin</strong>. Vous pouvez commander dès maintenant 💛'
+  };
+  function injectBanner() {
+    if (!BANNER.html) return;
+    try { if (localStorage.getItem('banner-dismissed') === BANNER.id) return; } catch (e) {}
+    if (document.querySelector('.site-banner')) return;
+    var bar = document.createElement('div');
+    bar.className = 'site-banner';
+    bar.innerHTML = '<span class="site-banner-text">' + BANNER.html + '</span>' +
+      '<button type="button" class="site-banner-close" aria-label="Fermer">×</button>';
+    document.body.insertBefore(bar, document.body.firstChild);
+    bar.querySelector('.site-banner-close').addEventListener('click', function () {
+      bar.remove();
+      try { localStorage.setItem('banner-dismissed', BANNER.id); } catch (e) {}
+    });
+  }
+
+  function onReady() { enhanceFooter(); injectBanner(); }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', enhanceFooter);
+    document.addEventListener('DOMContentLoaded', onReady);
   } else {
-    enhanceFooter();
+    onReady();
   }
 })();
 
