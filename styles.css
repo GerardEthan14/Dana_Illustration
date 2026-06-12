@@ -1641,3 +1641,34 @@ em {
 @media (max-width: 800px) {
   .refuge-offers-inner { grid-template-columns: 1fr; }
 }
+
+/* Bandeau d'annonce en haut du site */
+.site-banner {
+  position: relative;
+  background: var(--olive);
+  color: var(--cream);
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  padding: 0.65rem 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.site-banner strong, .site-banner a { color: var(--cream); }
+.site-banner-close {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--cream);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.85;
+}
+.site-banner-close:hover { opacity: 1; }
+@media (max-width: 560px) { .site-banner { font-size: 0.82rem; padding: 0.6rem 2.5rem; } }
