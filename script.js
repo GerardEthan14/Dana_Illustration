@@ -41,11 +41,6 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
       name: 'Facebook',
       href: 'https://www.facebook.com/share/18yYLM9iJB/',
       svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 21v-7.02h2.36l.35-2.74h-2.71V9.49c0-.79.22-1.33 1.36-1.33h1.45V5.71c-.25-.03-1.11-.11-2.11-.11-2.09 0-3.52 1.27-3.52 3.62v2.02H8.31v2.74h2.37V21h2.82z"/></svg>'
-    },
-    {
-      name: 'Pinterest',
-      href: 'https://pin.it/4JD7ZXP4x',
-      svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 3a9 9 0 0 0-3.28 17.38c-.08-.74-.15-1.88.03-2.69l1.08-4.58s-.27-.55-.27-1.37c0-1.28.74-2.24 1.67-2.24.79 0 1.17.59 1.17 1.3 0 .79-.5 1.98-.77 3.08-.22.93.47 1.68 1.38 1.68 1.66 0 2.94-1.75 2.94-4.28 0-2.24-1.61-3.8-3.9-3.8a4.05 4.05 0 0 0-4.22 4.06c0 .8.31 1.67.69 2.14.08.09.09.17.06.27l-.25 1.02c-.04.16-.13.2-.3.12-1.12-.52-1.82-2.16-1.82-3.48 0-2.83 2.06-5.43 5.94-5.43 3.12 0 5.54 2.22 5.54 5.19 0 3.1-1.95 5.59-4.66 5.59-.91 0-1.76-.47-2.06-1.03l-.56 2.13c-.2.78-.75 1.76-1.12 2.36A9 9 0 1 0 12 3z"/></svg>'
     }
   ];
 
@@ -88,7 +83,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
   // ceux qui l'avaient fermé.
   var BANNER = {
     id: 'expeditions-2026-06-19',
-    html: '🌿 La boutique est ouverte ! Les premières expéditions partiront le <strong>vendredi 19 juin</strong>. Vous pouvez commander dès maintenant 💛'
+    html: ''
   };
   function injectBanner() {
     if (!BANNER.html) return;
@@ -197,7 +192,7 @@ function groupCollections(collections) {
 
 // ===== Fiche produit en popup (sur NOTRE site, même panier Shopify) =====
 // Info d'expédition affichée dans le popup (modifiable ici, '' pour la retirer).
-var PRODUCT_SHIP_NOTE = '🚚 Premières expéditions le vendredi 19 juin.';
+var PRODUCT_SHIP_NOTE = '';
 
 // Formate un prix Shopify en « 12,00 € ».
 function formatPrice(p) {
@@ -690,16 +685,6 @@ function wireBoutique(root, client, ui) {
       }
       buildFeatured(client, ui);
       setupSearch(client, ui);
-
-      // Visuels du Refuge Club tirés directement des produits Shopify (Dana
-      // change l'image dans Shopify, le site se met à jour tout seul). L'image
-      // locale reste affichée en secours si la requête échoue.
-      document.querySelectorAll('img[data-refuge-img]').forEach(function (img) {
-        client.product.fetchByHandle(img.getAttribute('data-refuge-img')).then(function (p) {
-          var src = p && p.images && p.images[0] && p.images[0].src;
-          if (src) img.src = src;
-        }).catch(function (e) { console.error('Visuel Refuge :', e); });
-      });
     });
   }
 
