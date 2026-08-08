@@ -332,41 +332,26 @@ em {
    Hero
    ============================================ */
 .hero {
-  position: relative;
   text-align: center;
-  padding-top: 1rem;
+  padding: 2.25rem 1.5rem 0;
 }
 
 .hero-stage {
-  position: relative;
-}
-
-.hero-clouds {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  pointer-events: none;
-  user-select: none;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .hero-banner {
   display: block;
   width: 100%;
   height: auto;
-  position: relative;
-  z-index: 1;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-text {
-  position: absolute;
-  top: 11%;
-  left: 50%;
-  transform: translateX(-50%);
   width: min(48rem, 92%);
-  z-index: 2;
+  margin: 0 auto 1.75rem;
 }
 
 .hero h1 {
@@ -1492,25 +1477,8 @@ em {
    Responsive
    ============================================ */
 @media (max-width: 720px) {
-  .hero { padding-top: 1rem; }
-  /* On recadre le vide transparent en haut du visuel (≈17%) pour que l'image
-     colle aux animaux : plus de bande vide ("surplus") sur mobile. */
-  .hero-stage { height: 47vw; overflow: hidden; }
-  .hero-banner {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: bottom;
-  }
-  /* Texte empilé au-dessus, descendu au plus près du visuel (juste au-dessus
-     des animaux, comme sur PC), sans empiéter dessus. */
-  .hero-text {
-    position: static;
-    transform: none;
-    width: auto;
-    margin: 1.6rem auto 0.6rem;
-    padding: 0 1rem;
-  }
+  .hero { padding-top: 1.25rem; }
+  .hero-text { margin-bottom: 1.25rem; }
   .hero-subtitle { font-size: 0.82rem; max-width: 28rem; }
   .portfolio-teaser-inner {
     grid-template-columns: 1fr;
