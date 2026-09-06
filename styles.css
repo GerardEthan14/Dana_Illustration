@@ -2,20 +2,28 @@
    Dana Illustration · Design tokens
    ============================================ */
 :root {
-  --olive: #4A5928;
-  --olive-dark: #3A4520;
-  --olive-soft: #8B9558;
-  --mustard: #D9B85B;
-  --mustard-soft: #E8D098;
-  --cream: #FFFFFF;
-  --cream-warm: #FFFFFF;
+  /* Charte Dana Leriche */
+  --cream: #FBF7EC;        /* crème clair : cartes, header */
+  --cream-warm: #F2E7CB;   /* crème de la charte : fond de page */
+  --orange: #D8560E;       /* accent */
+  --green-light: #B6BD77;
+  --olive: #657007;
+  --green-dark: #283C23;
+  --ink: #1F1E1C;
+
+  /* alias (compatibilité avec les règles existantes) */
+  --olive-dark: var(--green-dark);
+  --olive-soft: var(--green-light);
+  --mustard: var(--orange);
+  --mustard-soft: #F4D9C4;
   --peach: #F5E1CC;
   --peach-light: #FBEEDE;
-  --dark: #2D1B0E;
-  --muted: #6B5D4A;
-  --border: #DDCBA3;
-  --shadow: 0 30px 60px -25px rgba(45, 27, 14, 0.18);
-  --shadow-sm: 0 10px 25px -10px rgba(45, 27, 14, 0.15);
+  --dark: var(--ink);
+  --muted: #6E6553;
+  --border: #DED0AE;
+
+  --shadow: 0 30px 60px -25px rgba(31, 30, 28, 0.20);
+  --shadow-sm: 0 10px 25px -10px rgba(31, 30, 28, 0.16);
   --radius: 1.25rem;
   --radius-sm: 0.75rem;
   --radius-pill: 999px;
@@ -27,7 +35,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Avenir', 'Avenir Next', 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Jost', 'Futura', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--cream-warm);
   color: var(--dark);
   font-size: 16px;
@@ -40,15 +48,16 @@ a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; }
 
 h1, h2 {
-  font-family: 'Shadows Into Light', 'Cause', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
   font-weight: 400;
   line-height: 1.05;
-  letter-spacing: 0.005em;
-  color: var(--olive);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--green-dark);
 }
 
 h3, h4, h5 {
-  font-family: 'Cause', 'Comic Sans MS', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: 0;
@@ -132,17 +141,18 @@ em {
 }
 
 .btn-pill {
-  background: var(--mustard-soft);
-  color: var(--olive-dark);
-  border: 1.5px solid var(--olive);
+  background: var(--orange);
+  color: var(--cream);
+  border: 1.5px solid var(--orange);
   padding: 0.85rem 1.9rem;
   display: inline-block;
-  font-family: 'Cause', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
   font-size: 1rem;
 }
 
 .btn-pill:hover {
-  background: var(--olive);
+  background: var(--green-dark);
+  border-color: var(--green-dark);
   color: var(--cream);
   transform: translateY(-1px);
 }
@@ -163,12 +173,33 @@ em {
    Header / Navigation
    ============================================ */
 .site-header {
-  padding: 1rem 2.5rem;
-  background: var(--cream);
+  padding: 1.15rem 2.5rem 1.35rem;
+  background: var(--cream-warm);
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid rgba(74, 89, 40, 0.08);
+}
+
+/* Séparation « à découper » : pointillés + ciseaux */
+.site-header::after {
+  content: '';
+  position: absolute;
+  left: 1.75rem;
+  right: 1.75rem;
+  bottom: 0;
+  border-top: 2.5px dashed var(--ink);
+  opacity: 0.75;
+}
+
+.header-scissors {
+  position: absolute;
+  right: 7%;
+  bottom: -0.68rem;
+  font-size: 1.2rem;
+  line-height: 1;
+  background: var(--cream-warm);
+  padding: 0 0.4rem;
+  user-select: none;
 }
 
 .nav {
@@ -200,8 +231,9 @@ em {
 }
 
 .nav-links a {
-  font-size: 0.92rem;
-  color: var(--dark);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  color: var(--ink);
   position: relative;
   padding: 0.25rem 0;
   transition: color 0.2s;
@@ -212,16 +244,16 @@ em {
   position: absolute;
   left: 0; right: 0; bottom: -2px;
   height: 1.5px;
-  background: var(--olive);
+  background: var(--orange);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.25s;
 }
 
-.nav-links a:hover { color: var(--olive); }
+.nav-links a:hover { color: var(--orange); }
 .nav-links a:hover::after,
 .nav-links a.active::after { transform: scaleX(1); }
-.nav-links a.active { color: var(--olive); }
+.nav-links a.active { color: var(--orange); }
 
 .nav-links a.nav-refuge {
   display: inline-flex;
@@ -262,6 +294,17 @@ em {
 
 .lang-switcher button:hover { color: var(--olive); }
 .lang-switcher .lang-active { color: var(--olive); font-weight: 600; }
+
+.nav-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  color: var(--ink);
+  transition: color 0.2s, transform 0.2s;
+}
+.nav-social:hover { color: var(--orange); transform: translateY(-2px); }
 
 .search-btn,
 .cart-btn {
@@ -329,44 +372,152 @@ em {
 }
 
 /* ============================================
-   Hero
+   Hero — grand titre sur illustration
    ============================================ */
 .hero {
-  text-align: center;
-  padding: 2.25rem 1.5rem 0;
+  position: relative;
+  min-height: clamp(24rem, 56vh, 34rem);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
-.hero-stage {
-  max-width: 1100px;
-  margin: 0 auto;
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
-.hero-banner {
-  display: block;
+.hero-media img {
   width: 100%;
-  height: auto;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
 }
 
-.hero-text {
-  width: min(48rem, 92%);
-  margin: 0 auto 1.75rem;
+/* voile crème pour garder le titre lisible */
+.hero-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg,
+    rgba(242, 231, 203, 0.94) 0%,
+    rgba(242, 231, 203, 0.80) 32%,
+    rgba(242, 231, 203, 0.28) 58%,
+    rgba(242, 231, 203, 0) 78%);
 }
 
-.hero h1 {
-  font-size: clamp(2rem, 6.5vw, 5.5rem);
-  margin-bottom: 0.9rem;
-  color: var(--olive);
-}
-
-.hero-subtitle {
-  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
-  color: var(--olive-dark);
-  max-width: 34rem;
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--max-w);
   margin: 0 auto;
-  line-height: 1.55;
+  padding: 3rem 2.5rem;
 }
+
+.hero-title {
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 0.92;
+  color: var(--ink);
+  margin: 0;
+}
+
+.hero-role {
+  font-family: 'Jost', sans-serif;
+  font-size: clamp(1rem, 2.2vw, 1.6rem);
+  letter-spacing: 0.42em;
+  text-transform: lowercase;
+  color: var(--green-dark);
+  margin-top: 0.85rem;
+  padding-left: 0.3rem;
+}
+
+/* ============================================
+   Accès rapides (4 pastilles reliées en pointillés)
+   ============================================ */
+.quick-links {
+  padding: 3.5rem 1.5rem 3rem;
+}
+
+.quick-row {
+  position: relative;
+  max-width: 62rem;
+  margin: 0 auto;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* le fil pointillé qui relie les pastilles */
+.quick-row::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 3.4rem;
+  border-top: 2.5px dashed var(--ink);
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.quick-item {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: center;
+}
+
+.quick-btn {
+  display: grid;
+  place-items: center;
+  width: 6.8rem;
+  height: 6.8rem;
+  border-radius: 50%;
+  background: var(--cream-warm);
+  border: 2.5px solid var(--ink);
+  color: var(--ink);
+  transition: background 0.22s, color 0.22s, transform 0.22s;
+}
+
+.quick-btn svg { width: 2.6rem; height: 2.6rem; }
+
+a.quick-btn:hover {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--cream);
+  transform: translateY(-4px);
+}
+
+.quick-label {
+  font-family: 'Comico', 'Jost', sans-serif;
+  font-size: 0.98rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+  line-height: 1.25;
+  max-width: 11rem;
+}
+
+/* pastilles pas encore actives */
+.quick-item.is-soon .quick-btn { cursor: default; opacity: 0.55; }
+.quick-item.is-soon .quick-label { opacity: 0.6; }
+.quick-item.is-soon::after {
+  content: 'bientôt';
+  font-family: 'Jost', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orange);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.quick-item.is-soon:hover::after { opacity: 1; }
 
 /* ============================================
    Le Refuge Club
@@ -591,7 +742,7 @@ em {
 }
 
 .shop-name {
-  font-family: 'Cause', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
   font-size: 1.1rem;
   color: var(--olive-dark);
   margin-bottom: 0.2rem;
@@ -871,7 +1022,7 @@ em {
 .footer-copy {
   font-size: 0.82rem;
   color: var(--muted);
-  font-family: 'Cause', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
 }
 
 /* Liens légaux du pied de page */
@@ -1205,7 +1356,7 @@ em {
 }
 
 .shop-cat-btn {
-  font-family: 'Cause', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
   font-size: 1.2rem;
   padding: 0.7rem 2rem;
   border: none;
@@ -1257,7 +1408,7 @@ em {
   border: none;
   border-radius: var(--radius-sm);
   background: transparent;
-  font-family: 'Cause', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
   font-size: 1rem;
   color: var(--dark);
   transition: background 0.15s ease;
@@ -1296,7 +1447,7 @@ em {
 .shop-empty,
 .shop-loading {
   text-align: center;
-  font-family: 'Cause', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
   font-size: 1.25rem;
   color: var(--muted);
   padding: 4rem 1rem;
@@ -1444,7 +1595,7 @@ em {
   font-size: 1.2rem;
   color: var(--olive-dark);
   margin-bottom: 0.5rem;
-  font-family: 'Cause', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
 }
 
 .refuge-feature p {
@@ -1477,9 +1628,26 @@ em {
    Responsive
    ============================================ */
 @media (max-width: 720px) {
-  .hero { padding-top: 1.25rem; }
-  .hero-text { margin-bottom: 1.25rem; }
-  .hero-subtitle { font-size: 0.82rem; max-width: 28rem; }
+  .hero { min-height: 20rem; }
+  .hero-inner { padding: 2.25rem 1.4rem; }
+  .hero-role { letter-spacing: 0.3em; }
+  /* voile plus couvrant : le titre reste lisible sur mobile */
+  .hero-media::after {
+    background: linear-gradient(160deg,
+      rgba(242, 231, 203, 0.95) 0%,
+      rgba(242, 231, 203, 0.80) 45%,
+      rgba(242, 231, 203, 0.35) 75%,
+      rgba(242, 231, 203, 0.15) 100%);
+  }
+  /* les 4 pastilles passent en 2 colonnes, sans le fil pointillé */
+  .quick-row { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
+  .quick-row::before { display: none; }
+  .quick-btn { width: 5.4rem; height: 5.4rem; }
+  .quick-btn svg { width: 2.1rem; height: 2.1rem; }
+  .quick-label { font-size: 0.88rem; }
+  .site-header { padding: 0.9rem 1.25rem 1.15rem; }
+  .site-header::after { left: 1rem; right: 1rem; }
+  .header-scissors { right: 5%; }
   .portfolio-teaser-inner {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -1505,6 +1673,7 @@ em {
   .nav-burger { display: flex; }
   .nav-links {
     position: absolute;
+    z-index: 5;
     top: 100%;
     left: 0;
     right: 0;
@@ -1575,7 +1744,7 @@ em {
   left: 1rem;
   background: var(--olive);
   color: var(--cream);
-  font-family: 'Cause', cursive;
+  font-family: 'Comico', 'Jost', sans-serif;
   font-size: 0.85rem;
   padding: 0.35rem 0.95rem;
   border-radius: var(--radius-pill);
