@@ -33,11 +33,6 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
       svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>'
     },
     {
-      name: 'TikTok',
-      href: 'https://www.tiktok.com/@dana_illustration',
-      svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16.5 3c.32 2.04 1.46 3.26 3.5 3.5v2.62c-1.18.12-2.2-.27-3.4-1.01v6.27a5.49 5.49 0 1 1-5.49-5.49c.26 0 .51.02.76.06v2.7a2.8 2.8 0 1 0 1.96 2.67V3h2.71z"/></svg>'
-    },
-    {
       name: 'Facebook',
       href: 'https://www.facebook.com/share/18yYLM9iJB/',
       svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 21v-7.02h2.36l.35-2.74h-2.71V9.49c0-.79.22-1.33 1.36-1.33h1.45V5.71c-.25-.03-1.11-.11-2.11-.11-2.09 0-3.52 1.27-3.52 3.62v2.02H8.31v2.74h2.37V21h2.82z"/></svg>'
@@ -727,24 +722,75 @@ function wireBoutique(root, client, ui) {
 
 // ===== Galerie d'art : salles + popup d'un tableau =====
 (function () {
+  // Dimensions des tableaux, en multiples de l'unité --u du CSS.
+  // Chaque salle utilise les mêmes valeurs : la galerie garde donc toujours
+  // exactement la même taille, quelles que soient les images affichées.
+  var SIZES_DESKTOP = [ // 6 par salle, en 2 rangées de 3
+    [2.45, 1.72], [1.85, 2.02], [2.25, 1.58],
+    [2.05, 1.86], [2.50, 1.64], [1.80, 1.94]
+  ];
+  var SIZES_MOBILE = [  // 4 par salle, en 2 rangées de 2
+    [2.30, 1.74], [1.90, 2.02],
+    [2.05, 1.60], [2.15, 1.90]
+  ];
+
   function init() {
     var museum = document.querySelector('.museum');
     if (!museum) return;
 
-    // --- passer d'une salle à l'autre ---
-    var rooms = museum.querySelectorAll('.museum-room');
+    var stage = museum.querySelector('.museum-rooms');
+    var arts = Array.prototype.slice.call(museum.querySelectorAll('.artwork'));
     var next = museum.querySelector('.museum-next');
-    var current = 0;
-    if (next && rooms.length > 1) {
+    var sign = next && next.querySelector('.museum-sign');
+    var page = 0;
+    var lastPerPage = 0;
+
+    function perPage() {
+      return window.matchMedia('(max-width: 720px)').matches ? 4 : 6;
+    }
+
+    function render(animate) {
+      var n = perPage();
+      var sizes = n === 4 ? SIZES_MOBILE : SIZES_DESKTOP;
+      var pages = Math.ceil(arts.length / n);
+      if (page > pages - 1) page = pages - 1;
+
+      arts.forEach(function (art, i) {
+        var visible = Math.floor(i / n) === page;
+        art.hidden = !visible;
+        if (visible) {
+          var s = sizes[i % n];
+          art.style.setProperty('--w', s[0]);
+          art.style.setProperty('--h', s[1]);
+        }
+      });
+
+      if (sign) {
+        sign.textContent = (page === pages - 1)
+          ? 'revenir à l\u2019entrée →'
+          : 'continuer la visite →';
+      }
+      if (animate) {   // relance l'animation d'avancée
+        stage.classList.remove('is-turning');
+        void stage.offsetWidth;
+        stage.classList.add('is-turning');
+      }
+    }
+
+    if (next) {
       next.addEventListener('click', function () {
-        rooms[current].classList.remove('is-active');
-        current = (current + 1) % rooms.length;
-        rooms[current].classList.add('is-active');
-        var last = current === rooms.length - 1;
-        next.querySelector('.museum-sign').textContent =
-          last ? 'revenir à l’entrée →' : 'continuer la visite →';
+        page = (page + 1) % Math.ceil(arts.length / perPage());
+        render(true);
       });
     }
+
+    // on recalcule seulement si l'on change de format (téléphone <-> ordinateur)
+    window.addEventListener('resize', function () {
+      if (perPage() !== lastPerPage) { lastPerPage = perPage(); page = 0; render(false); }
+    });
+
+    lastPerPage = perPage();
+    render(false);
 
     // --- popup ---
     var modal = document.querySelector('.artwork-modal');
@@ -771,7 +817,7 @@ function wireBoutique(root, client, ui) {
       if (opener) { opener.focus(); opener = null; }
     }
 
-    museum.querySelectorAll('.artwork').forEach(function (btn) {
+    arts.forEach(function (btn) {
       btn.addEventListener('click', function () { open(btn); });
     });
     modal.querySelector('.artwork-modal-close').addEventListener('click', close);

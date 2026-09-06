@@ -1873,18 +1873,18 @@ a.quick-btn:hover {
   padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 3.5rem) 0;
 }
 
-.museum-rooms { position: relative; }
-
-.museum-room { display: none; }
-
-.museum-room.is-active {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+.museum-rooms {
+  /* unité de base : tout le décor se met à l'échelle avec l'écran */
+  --u: clamp(3.1rem, 5.4vw, 5.6rem);
+  display: grid;
+  grid-template-columns: repeat(3, auto);
   justify-content: center;
-  gap: clamp(1rem, 3vw, 2.6rem);
-  animation: roomIn 0.45s ease;
+  align-items: center;
+  justify-items: center;
+  gap: clamp(0.9rem, 2.2vw, 2.2rem);
 }
+
+.museum-rooms.is-turning { animation: roomIn 0.45s ease; }
 
 /* on avance d'une salle à l'autre */
 @keyframes roomIn {
@@ -1892,10 +1892,9 @@ a.quick-btn:hover {
   to   { opacity: 1; transform: none; }
 }
 
-/* les tableaux, accrochés en cimaise (tailles variées) */
+/* les tableaux : dimensions fixes, donc une salle ne bouge jamais */
 .artwork {
-  flex: 0 0 auto;
-  width: 21%;
+  display: block;
   padding: 0;
   border: none;
   background: none;
@@ -1903,14 +1902,8 @@ a.quick-btn:hover {
   transition: transform 0.25s ease;
 }
 
-.museum-room .artwork:nth-child(1) { width: 22%; transform: translateY(-0.9rem); }
-.museum-room .artwork:nth-child(2) { width: 17%; transform: translateY(1.1rem); }
-.museum-room .artwork:nth-child(3) { width: 20%; transform: translateY(-0.4rem); }
-.museum-room .artwork:nth-child(4) { width: 15%; transform: translateY(1.5rem); }
-.museum-room .artwork:nth-child(5) { width: 19%; transform: translateY(-1.2rem); }
-.museum-room .artwork:nth-child(6) { width: 16%; transform: translateY(0.6rem); }
-
-.museum-room .artwork:hover { transform: translateY(-0.4rem) scale(1.03); }
+.artwork[hidden] { display: none; }
+.artwork:hover { transform: translateY(-0.4rem) scale(1.03); }
 
 /* le vrai cadre de Dana, en border-image */
 .artwork-frame {
@@ -1921,7 +1914,12 @@ a.quick-btn:hover {
   filter: drop-shadow(0 10px 14px rgba(31, 30, 28, 0.22));
 }
 
-.artwork-frame img { display: block; width: 100%; height: auto; }
+.artwork-frame img {
+  display: block;
+  width: calc(var(--w, 2) * var(--u));
+  height: calc(var(--h, 1.7) * var(--u));
+  object-fit: cover;
+}
 
 /* le sol : le visiteur et le panneau */
 .museum-ground {
@@ -2040,14 +2038,7 @@ a.quick-btn:hover {
 
 @media (max-width: 720px) {
   .museum { padding: 2rem 1rem 0; }
-  .museum-room.is-active { gap: 1.1rem; }
-  .museum-room .artwork,
-  .museum-room .artwork:nth-child(1),
-  .museum-room .artwork:nth-child(2),
-  .museum-room .artwork:nth-child(3),
-  .museum-room .artwork:nth-child(4),
-  .museum-room .artwork:nth-child(5),
-  .museum-room .artwork:nth-child(6) { width: 43%; transform: none; }
+  .museum-rooms { grid-template-columns: repeat(2, auto); --u: clamp(3.4rem, 12vw, 5rem); }
   .artwork-frame { border-width: 10px; border-image-width: 10px; }
   .museum-sign { font-size: 0.82rem; padding: 0.45rem 0.8rem; }
 }
