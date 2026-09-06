@@ -1843,3 +1843,211 @@ a.quick-btn:hover {
   font-size: 0.88rem;
   color: var(--olive);
 }
+
+/* ============================================
+   Galerie d'art — le musée
+   ============================================ */
+.gallery { padding: 4rem 1.5rem 4.5rem; }
+
+.gallery-heading {
+  text-align: center;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.gallery-intro {
+  text-align: center;
+  color: var(--muted);
+  margin: 0.6rem auto 2.5rem;
+  max-width: 34rem;
+}
+
+/* la salle : mur + parquet */
+.museum {
+  position: relative;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: url('photo/galerie-mur.jpg') center bottom / cover no-repeat;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 3.5rem) 0;
+}
+
+.museum-rooms { position: relative; }
+
+.museum-room { display: none; }
+
+.museum-room.is-active {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2.6rem);
+  animation: roomIn 0.45s ease;
+}
+
+/* on avance d'une salle à l'autre */
+@keyframes roomIn {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* les tableaux, accrochés en cimaise (tailles variées) */
+.artwork {
+  flex: 0 0 auto;
+  width: 21%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.museum-room .artwork:nth-child(1) { width: 22%; transform: translateY(-0.9rem); }
+.museum-room .artwork:nth-child(2) { width: 17%; transform: translateY(1.1rem); }
+.museum-room .artwork:nth-child(3) { width: 20%; transform: translateY(-0.4rem); }
+.museum-room .artwork:nth-child(4) { width: 15%; transform: translateY(1.5rem); }
+.museum-room .artwork:nth-child(5) { width: 19%; transform: translateY(-1.2rem); }
+.museum-room .artwork:nth-child(6) { width: 16%; transform: translateY(0.6rem); }
+
+.museum-room .artwork:hover { transform: translateY(-0.4rem) scale(1.03); }
+
+/* le vrai cadre de Dana, en border-image */
+.artwork-frame {
+  display: block;
+  border: 15px solid transparent;
+  border-image: url('photo/galerie-cadre.png') 42 / 15px stretch;
+  background: var(--cream);
+  filter: drop-shadow(0 10px 14px rgba(31, 30, 28, 0.22));
+}
+
+.artwork-frame img { display: block; width: 100%; height: auto; }
+
+/* le sol : le visiteur et le panneau */
+.museum-ground {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+}
+
+.museum-visitor {
+  width: clamp(5rem, 11vw, 8.5rem);
+  height: auto;
+  filter: drop-shadow(0 8px 10px rgba(31, 30, 28, 0.18));
+}
+
+/* panneau « continuer la visite » (provisoire) */
+.museum-next {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0 0 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.museum-next:hover { transform: translateY(-3px); }
+
+.museum-sign {
+  font-family: 'Comico', 'Jost', sans-serif;
+  font-size: 0.95rem;
+  color: #FBF7EC;
+  background: #8B5E34;
+  border: 2.5px solid #6B4423;
+  border-radius: 0.45rem;
+  padding: 0.55rem 1.05rem;
+  transform: rotate(-1.5deg);
+  box-shadow: 0 6px 12px rgba(31, 30, 28, 0.25);
+  white-space: nowrap;
+}
+
+.museum-post {
+  width: 10px;
+  height: 2.4rem;
+  background: linear-gradient(90deg, #6B4423, #8B5E34 45%, #5A381C);
+  border-radius: 0 0 2px 2px;
+}
+
+/* ---- Popup d'un tableau ---- */
+.artwork-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 1rem;
+  background: rgba(31, 30, 28, 0.72);
+  overflow-y: auto;
+}
+
+.artwork-modal[hidden] { display: none; }
+
+.artwork-modal-box {
+  position: relative;
+  background: var(--cream);
+  border-radius: var(--radius);
+  max-width: 62rem;
+  width: 100%;
+  padding: 2.75rem 1.75rem 1.75rem;
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.artwork-modal-img {
+  width: 100%;
+  height: auto;
+  max-height: 74vh;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+.artwork-modal-text h3 {
+  font-family: 'Comico', 'Jost', sans-serif;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  color: var(--green-dark);
+  margin-bottom: 0.7rem;
+}
+
+.artwork-modal-text p { color: var(--ink); line-height: 1.7; }
+
+.artwork-modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.85rem;
+  background: none;
+  border: none;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.artwork-modal-close:hover { color: var(--orange); }
+
+@media (max-width: 860px) {
+  .artwork-modal-box { grid-template-columns: 1fr; }
+  .artwork-modal-img { max-height: 46vh; }
+}
+
+@media (max-width: 720px) {
+  .museum { padding: 2rem 1rem 0; }
+  .museum-room.is-active { gap: 1.1rem; }
+  .museum-room .artwork,
+  .museum-room .artwork:nth-child(1),
+  .museum-room .artwork:nth-child(2),
+  .museum-room .artwork:nth-child(3),
+  .museum-room .artwork:nth-child(4),
+  .museum-room .artwork:nth-child(5),
+  .museum-room .artwork:nth-child(6) { width: 43%; transform: none; }
+  .artwork-frame { border-width: 10px; border-image-width: 10px; }
+  .museum-sign { font-size: 0.82rem; padding: 0.45rem 0.8rem; }
+}
