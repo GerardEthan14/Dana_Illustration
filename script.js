@@ -429,6 +429,22 @@ function wireBoutique(root, client, ui) {
     "imgWrapper": { "padding-top": "calc(75% + 15px)", "position": "relative", "height": "0" }
   };
 
+  // Référence du panier Shopify, pour l'ouvrir depuis l'icône du header.
+  var cartComponent = null;
+
+  // Ouvre le tiroir panier : API officielle, puis replis.
+  function openCart() {
+    try { if (cartComponent && typeof cartComponent.open === 'function') { cartComponent.open(); return; } } catch (e) {}
+    try {
+      var frames = document.querySelectorAll('iframe');
+      for (var i = 0; i < frames.length; i++) {
+        var doc = frames[i].contentDocument;
+        var btn = doc && doc.querySelector('.shopify-buy__cart-toggle');
+        if (btn) { btn.click(); return; }
+      }
+    } catch (e) {}
+  }
+
   // Met à jour le compteur du panier (si un élément .cart-count existe).
   function updateCartCount(cartComp) {
     try {
@@ -675,10 +691,20 @@ function wireBoutique(root, client, ui) {
       // Crée le panier Shopify (avec son bouton/toggle natif) sur TOUTES les
       // pages : c'est le panier du site, qui ouvre le tiroir et persiste.
       try {
-        ui.createComponent('cart', {
+        var cartPromise = ui.createComponent('cart', {
           options: { cart: brandCart, toggle: brandToggle }
         });
+        if (cartPromise && typeof cartPromise.then === 'function') {
+          cartPromise.then(function (c) { cartComponent = c; updateCartCount(c); });
+        } else if (cartPromise) {
+          cartComponent = cartPromise; updateCartCount(cartPromise);
+        }
       } catch (e) { console.error('Init panier Shopify :', e); }
+
+      // Icône panier du header
+      document.querySelectorAll('.cart-btn').forEach(function (b) {
+        b.addEventListener('click', openCart);
+      });
 
       if (boutiqueRoot) {
         buildBoutique(boutiqueRoot, client, ui);

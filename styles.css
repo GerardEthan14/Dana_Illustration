@@ -180,27 +180,46 @@ em {
   z-index: 100;
 }
 
-/* Séparation « à découper » : pointillés + ciseaux */
-.site-header::after {
-  content: '';
+/* Séparation « à découper » : pointillés qui s'arrêtent au ciseau */
+.header-cut {
   position: absolute;
   left: 1.75rem;
   right: 1.75rem;
   bottom: 0;
-  border-top: 2.5px dashed var(--ink);
-  opacity: 0.75;
+  height: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  pointer-events: none;
 }
 
-.header-scissors {
-  position: absolute;
-  right: 7%;
-  bottom: -0.68rem;
-  font-size: 1.2rem;
-  line-height: 1;
-  background: var(--cream-warm);
-  padding: 0 0.4rem;
-  user-select: none;
+.header-cut-line {
+  flex: 0 1 88%;
+  height: 0;
+  border-top: 2.5px dashed var(--ink);
+  opacity: 0.7;
 }
+
+.header-cut-scissors {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--ink);
+  opacity: 0.85;
+}
+
+/* Petit nom de marque à gauche du menu */
+.brand {
+  font-family: 'Comico', 'Jost', sans-serif;
+  font-size: 1.08rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.brand:hover { color: var(--orange); }
 
 .nav {
   display: flex;
@@ -306,44 +325,36 @@ em {
 }
 .nav-social:hover { color: var(--orange); transform: translateY(-2px); }
 
-.search-btn,
 .cart-btn {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  background: var(--mustard-soft);
-  border: 1.5px solid var(--olive);
-  border-radius: var(--radius-pill);
-  padding: 0.45rem 0.9rem;
-  font-size: 0.85rem;
-  color: var(--olive-dark);
-  transition: all 0.2s;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--ink);
+  transition: color 0.2s, transform 0.2s;
 }
 
-.search-btn { padding: 0.45rem; aspect-ratio: 1; }
-
-.search-btn:hover,
-.cart-btn:hover {
-  background: var(--olive);
-  color: var(--cream);
-}
+.cart-btn:hover { color: var(--orange); transform: translateY(-2px); }
 
 .cart-count {
-  background: var(--olive);
+  position: absolute;
+  top: -0.15rem;
+  right: -0.3rem;
+  background: var(--orange);
   color: var(--cream);
-  font-size: 0.7rem;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.62rem;
   font-weight: 600;
-  padding: 0.05rem 0.45rem;
+  line-height: 1;
+  padding: 0.15rem 0.32rem;
   border-radius: var(--radius-pill);
-  min-width: 1.1rem;
+  min-width: 1rem;
   text-align: center;
-  transition: all 0.2s;
-}
-
-.cart-btn:hover .cart-count {
-  background: var(--cream);
-  color: var(--olive);
 }
 
 /* Mobile menu toggle (hidden on desktop) */
@@ -414,6 +425,13 @@ em {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 3rem 2.5rem;
+  display: flex;
+}
+
+/* bloc centré sur lui-même, mais placé à gauche du héros */
+.hero-copy {
+  width: min(28rem, 50%);
+  text-align: center;
 }
 
 .hero-title {
@@ -430,7 +448,7 @@ em {
   text-transform: lowercase;
   color: var(--green-dark);
   margin-top: 0.85rem;
-  padding-left: 0.3rem;
+  padding-left: 0.42em;  /* compense l'interlettrage pour un centrage optique */
 }
 
 /* ============================================
@@ -455,12 +473,15 @@ em {
 .quick-row::before {
   content: '';
   position: absolute;
-  left: 8%;
-  right: 8%;
+  left: -3.5rem;
+  right: -3.5rem;
   top: 3.4rem;
   border-top: 2.5px dashed var(--ink);
-  opacity: 0.7;
+  opacity: 0.6;
   z-index: 0;
+  /* le trait s'estompe avant et après la rangée */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 13%, #000 87%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 13%, #000 87%, transparent 100%);
 }
 
 .quick-item {
@@ -1646,8 +1667,10 @@ a.quick-btn:hover {
   .quick-btn svg { width: 2.1rem; height: 2.1rem; }
   .quick-label { font-size: 0.88rem; }
   .site-header { padding: 0.9rem 1.25rem 1.15rem; }
-  .site-header::after { left: 1rem; right: 1rem; }
-  .header-scissors { right: 5%; }
+  .header-cut { left: 1rem; right: 1rem; }
+  .header-cut-line { flex-basis: 84%; }
+  .brand { font-size: 0.95rem; }
+  .hero-copy { width: 100%; }
   .portfolio-teaser-inner {
     grid-template-columns: 1fr;
     gap: 2rem;
