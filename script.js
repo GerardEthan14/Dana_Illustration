@@ -724,3 +724,66 @@ function wireBoutique(root, client, ui) {
     document.head.appendChild(s);
   }
 })();
+
+// ===== Galerie d'art : salles + popup d'un tableau =====
+(function () {
+  function init() {
+    var museum = document.querySelector('.museum');
+    if (!museum) return;
+
+    // --- passer d'une salle à l'autre ---
+    var rooms = museum.querySelectorAll('.museum-room');
+    var next = museum.querySelector('.museum-next');
+    var current = 0;
+    if (next && rooms.length > 1) {
+      next.addEventListener('click', function () {
+        rooms[current].classList.remove('is-active');
+        current = (current + 1) % rooms.length;
+        rooms[current].classList.add('is-active');
+        var last = current === rooms.length - 1;
+        next.querySelector('.museum-sign').textContent =
+          last ? 'revenir à l’entrée →' : 'continuer la visite →';
+      });
+    }
+
+    // --- popup ---
+    var modal = document.querySelector('.artwork-modal');
+    if (!modal) return;
+    var img = modal.querySelector('.artwork-modal-img');
+    var title = modal.querySelector('.artwork-modal-text h3');
+    var desc = modal.querySelector('.artwork-modal-text p');
+    var opener = null;
+
+    function open(btn) {
+      opener = btn;
+      img.src = btn.getAttribute('data-full');
+      img.alt = btn.getAttribute('data-title') || '';
+      title.textContent = btn.getAttribute('data-title') || '';
+      desc.textContent = btn.getAttribute('data-desc') || '';
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('.artwork-modal-close').focus();
+    }
+
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (opener) { opener.focus(); opener = null; }
+    }
+
+    museum.querySelectorAll('.artwork').forEach(function (btn) {
+      btn.addEventListener('click', function () { open(btn); });
+    });
+    modal.querySelector('.artwork-modal-close').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) close();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
