@@ -386,57 +386,30 @@ em {
    Hero — grand titre sur illustration
    ============================================ */
 .hero {
-  position: relative;
   background: var(--cream-warm);
-  overflow: hidden;
 }
 
-.hero-inner {
-  position: relative;
-  width: 100%;
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 2.5rem 2.5rem 0;
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  align-items: center;
-  gap: clamp(1rem, 4vw, 3rem);
-}
-
-/* bloc centré sur lui-même, mais placé à gauche du héros */
-.hero-copy {
-  text-align: center;
-}
-
-.hero-art {
-  position: relative;
-}
-
-.hero-art img {
+/* bannière : le titre est dessiné dans l'illustration */
+.hero-banner {
   display: block;
   width: 100%;
   height: auto;
-  max-height: clamp(20rem, 52vh, 32rem);
-  object-fit: contain;
-  object-position: bottom right;
-  margin-left: auto;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 
-.hero-title {
-  font-size: clamp(3rem, 9vw, 7rem);
-  line-height: 0.92;
-  color: var(--ink);
-  margin: 0;
-}
-
-.hero-role {
-  font-family: 'Jost', sans-serif;
-  font-size: clamp(1rem, 2.2vw, 1.6rem);
-  letter-spacing: 0.42em;
-  text-transform: lowercase;
-  color: var(--green-dark);
-  margin-top: 0.85rem;
-  padding-left: 0.42em;  /* compense l'interlettrage pour un centrage optique */
+/* masqué à l'écran mais lu par les lecteurs d'écran et les moteurs de recherche */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ============================================
@@ -1715,18 +1688,6 @@ a.quick-btn:hover {
    Responsive
    ============================================ */
 @media (max-width: 720px) {
-  .hero-inner {
-    grid-template-columns: 1fr;
-    padding: 1.75rem 1.4rem 0;
-    gap: 1rem;
-  }
-  .hero-role { letter-spacing: 0.3em; }
-  .hero-art img {
-    max-height: none;
-    max-width: 26rem;
-    margin: 0 auto;
-    object-position: bottom center;
-  }
   /* les 4 pastilles passent en 2 colonnes, sans le fil pointillé */
   .quick-row { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
   .quick-row::before { display: none; }
