@@ -387,51 +387,39 @@ em {
    ============================================ */
 .hero {
   position: relative;
-  min-height: clamp(24rem, 56vh, 34rem);
-  display: flex;
-  align-items: center;
+  background: var(--cream-warm);
   overflow: hidden;
-}
-
-.hero-media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.hero-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 42%;
-}
-
-/* voile crème pour garder le titre lisible */
-.hero-media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg,
-    rgba(242, 231, 203, 0.94) 0%,
-    rgba(242, 231, 203, 0.80) 32%,
-    rgba(242, 231, 203, 0.28) 58%,
-    rgba(242, 231, 203, 0) 78%);
 }
 
 .hero-inner {
   position: relative;
-  z-index: 1;
   width: 100%;
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 3rem 2.5rem;
-  display: flex;
+  padding: 2.5rem 2.5rem 0;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(1rem, 4vw, 3rem);
 }
 
 /* bloc centré sur lui-même, mais placé à gauche du héros */
 .hero-copy {
-  width: min(28rem, 50%);
   text-align: center;
+}
+
+.hero-art {
+  position: relative;
+}
+
+.hero-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: clamp(20rem, 52vh, 32rem);
+  object-fit: contain;
+  object-position: bottom right;
+  margin-left: auto;
 }
 
 .hero-title {
@@ -1649,16 +1637,17 @@ a.quick-btn:hover {
    Responsive
    ============================================ */
 @media (max-width: 720px) {
-  .hero { min-height: 20rem; }
-  .hero-inner { padding: 2.25rem 1.4rem; }
+  .hero-inner {
+    grid-template-columns: 1fr;
+    padding: 1.75rem 1.4rem 0;
+    gap: 1rem;
+  }
   .hero-role { letter-spacing: 0.3em; }
-  /* voile plus couvrant : le titre reste lisible sur mobile */
-  .hero-media::after {
-    background: linear-gradient(160deg,
-      rgba(242, 231, 203, 0.95) 0%,
-      rgba(242, 231, 203, 0.80) 45%,
-      rgba(242, 231, 203, 0.35) 75%,
-      rgba(242, 231, 203, 0.15) 100%);
+  .hero-art img {
+    max-height: none;
+    max-width: 26rem;
+    margin: 0 auto;
+    object-position: bottom center;
   }
   /* les 4 pastilles passent en 2 colonnes, sans le fil pointillé */
   .quick-row { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
@@ -1670,7 +1659,6 @@ a.quick-btn:hover {
   .header-cut { left: 1rem; right: 1rem; }
   .header-cut-line { flex-basis: 84%; }
   .brand { font-size: 0.95rem; }
-  .hero-copy { width: 100%; }
   .portfolio-teaser-inner {
     grid-template-columns: 1fr;
     gap: 2rem;
