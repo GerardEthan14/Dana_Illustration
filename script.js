@@ -722,17 +722,9 @@ function wireBoutique(root, client, ui) {
 
 // ===== Galerie d'art : salles + popup d'un tableau =====
 (function () {
-  // Dimensions des tableaux, en multiples de l'unité --u du CSS.
-  // Chaque salle utilise les mêmes valeurs : la galerie garde donc toujours
-  // exactement la même taille, quelles que soient les images affichées.
-  var SIZES_DESKTOP = [ // 6 par salle, en 2 rangées de 3
-    [2.45, 1.72], [1.85, 2.02], [2.25, 1.58],
-    [2.05, 1.86], [2.50, 1.64], [1.80, 1.94]
-  ];
-  var SIZES_MOBILE = [  // 4 par salle, en 2 rangées de 2
-    [2.30, 1.74], [1.90, 2.02],
-    [2.05, 1.60], [2.15, 1.90]
-  ];
+  // La hauteur des cadres est fixee en CSS (--h) : la galerie garde donc
+  // toujours la meme hauteur, tandis que la largeur de chaque cadre suit
+  // le format naturel de l'illustration (aucun recadrage).
 
   function init() {
     var museum = document.querySelector('.museum');
@@ -751,18 +743,11 @@ function wireBoutique(root, client, ui) {
 
     function render(animate) {
       var n = perPage();
-      var sizes = n === 4 ? SIZES_MOBILE : SIZES_DESKTOP;
       var pages = Math.ceil(arts.length / n);
       if (page > pages - 1) page = pages - 1;
 
       arts.forEach(function (art, i) {
-        var visible = Math.floor(i / n) === page;
-        art.hidden = !visible;
-        if (visible) {
-          var s = sizes[i % n];
-          art.style.setProperty('--w', s[0]);
-          art.style.setProperty('--h', s[1]);
-        }
+        art.hidden = Math.floor(i / n) !== page;
       });
 
       if (sign) {

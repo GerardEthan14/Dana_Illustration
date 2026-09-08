@@ -53,7 +53,7 @@ h1, h2 {
   line-height: 1.05;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: var(--green-dark);
+  color: var(--orange);
 }
 
 h3, h4, h5 {
@@ -89,7 +89,7 @@ em {
   margin-bottom: 1rem;
 }
 
-.section-head h2 em { color: var(--olive); }
+.section-head h2 em { color: var(--green-dark); }
 
 .section-sub {
   color: var(--muted);
@@ -579,7 +579,7 @@ a.quick-btn:hover {
 .shop-preview > h2 {
   font-size: clamp(2.5rem, 5vw, 4rem);
   margin-bottom: 3rem;
-  color: var(--olive);
+  color: var(--orange);
 }
 
 .shop-carousel {
@@ -1069,7 +1069,7 @@ a.quick-btn:hover {
 .legal-updated { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; }
 .legal-inner h2 {
   font-family: 'Cause', sans-serif;
-  color: var(--olive);
+  color: var(--orange);
   font-size: 1.15rem;
   margin: 2rem 0 0.5rem;
 }
@@ -1135,7 +1135,7 @@ a.quick-btn:hover {
   margin-bottom: 1.5rem;
 }
 
-.about-text h2 em { color: var(--olive); }
+.about-text h2 em { color: var(--green-dark); }
 
 .about-text p {
   color: var(--muted);
@@ -1174,7 +1174,7 @@ a.quick-btn:hover {
   margin-bottom: 1rem;
 }
 
-.contact h2 em { color: var(--olive); }
+.contact h2 em { color: var(--green-dark); }
 
 .contact-tagline {
   color: var(--muted);
@@ -1302,7 +1302,7 @@ a.quick-btn:hover {
 .portfolio-teaser-text h2 {
   font-size: clamp(2.25rem, 4vw, 3.25rem);
   margin-bottom: 1rem;
-  color: var(--olive);
+  color: var(--orange);
 }
 
 .portfolio-teaser-text p {
@@ -1317,7 +1317,7 @@ a.quick-btn:hover {
    ============================================ */
 .about-teaser {
   padding: 5rem 2.5rem 6rem;
-  background: var(--cream);
+  background: var(--cream-warm);
 }
 
 .about-teaser .about-text .btn-pill {
@@ -1575,7 +1575,7 @@ a.quick-btn:hover {
 .refuge-detail-inner > h2 {
   text-align: center;
   font-size: clamp(2rem, 3.5vw, 3rem);
-  color: var(--olive);
+  color: var(--orange);
   margin-bottom: 3rem;
 }
 
@@ -1624,7 +1624,7 @@ a.quick-btn:hover {
 
 .refuge-cta-block h2 {
   font-size: clamp(1.75rem, 3vw, 2.5rem);
-  color: var(--olive);
+  color: var(--orange);
   margin-bottom: 0.75rem;
 }
 
@@ -1770,7 +1770,7 @@ a.quick-btn:hover {
 }
 .refuge-card-body h2 {
   font-family: 'Shadows Into Light', cursive;
-  color: var(--olive);
+  color: var(--orange);
   font-size: 1.6rem;
 }
 .refuge-card-sub { font-weight: 700; color: var(--olive-dark); margin-top: 0.25rem; }
@@ -1864,6 +1864,7 @@ a.quick-btn:hover {
 .museum-rooms {
   /* unité de base : tout le décor se met à l'échelle avec l'écran */
   --u: clamp(3.1rem, 5.4vw, 5.6rem);
+  --h: 1.95;   /* hauteur commune à tous les cadres */
   display: grid;
   grid-template-columns: repeat(3, auto);
   justify-content: center;
@@ -1904,9 +1905,10 @@ a.quick-btn:hover {
 
 .artwork-frame img {
   display: block;
-  width: calc(var(--w, 2) * var(--u));
-  height: calc(var(--h, 1.7) * var(--u));
-  object-fit: cover;
+  /* hauteur imposee => la galerie garde toujours la meme hauteur ;
+     largeur libre => chaque cadre epouse le format de l'illustration */
+  height: calc(var(--h) * var(--u));
+  width: auto;
 }
 
 /* le sol : le visiteur et le panneau */
@@ -1999,7 +2001,7 @@ a.quick-btn:hover {
   font-family: 'Comico', 'Jost', sans-serif;
   font-size: 1.6rem;
   text-transform: uppercase;
-  color: var(--green-dark);
+  color: var(--orange);
   margin-bottom: 0.7rem;
 }
 
@@ -2026,7 +2028,7 @@ a.quick-btn:hover {
 
 @media (max-width: 720px) {
   .museum { padding: 2rem 1rem 0; }
-  .museum-rooms { grid-template-columns: repeat(2, auto); --u: clamp(3.4rem, 12vw, 5rem); }
+  .museum-rooms { grid-template-columns: repeat(2, auto); --u: clamp(2.6rem, 11vw, 4.6rem); --h: 1.75; }
   .artwork-frame { border-width: 10px; border-image-width: 10px; }
   .museum-sign { font-size: 0.82rem; padding: 0.45rem 0.8rem; }
 }
