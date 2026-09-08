@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mail Club · Dana Illustration</title>
+  <meta name="description" content="Le Mail Club de Dana Illustration : du courrier illustré, envoyé dans votre boîte aux lettres.">
+  <link rel="canonical" href="https://danaillustration.be/mail-club.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_BE">
+  <meta property="og:site_name" content="Dana Illustration">
+  <meta property="og:title" content="Mail Club · Dana Illustration">
+  <meta property="og:description" content="Le Mail Club de Dana Illustration : du courrier illustré, envoyé dans votre boîte aux lettres.">
+  <meta property="og:url" content="https://danaillustration.be/mail-club.html">
+  <meta property="og:image" content="https://danaillustration.be/photo/hero-lecture.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f%5B%5D=comico@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=27">
+</head>
+<body class="page-mailclub">
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="index.html">Dana Leriche</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="index.html#galerie">Galerie</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="apropos.html" class="active">À propos</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="nav-social" href="https://www.instagram.com/dana.illustration" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="nav-social" href="https://www.facebook.com/share/18yYLM9iJB/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.02h2.36l.35-2.74h-2.71V9.49c0-.79.22-1.33 1.36-1.33h1.45V5.71c-.25-.03-1.11-.11-2.11-.11-2.09 0-3.52 1.27-3.52 3.62v2.02H8.31v2.74h2.37V21h2.82z"/></svg></a>
+        <button class="cart-btn" type="button" aria-label="Panier">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 2.5 3.8 6.2V20a1.8 1.8 0 0 0 1.8 1.8h12.8A1.8 1.8 0 0 0 20.2 20V6.2L17.5 2.5z"/><path d="M3.8 6.2h16.4"/><path d="M15.6 9.9a3.6 3.6 0 0 1-7.2 0"/></svg>
+          <span class="cart-count">0</span>
+        </button>
+        <label for="nav-toggle" class="nav-burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </label>
+      </div>
+    </nav>
+    <div class="header-cut" aria-hidden="true">
+      <span class="header-cut-line"></span>
+      <svg class="header-cut-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.7"/><circle cx="6" cy="18" r="2.7"/><path d="M20 4 8.1 15.9"/><path d="M14.5 14.5 20 20"/><path d="M8.1 8.1 12 12"/></svg>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <h1>Mail Club</h1>
+    <p>Du vrai courrier, dans une vraie boîte aux lettres. Des illustrations, des mots, des petites surprises&nbsp;: quelque chose à ouvrir plutôt qu'à faire défiler.</p>
+  </section>
+
+  <section class="activity">
+    <div class="activity-inner">
+      <article class="activity-block">
+        <h2>Le principe</h2>
+        <p>Chaque envoi est préparé et illustré à la main, puis glissé dans une enveloppe et posté à votre adresse.</p>
+      </article>
+      <article class="activity-block">
+        <h2>Ce que vous recevez</h2>
+        <p>Une lettre, un print, des stickers et un objet à collectionner, autour d'un thème différent à chaque envoi.</p>
+      </article>
+      <article class="activity-block">
+        <h2>Rythme et envoi</h2>
+        <p>Les envois partent le premier du mois. Vous pouvez arrêter quand vous le souhaitez.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="form-section" id="formulaire">
+    <div class="form-inner">
+      <h2>Me contacter</h2>
+      <p class="form-intro">Pour être prévenu·e des prochaines ouvertures ou poser une question sur le Mail Club, laissez-moi vos coordonnées ci-dessous.</p>
+
+      <!-- ============================================================
+           FORMULAIRE GOOGLE FORMS
+           Pour l'activer : créez le formulaire sur forms.google.com,
+           cliquez sur « Envoyer » puis sur l'onglet « < > » (Intégrer),
+           copiez l'adresse qui se trouve dans src="..." et collez-la
+           ci-dessous entre les guillemets de data-form-src.
+           Tant que l'adresse est vide, le bloc de secours (e-mail)
+           s'affiche automatiquement à la place.
+           ============================================================ -->
+      <div class="form-slot" data-form-src="" data-form-title="Formulaire Mail Club">
+        <div class="form-fallback">
+          <p>Le formulaire en ligne arrive très bientôt. En attendant, écrivez-moi directement&nbsp;:</p>
+          <a class="btn btn-pill" href="mailto:dana.illustration@gmail.com?subject=Mail%20Club">dana.illustration@gmail.com</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 Dana Illustration</p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=29" defer></script>
+
+</body>
+</html>

@@ -1634,6 +1634,84 @@ a.quick-btn:hover {
 }
 
 /* ============================================
+   Pages activités (ateliers, mail club, commandes)
+   ============================================ */
+.activity {
+  padding: 1rem 2.5rem 4rem;
+}
+
+.activity-inner {
+  max-width: 58rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 2.25rem;
+}
+
+.activity-block h2 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  margin-bottom: 0.6rem;
+}
+
+.activity-block p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+/* ============================================
+   Formulaire (Google Forms intégré)
+   ============================================ */
+.form-section {
+  padding: 0 2.5rem 6rem;
+}
+
+.form-inner {
+  max-width: 46rem;
+  margin: 0 auto;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(1.75rem, 4vw, 3rem);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-inner > h2 {
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.form-intro {
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
+.form-slot iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+  /* le script ajuste la hauteur si Google la communique */
+  min-height: 40rem;
+}
+
+.form-fallback {
+  text-align: center;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.form-fallback p {
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 720px) {
+  .activity { padding: 0.5rem 1.4rem 3rem; }
+  .form-section { padding: 0 1.4rem 4rem; }
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 720px) {
