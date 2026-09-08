@@ -390,6 +390,8 @@ em {
 }
 
 /* bannière : le titre est dessiné dans l'illustration */
+.hero picture { display: block; }
+
 .hero-banner {
   display: block;
   width: 100%;
