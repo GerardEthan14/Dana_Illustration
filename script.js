@@ -818,3 +818,30 @@ function wireBoutique(root, client, ui) {
     init();
   }
 })();
+
+// ===== Formulaire Google Forms intégré (pages ateliers / mail club / commandes) =====
+(function () {
+  function init() {
+    var slots = document.querySelectorAll('.form-slot[data-form-src]');
+    Array.prototype.forEach.call(slots, function (slot) {
+      var src = (slot.getAttribute('data-form-src') || '').trim();
+      // pas encore d'adresse de formulaire : on laisse le bloc de secours
+      if (!src) return;
+      var frame = document.createElement('iframe');
+      frame.src = src;
+      frame.title = slot.getAttribute('data-form-title') || 'Formulaire de contact';
+      frame.loading = 'lazy';
+      frame.setAttribute('frameborder', '0');
+      frame.setAttribute('marginheight', '0');
+      frame.setAttribute('marginwidth', '0');
+      slot.innerHTML = '';
+      slot.appendChild(frame);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
