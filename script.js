@@ -34,7 +34,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
     },
     {
       name: 'Facebook',
-      href: 'https://www.facebook.com/share/18yYLM9iJB/',
+      href: 'https://www.facebook.com/profile.php?id=61594404233779',
       svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 21v-7.02h2.36l.35-2.74h-2.71V9.49c0-.79.22-1.33 1.36-1.33h1.45V5.71c-.25-.03-1.11-.11-2.11-.11-2.09 0-3.52 1.27-3.52 3.62v2.02H8.31v2.74h2.37V21h2.82z"/></svg>'
     }
   ];
