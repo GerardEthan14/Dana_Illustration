@@ -1964,23 +1964,17 @@ a.quick-btn:hover {
   width: auto;
 }
 
-/* le sol : le visiteur et le panneau */
+/* le sol : la plinthe, le parquet et le panneau */
 .museum-ground {
   position: relative;
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 1rem;
   margin: clamp(1.5rem, 4vw, 3rem) calc(-1 * clamp(1rem, 4vw, 3.5rem)) 0;
   padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(0.75rem, 2vw, 1.5rem);
-  min-height: clamp(6rem, 14vw, 10rem);
+  min-height: clamp(7rem, 16vw, 11rem);
   background: url('photo/galerie-sol.jpg') bottom center / 100% 100% no-repeat;
-}
-
-.museum-visitor {
-  width: clamp(5rem, 11vw, 8.5rem);
-  height: auto;
-  filter: drop-shadow(0 8px 10px rgba(31, 30, 28, 0.18));
 }
 
 /* le panneau « suite de la visite » dessiné par Dana */
@@ -2071,5 +2065,5 @@ a.quick-btn:hover {
 @media (max-width: 720px) {
   .museum { padding: 2rem 1rem 0; }
   .museum-rooms { grid-template-columns: repeat(2, auto); --u: clamp(2.6rem, 11vw, 4.6rem); --h: 1.75; }
-  .museum-ground { min-height: clamp(4.5rem, 20vw, 7rem); }
+  .museum-ground { min-height: clamp(5.5rem, 24vw, 8rem); }
 }
