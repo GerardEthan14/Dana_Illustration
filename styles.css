@@ -392,6 +392,17 @@ em {
 /* bannière : le titre est dessiné dans l'illustration */
 .hero picture { display: block; }
 
+.hero-baseline {
+  margin: 0;
+  padding: 0 1.5rem clamp(1.25rem, 3vw, 2rem);
+  text-align: center;
+  font-family: 'Jost', sans-serif;
+  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  letter-spacing: 0.24em;
+  text-transform: lowercase;
+  color: var(--green-dark);
+}
+
 .hero-banner {
   display: block;
   width: 100%;
@@ -463,19 +474,26 @@ em {
   width: 6.8rem;
   height: 6.8rem;
   border-radius: 50%;
-  background: var(--cream-warm);
+  background: var(--pastille, var(--orange));
   border: 2.5px solid var(--ink);
-  color: var(--ink);
-  transition: background 0.22s, color 0.22s, transform 0.22s;
+  color: var(--pastille-ink, var(--cream));
+  box-shadow: 0 8px 0 -2px rgba(31, 30, 28, 0.16);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
 }
 
-.quick-btn svg { width: 2.6rem; height: 2.6rem; }
+.quick-btn svg { width: 2.8rem; height: 2.8rem; }
 
-a.quick-btn:hover {
-  background: var(--orange);
-  border-color: var(--orange);
-  color: var(--cream);
-  transform: translateY(-4px);
+/* une couleur de la charte par pastille */
+.quick-item:nth-child(1) .quick-btn { --pastille: var(--olive); }
+.quick-item:nth-child(2) .quick-btn { --pastille: var(--green-light); --pastille-ink: var(--green-dark); }
+.quick-item:nth-child(3) .quick-btn { --pastille: var(--green-dark); }
+.quick-item:nth-child(4) .quick-btn { --pastille: var(--orange); }
+
+a.quick-btn:hover,
+a.quick-btn:focus-visible {
+  transform: translateY(-6px) rotate(-3deg);
+  box-shadow: 0 14px 0 -2px rgba(31, 30, 28, 0.18);
+  filter: saturate(1.15);
 }
 
 .quick-label {
@@ -1687,6 +1705,44 @@ a.quick-btn:hover {
 }
 
 /* ============================================
+   Travaillons ensemble (accueil)
+   ============================================ */
+.work-together {
+  padding: 1rem 2.5rem 5.5rem;
+}
+
+.work-inner {
+  max-width: 42rem;
+  margin: 0 auto;
+  text-align: center;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(2rem, 5vw, 3.25rem);
+  box-shadow: var(--shadow-sm);
+}
+
+.work-inner h2 {
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  margin-bottom: 1rem;
+}
+
+.work-lead {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.work-list {
+  color: var(--muted);
+  margin: 0.6rem 0 1.75rem;
+}
+
+@media (max-width: 720px) {
+  .work-together { padding: 0.5rem 1.4rem 3.5rem; }
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 720px) {
@@ -1935,7 +1991,16 @@ a.quick-btn:hover {
 }
 
 .artwork[hidden] { display: none; }
-.artwork:hover { transform: translateY(-0.4rem) scale(1.03); }
+
+/* accrochage à la main : chaque cadre penche un peu, et on le redresse au survol */
+.artwork { transform: rotate(var(--tilt, 0deg)) translateY(var(--drop, 0)); }
+.artwork:nth-child(6n+1) { --tilt: -1.5deg; --drop: 0.35rem; }
+.artwork:nth-child(6n+2) { --tilt:  1.1deg; --drop: -0.3rem; }
+.artwork:nth-child(6n+3) { --tilt: -0.6deg; --drop: 0.15rem; }
+.artwork:nth-child(6n+4) { --tilt:  1.6deg; --drop: -0.15rem; }
+.artwork:nth-child(6n+5) { --tilt: -1.1deg; --drop: -0.4rem; }
+.artwork:nth-child(6n+6) { --tilt:  0.7deg; --drop: 0.3rem; }
+.artwork:hover { transform: rotate(0deg) translateY(-0.5rem) scale(1.03); }
 
 /* le vrai cadre de Dana, en border-image */
 .artwork-frame {
