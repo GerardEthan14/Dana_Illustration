@@ -245,7 +245,7 @@ em {
 
 .nav-links {
   display: flex;
-  gap: 2.25rem;
+  gap: 1.6rem;
   list-style: none;
 }
 
@@ -1761,6 +1761,13 @@ a.quick-btn:focus-visible {
     gap: 2rem;
     text-align: center;
   }
+}
+
+/* palier intermédiaire : la barre reste sur une ligne jusqu'au menu burger */
+@media (max-width: 1180px) {
+  .nav { gap: 1.25rem; }
+  .nav-links { gap: 1.1rem; }
+  .nav-links a { font-size: 0.94rem; }
 }
 
 @media (max-width: 960px) {
