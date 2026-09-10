@@ -1898,7 +1898,7 @@ a.quick-btn:hover {
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  background: url('photo/galerie-mur.jpg') center bottom / cover no-repeat;
+  background: url('photo/galerie-mur.jpg') top center / 100% 100% no-repeat;
   padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 3.5rem) 0;
 }
 
@@ -1924,7 +1924,9 @@ a.quick-btn:hover {
 
 /* les tableaux : dimensions fixes, donc une salle ne bouge jamais */
 .artwork {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.15rem;
   padding: 0;
   border: none;
   background: none;
@@ -1937,11 +1939,21 @@ a.quick-btn:hover {
 
 /* le vrai cadre de Dana, en border-image */
 .artwork-frame {
+  --bw: calc(0.26 * var(--u));
   display: block;
-  border: 15px solid transparent;
-  border-image: url('photo/galerie-cadre.png') 42 / 15px stretch;
+  border: var(--bw) solid transparent;
+  border-image: url('photo/galerie-cadre.png') 110 118 122 119 / var(--bw) stretch;
   background: var(--cream);
   filter: drop-shadow(0 10px 14px rgba(31, 30, 28, 0.22));
+}
+
+/* le cartel dessiné par Dana, accroché à droite du cadre */
+.artwork-label {
+  flex: none;
+  width: calc(0.36 * var(--u));
+  height: calc(0.45 * var(--u));
+  background: url('photo/galerie-etiquette.png') center / contain no-repeat;
+  filter: drop-shadow(0 4px 6px rgba(31, 30, 28, 0.18));
 }
 
 .artwork-frame img {
@@ -1959,7 +1971,10 @@ a.quick-btn:hover {
   align-items: flex-end;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: clamp(1.5rem, 4vw, 3rem);
+  margin: clamp(1.5rem, 4vw, 3rem) calc(-1 * clamp(1rem, 4vw, 3.5rem)) 0;
+  padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(0.75rem, 2vw, 1.5rem);
+  min-height: clamp(6rem, 14vw, 10rem);
+  background: url('photo/galerie-sol.jpg') bottom center / 100% 100% no-repeat;
 }
 
 .museum-visitor {
@@ -1968,37 +1983,23 @@ a.quick-btn:hover {
   filter: drop-shadow(0 8px 10px rgba(31, 30, 28, 0.18));
 }
 
-/* panneau « continuer la visite » (provisoire) */
+/* le panneau « suite de la visite » dessiné par Dana */
 .museum-next {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: block;
   background: none;
   border: none;
-  padding: 0 0 0.5rem;
+  padding: 0;
+  cursor: pointer;
   transition: transform 0.2s ease;
 }
 
 .museum-next:hover { transform: translateY(-3px); }
 
 .museum-sign {
-  font-family: 'Comico', 'Jost', sans-serif;
-  font-size: 0.95rem;
-  color: #FBF7EC;
-  background: #8B5E34;
-  border: 2.5px solid #6B4423;
-  border-radius: 0.45rem;
-  padding: 0.55rem 1.05rem;
-  transform: rotate(-1.5deg);
-  box-shadow: 0 6px 12px rgba(31, 30, 28, 0.25);
-  white-space: nowrap;
-}
-
-.museum-post {
-  width: 10px;
-  height: 2.4rem;
-  background: linear-gradient(90deg, #6B4423, #8B5E34 45%, #5A381C);
-  border-radius: 0 0 2px 2px;
+  display: block;
+  width: clamp(7rem, 16vw, 12rem);
+  height: auto;
+  filter: drop-shadow(0 8px 10px rgba(31, 30, 28, 0.2));
 }
 
 /* ---- Popup d'un tableau ---- */
@@ -2070,6 +2071,5 @@ a.quick-btn:hover {
 @media (max-width: 720px) {
   .museum { padding: 2rem 1rem 0; }
   .museum-rooms { grid-template-columns: repeat(2, auto); --u: clamp(2.6rem, 11vw, 4.6rem); --h: 1.75; }
-  .artwork-frame { border-width: 10px; border-image-width: 10px; }
-  .museum-sign { font-size: 0.82rem; padding: 0.45rem 0.8rem; }
+  .museum-ground { min-height: clamp(4.5rem, 20vw, 7rem); }
 }

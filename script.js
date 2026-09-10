@@ -733,7 +733,6 @@ function wireBoutique(root, client, ui) {
     var stage = museum.querySelector('.museum-rooms');
     var arts = Array.prototype.slice.call(museum.querySelectorAll('.artwork'));
     var next = museum.querySelector('.museum-next');
-    var sign = next && next.querySelector('.museum-sign');
     var page = 0;
     var lastPerPage = 0;
 
@@ -750,10 +749,11 @@ function wireBoutique(root, client, ui) {
         art.hidden = Math.floor(i / n) !== page;
       });
 
-      if (sign) {
-        sign.textContent = (page === pages - 1)
-          ? 'revenir à l\u2019entrée →'
-          : 'continuer la visite →';
+      if (next) {   // le texte est dessiné sur le panneau : on adapte l'infobulle
+        var last = (page === pages - 1);
+        var libelle = last ? 'Revenir à la première salle' : 'Salle suivante';
+        next.setAttribute('aria-label', libelle);
+        next.setAttribute('title', libelle);
       }
       if (animate) {   // relance l'animation d'avancée
         stage.classList.remove('is-turning');
