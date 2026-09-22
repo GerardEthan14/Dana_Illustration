@@ -1930,6 +1930,87 @@ a.quick-btn:focus-visible {
 }
 
 /* ============================================
+   Aperçu de la galerie (accueil)
+   ============================================ */
+.gallery-preview {
+  padding: 4rem 2.5rem 4.5rem;
+  text-align: center;
+}
+
+.gallery-preview > h2 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 2.5rem;
+}
+
+.preview-row {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.6rem);
+}
+
+.preview-item {
+  display: block;
+  line-height: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(31, 30, 28, 0.13);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.preview-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 28px rgba(31, 30, 28, 0.2);
+}
+
+/* hauteur commune, largeur libre : aucune illustration n'est recadrée */
+.preview-item img {
+  display: block;
+  height: clamp(9rem, 17vw, 15rem);
+  width: auto;
+}
+
+@media (max-width: 720px) {
+  .gallery-preview { padding: 2.5rem 1.4rem 3rem; }
+  .preview-item img { height: clamp(7.5rem, 30vw, 11rem); }
+}
+
+/* ============================================
+   Page Ateliers : tout centré, au plus serré
+   ============================================ */
+.page-ateliers .page-header {
+  text-align: center;
+  padding: 2.75rem 2.5rem 1.75rem;
+}
+
+.page-ateliers .poster { padding-bottom: 2rem; }
+
+.page-ateliers .poster-inner {
+  grid-template-columns: minmax(0, 17rem) minmax(0, 24rem);
+  justify-content: center;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.page-ateliers .poster-side { text-align: center; }
+
+.page-ateliers .activity { padding: 0 2.5rem 2.5rem; }
+
+.page-ateliers .activity-inner {
+  max-width: 46rem;
+  text-align: center;
+  gap: 1.75rem;
+}
+
+@media (max-width: 720px) {
+  .page-ateliers .page-header { padding: 1.75rem 1.4rem 1.25rem; }
+  .page-ateliers .poster-inner { grid-template-columns: 1fr; }
+  .page-ateliers .activity { padding: 0 1.4rem 2rem; }
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 720px) {
