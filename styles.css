@@ -1234,9 +1234,8 @@ a.quick-btn:focus-visible {
    Sub-page header (Portfolio / Boutique / etc.)
    ============================================ */
 .page-header {
-  text-align: center;
   padding: 4rem 2.5rem 2.5rem;
-  max-width: 42rem;
+  max-width: 58rem;
   margin: 0 auto;
 }
 
@@ -1781,6 +1780,153 @@ a.quick-btn:focus-visible {
 
 @media (max-width: 720px) {
   .work-together { padding: 0.5rem 1.4rem 3.5rem; }
+}
+
+/* ============================================
+   Affiche du prochain atelier
+   ============================================ */
+.poster {
+  padding: 0 2.5rem 3rem;
+}
+
+.poster-inner {
+  max-width: 58rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 2.75rem);
+  align-items: center;
+}
+
+.poster-link {
+  display: block;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease;
+}
+
+.poster-link:hover { transform: translateY(-4px) rotate(-1deg); }
+
+.poster-link img { display: block; width: 100%; height: auto; }
+
+.poster-kicker {
+  font-family: 'Comico', 'Jost', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--orange);
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  margin-bottom: 0.6rem;
+}
+
+.poster-text {
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+}
+
+/* ============================================
+   Petites mentions (conditions d'un abonnement)
+   ============================================ */
+.fineprint {
+  padding: 0 2.5rem 3rem;
+}
+
+.fineprint-inner {
+  max-width: 58rem;
+  margin: 0 auto;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.fineprint h2 {
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.9rem;
+}
+
+.fineprint-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.1rem 2rem;
+}
+
+.fineprint-grid h3 {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--green-dark);
+  margin-bottom: 0.2rem;
+}
+
+.fineprint-grid p {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .poster { padding: 0 1.4rem 2rem; }
+  .poster-inner { grid-template-columns: 1fr; }
+  .poster-link { max-width: 20rem; margin: 0 auto; }
+  .poster-side { text-align: center; }
+  .fineprint { padding: 0 1.4rem 2.5rem; }
+}
+
+/* ============================================
+   Galerie simple (page d'essai)
+   ============================================ */
+.plain-gallery {
+  padding: 0 clamp(1rem, 4vw, 3rem) 5rem;
+}
+
+.plain-grid {
+  max-width: 78rem;
+  margin: 0 auto;
+  columns: 3 22rem;
+  column-gap: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.plain-item {
+  display: block;
+  width: 100%;
+  break-inside: avoid;
+  margin: 0 0 clamp(1rem, 2.5vw, 1.75rem);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.plain-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 6px 18px rgba(31, 30, 28, 0.13);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.plain-item:hover img {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 28px rgba(31, 30, 28, 0.2);
+}
+
+.plain-caption {
+  display: block;
+  font-family: 'Comico', 'Jost', sans-serif;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--green-dark);
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 720px) {
+  .plain-gallery { padding: 0 1.4rem 3rem; }
+  .plain-grid { columns: 1; }
 }
 
 /* ============================================
