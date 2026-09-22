@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f%5B%5D=comico@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=34">
+  <link rel="stylesheet" href="styles.css?v=35">
 </head>
 <body class="page-mailclub">
 
@@ -34,7 +34,7 @@
         <li><a href="index.html#galerie">Galerie</a></li>
         <li><a href="ateliers.html">Ateliers</a></li>
         <li><a href="mail-club.html" class="active">Mail Club</a></li>
-        <li><a href="commandes.html" title="Commandes personnalisées">Commandes</a></li>
+        <li><a href="commandes.html">Contact</a></li>
         <li><a href="boutique.html">Boutique</a></li>
         <li><a href="apropos.html">À propos</a></li>
       </ul>
@@ -65,15 +65,23 @@
     <div class="activity-inner">
       <article class="activity-block">
         <h2>Le principe</h2>
-        <p>Chaque envoi est préparé et illustré à la main, puis glissé dans une enveloppe et posté à votre adresse.</p>
+        <p>Chaque mois, vous recevez un courrier dans votre boîte aux lettres contenant&nbsp;: une lettre, un print, des stickers et un objet à collectionner, autour d'un thème différent à chaque envoi.</p>
       </article>
       <article class="activity-block">
-        <h2>Ce que vous recevez</h2>
-        <p>Une lettre, un print, des stickers et un objet à collectionner, autour d'un thème différent à chaque envoi.</p>
+        <h2>L'envoi</h2>
+        <p>Les envois partent le premier de chaque mois, à l'adresse indiquée lors de votre inscription. Pensez à me prévenir si vous déménagez&nbsp;: un courrier parti à l'ancienne adresse ne peut pas être remplacé.</p>
       </article>
       <article class="activity-block">
-        <h2>Rythme et envoi</h2>
-        <p>Les envois partent le premier du mois. Vous pouvez arrêter quand vous le souhaitez.</p>
+        <h2>Courrier perdu ou abîmé</h2>
+        <p>Chaque envoi est préparé et vérifié à la main. S'il vous parvient abîmé, écrivez-moi dans les 48&nbsp;heures avec des photos&nbsp;: je vous le remplace. S'il n'arrive jamais, prévenez-moi et nous ferons le nécessaire avec la poste.</p>
+      </article>
+      <article class="activity-block">
+        <h2>Résilier l'abonnement</h2>
+        <p>Vous pouvez arrêter quand vous le souhaitez, sans justification, depuis votre espace client ou par un simple e-mail. La résiliation prend effet pour l'envoi suivant&nbsp;; un courrier déjà préparé ou expédié reste dû.</p>
+      </article>
+      <article class="activity-block">
+        <h2>Remboursement</h2>
+        <p>Les envois déjà expédiés ne sont pas remboursés. Un prélèvement effectué après votre résiliation vous est intégralement remboursé. Pour toute question&nbsp;: <a href="mailto:dana.illustration@gmail.com">dana.illustration@gmail.com</a>.</p>
       </article>
     </div>
   </section>
@@ -83,21 +91,24 @@
       <h2>Me contacter</h2>
       <p class="form-intro">Pour être prévenu·e des prochaines ouvertures ou poser une question sur le Mail Club, laissez-moi vos coordonnées ci-dessous.</p>
 
-      <!-- ============================================================
-           FORMULAIRE GOOGLE FORMS
-           Pour l'activer : créez le formulaire sur forms.google.com,
-           cliquez sur « Envoyer » puis sur l'onglet « < > » (Intégrer),
-           copiez l'adresse qui se trouve dans src="..." et collez-la
-           ci-dessous entre les guillemets de data-form-src.
-           Tant que l'adresse est vide, le bloc de secours (e-mail)
-           s'affiche automatiquement à la place.
-           ============================================================ -->
-      <div class="form-slot" data-form-src="" data-form-title="Formulaire Mail Club">
-        <div class="form-fallback">
-          <p>Le formulaire en ligne arrive très bientôt. En attendant, écrivez-moi directement&nbsp;:</p>
-          <a class="btn btn-pill" href="mailto:dana.illustration@gmail.com?subject=Mail%20Club">dana.illustration@gmail.com</a>
+      <form class="contact-form" action="https://formspree.io/f/VOTRE_IDENTIFIANT" method="POST">
+        <input type="hidden" name="_subject" value="Mail Club — demande depuis le site">
+        <p class="hp"><label>Ne rien écrire ici <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
+        <div class="field">
+          <label for="f-nom">Votre nom</label>
+          <input id="f-nom" name="nom" type="text" required autocomplete="name">
         </div>
-      </div>
+        <div class="field">
+          <label for="f-mail">Votre e-mail</label>
+          <input id="f-mail" name="email" type="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="f-msg">Votre message</label>
+          <textarea id="f-msg" name="message" rows="6" required></textarea>
+        </div>
+        <button class="btn btn-pill" type="submit">Envoyer</button>
+        <p class="form-note">Ou écrivez-moi directement à <a href="mailto:dana.illustration@gmail.com">dana.illustration@gmail.com</a>.</p>
+      </form>
     </div>
   </section>
 
@@ -107,7 +118,7 @@
     </div>
   </footer>
 
-  <script src="script.js?v=32" defer></script>
+  <script src="script.js?v=33" defer></script>
 
 </body>
 </html>

@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Commandes personnalisées · Dana Illustration</title>
+  <title>Me contacter · Dana Illustration</title>
   <meta name="description" content="Commandez une illustration personnalisée à Dana Leriche : portraits, animaux, faire-part et projets sur mesure.">
   <link rel="canonical" href="https://danaillustration.be/commandes.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_BE">
   <meta property="og:site_name" content="Dana Illustration">
-  <meta property="og:title" content="Commandes personnalisées · Dana Illustration">
+  <meta property="og:title" content="Me contacter · Dana Illustration">
   <meta property="og:description" content="Commandez une illustration personnalisée à Dana Leriche : portraits, animaux, faire-part et projets sur mesure.">
   <meta property="og:url" content="https://danaillustration.be/commandes.html">
   <meta property="og:image" content="https://danaillustration.be/photo/hero-dana-leriche.jpg">
@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f%5B%5D=comico@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=34">
+  <link rel="stylesheet" href="styles.css?v=35">
 </head>
 <body class="page-commandes">
 
@@ -34,7 +34,7 @@
         <li><a href="index.html#galerie">Galerie</a></li>
         <li><a href="ateliers.html">Ateliers</a></li>
         <li><a href="mail-club.html">Mail Club</a></li>
-        <li><a href="commandes.html" title="Commandes personnalisées" class="active">Commandes</a></li>
+        <li><a href="commandes.html" class="active">Contact</a></li>
         <li><a href="boutique.html">Boutique</a></li>
         <li><a href="apropos.html">À propos</a></li>
       </ul>
@@ -57,47 +57,43 @@
   </header>
 
   <section class="page-header">
-    <h1>Commandes personnalisées</h1>
-    <p>Une illustration pensée pour vous&nbsp;: un portrait, un animal de compagnie, un faire-part, une couverture… on construit le projet ensemble.</p>
-  </section>
-
-  <section class="activity">
-    <div class="activity-inner">
-      <article class="activity-block">
-        <h2>Ce que je réalise</h2>
-        <p>Portraits de famille ou d'animaux, faire-part et cartes, illustrations de couverture, personnages, et projets sur mesure pour les indépendants et les associations.</p>
-      </article>
-      <article class="activity-block">
-        <h2>Comment ça se déroule</h2>
-        <p>Vous décrivez votre projet ci-dessous. Je reviens vers vous avec une proposition et un devis. Après votre accord, je vous envoie un croquis, puis l'illustration finale une fois les retouches validées.</p>
-      </article>
-      <article class="activity-block">
-        <h2>Délais et tarifs</h2>
-        <p>Le délai et le prix dépendent du format, du nombre de personnages et de l'usage prévu. Le devis est gratuit et sans engagement.</p>
-      </article>
-    </div>
+    <h1>Me contacter</h1>
+    <p>Une illustration pensée pour vous et avec vous&nbsp;: un portrait, un animal de compagnie, un faire-part, une couverture… on construit votre projet ensemble.</p>
   </section>
 
   <section class="form-section" id="formulaire">
     <div class="form-inner">
-      <h2>Me contacter</h2>
-      <p class="form-intro">Décrivez-moi votre projet le plus précisément possible (format, sujet, occasion, échéance). Je vous répondrai par e-mail pour affiner et vous envoyer un devis&nbsp;; c'est aussi à ce moment-là que vous pourrez m'envoyer vos photos de référence.</p>
+      <h2>Écrivez-moi</h2>
+      <p class="form-intro">Des questions, demandes spéciales, propositions de collaboration&nbsp;? Remplissez le formulaire ci-dessous ou envoyez-moi un mail directement à <a href="mailto:dana.illustration@gmail.com">dana.illustration@gmail.com</a>.</p>
 
-      <!-- ============================================================
-           FORMULAIRE GOOGLE FORMS
-           Pour l'activer : créez le formulaire sur forms.google.com,
-           cliquez sur « Envoyer » puis sur l'onglet « < > » (Intégrer),
-           copiez l'adresse qui se trouve dans src="..." et collez-la
-           ci-dessous entre les guillemets de data-form-src.
-           Tant que l'adresse est vide, le bloc de secours (e-mail)
-           s'affiche automatiquement à la place.
-           ============================================================ -->
-      <div class="form-slot" data-form-src="" data-form-title="Formulaire Commandes personnalisées">
-        <div class="form-fallback">
-          <p>Le formulaire en ligne arrive très bientôt. En attendant, écrivez-moi directement&nbsp;:</p>
-          <a class="btn btn-pill" href="mailto:dana.illustration@gmail.com?subject=Commandes%20personnalis%C3%A9es">dana.illustration@gmail.com</a>
+      <form class="contact-form" action="https://formspree.io/f/VOTRE_IDENTIFIANT" method="POST">
+        <input type="hidden" name="_subject" value="Contact — demande depuis le site">
+        <p class="hp"><label>Ne rien écrire ici <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
+        <div class="field">
+          <label for="f-nom">Votre nom</label>
+          <input id="f-nom" name="nom" type="text" required autocomplete="name">
         </div>
-      </div>
+        <div class="field">
+          <label for="f-mail">Votre e-mail</label>
+          <input id="f-mail" name="email" type="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="f-sujet">Votre demande concerne</label>
+          <select id="f-sujet" name="sujet">
+            <option>Une commande personnalisée</option>
+            <option>Un atelier</option>
+            <option>Le Mail Club</option>
+            <option>Une collaboration</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-msg">Votre message</label>
+          <textarea id="f-msg" name="message" rows="6" required></textarea>
+        </div>
+        <button class="btn btn-pill" type="submit">Envoyer</button>
+        <p class="form-note">Ou écrivez-moi directement à <a href="mailto:dana.illustration@gmail.com">dana.illustration@gmail.com</a>.</p>
+      </form>
     </div>
   </section>
 
@@ -107,7 +103,7 @@
     </div>
   </footer>
 
-  <script src="script.js?v=32" defer></script>
+  <script src="script.js?v=33" defer></script>
 
 </body>
 </html>
