@@ -1652,7 +1652,7 @@ a.quick-btn:focus-visible {
 }
 
 /* ============================================
-   Formulaire (Google Forms intégré)
+   Formulaire de contact
    ============================================ */
 .form-section {
   padding: 0 2.5rem 6rem;
@@ -1681,22 +1681,63 @@ a.quick-btn:focus-visible {
   line-height: 1.7;
 }
 
-.form-slot iframe {
+/* formulaire de contact */
+.contact-form { text-align: left; }
+
+.contact-form .field { margin-bottom: 1.15rem; }
+
+.contact-form label {
   display: block;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--green-dark);
+  margin-bottom: 0.35rem;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
   width: 100%;
-  border: 0;
-  /* le script ajuste la hauteur si Google la communique */
-  min-height: 40rem;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-radius: 0.7rem;
+  padding: 0.7rem 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-fallback {
-  text-align: center;
-  padding: 1.5rem 0 0.5rem;
+.contact-form textarea { resize: vertical; min-height: 8rem; }
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(216, 86, 14, 0.15);
 }
 
-.form-fallback p {
+.contact-form button[type="submit"] {
+  width: 100%;
+  margin-top: 0.35rem;
+  cursor: pointer;
+}
+
+.form-note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
   color: var(--muted);
-  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+/* piège à robots : invisible pour les visiteurs */
+.contact-form .hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 @media (max-width: 720px) {

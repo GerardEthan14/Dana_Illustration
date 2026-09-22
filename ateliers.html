@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f%5B%5D=comico@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=34">
+  <link rel="stylesheet" href="styles.css?v=35">
 </head>
 <body class="page-ateliers">
 
@@ -34,7 +34,7 @@
         <li><a href="index.html#galerie">Galerie</a></li>
         <li><a href="ateliers.html" class="active">Ateliers</a></li>
         <li><a href="mail-club.html">Mail Club</a></li>
-        <li><a href="commandes.html" title="Commandes personnalisées">Commandes</a></li>
+        <li><a href="commandes.html">Contact</a></li>
         <li><a href="boutique.html">Boutique</a></li>
         <li><a href="apropos.html">À propos</a></li>
       </ul>
@@ -57,23 +57,23 @@
   </header>
 
   <section class="page-header">
-    <h1>Ateliers</h1>
-    <p>Des moments pour dessiner ensemble, se tromper, recommencer, et repartir avec quelque chose fait de ses mains.</p>
+    <h1>Ateliers &amp; cours particuliers</h1>
+    <p>Bienvenue dans mon atelier, un espace où tout le monde libère sa créativité de manière ludique et repart avec quelque chose de fait main.</p>
   </section>
 
   <section class="activity">
     <div class="activity-inner">
       <article class="activity-block">
         <h2>Pour qui&nbsp;?</h2>
-        <p>Les ateliers sont ouverts aux enfants comme aux adultes, débutants compris. Aucun prérequis&nbsp;: on part de zéro et on avance à son rythme.</p>
+        <p>Les ateliers sont prévus pour les enfants de 6 à 12 ans&nbsp;; l'âge visé est précisé sur chaque événement. Aucun prérequis&nbsp;: on part de zéro et on avance à son rythme.</p>
       </article>
       <article class="activity-block">
-        <h2>Comment ça se passe</h2>
+        <h2>Comment ça se passe&nbsp;?</h2>
         <p>Chaque atelier tourne autour d'un thème (les animaux, les personnages, l'aquarelle…). Le matériel est fourni, et chacun repart avec ses créations.</p>
       </article>
       <article class="activity-block">
-        <h2>Où et quand</h2>
-        <p>Les ateliers ont lieu ponctuellement en Belgique, en petit groupe. Les prochaines dates sont annoncées sur Instagram et par le formulaire ci-dessous.</p>
+        <h2>Où et quand&nbsp;?</h2>
+        <p>Les ateliers ont lieu chaque semaine à Andenne, en petit groupe. Les prochaines dates sont annoncées sur <a href="https://www.instagram.com/dana.illustration" target="_blank" rel="noopener">Instagram</a> et <a href="https://www.facebook.com/profile.php?id=61594404233779" target="_blank" rel="noopener">Facebook</a>, ou par le formulaire ci-dessous.</p>
       </article>
     </div>
   </section>
@@ -81,23 +81,26 @@
   <section class="form-section" id="formulaire">
     <div class="form-inner">
       <h2>Me contacter</h2>
-      <p class="form-intro">Envie de participer, ou envie d'organiser un atelier chez vous (école, association, anniversaire)&nbsp;? Écrivez-moi ici, je reviens vers vous par e-mail.</p>
+      <p class="form-intro">Envie de participer, ou envie d'organiser un atelier chez vous (association, anniversaire)&nbsp;? Écrivez-moi ici, je reviens vers vous par e-mail.</p>
 
-      <!-- ============================================================
-           FORMULAIRE GOOGLE FORMS
-           Pour l'activer : créez le formulaire sur forms.google.com,
-           cliquez sur « Envoyer » puis sur l'onglet « < > » (Intégrer),
-           copiez l'adresse qui se trouve dans src="..." et collez-la
-           ci-dessous entre les guillemets de data-form-src.
-           Tant que l'adresse est vide, le bloc de secours (e-mail)
-           s'affiche automatiquement à la place.
-           ============================================================ -->
-      <div class="form-slot" data-form-src="" data-form-title="Formulaire Ateliers">
-        <div class="form-fallback">
-          <p>Le formulaire en ligne arrive très bientôt. En attendant, écrivez-moi directement&nbsp;:</p>
-          <a class="btn btn-pill" href="mailto:dana.illustration@gmail.com?subject=Ateliers">dana.illustration@gmail.com</a>
+      <form class="contact-form" action="https://formspree.io/f/VOTRE_IDENTIFIANT" method="POST">
+        <input type="hidden" name="_subject" value="Ateliers — demande depuis le site">
+        <p class="hp"><label>Ne rien écrire ici <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
+        <div class="field">
+          <label for="f-nom">Votre nom</label>
+          <input id="f-nom" name="nom" type="text" required autocomplete="name">
         </div>
-      </div>
+        <div class="field">
+          <label for="f-mail">Votre e-mail</label>
+          <input id="f-mail" name="email" type="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="f-msg">Votre message</label>
+          <textarea id="f-msg" name="message" rows="6" required></textarea>
+        </div>
+        <button class="btn btn-pill" type="submit">Envoyer</button>
+        <p class="form-note">Ou écrivez-moi directement à <a href="mailto:dana.illustration@gmail.com">dana.illustration@gmail.com</a>.</p>
+      </form>
     </div>
   </section>
 
@@ -107,7 +110,7 @@
     </div>
   </footer>
 
-  <script src="script.js?v=32" defer></script>
+  <script src="script.js?v=33" defer></script>
 
 </body>
 </html>

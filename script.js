@@ -790,7 +790,10 @@ function wireBoutique(root, client, ui) {
       img.src = btn.getAttribute('data-full');
       img.alt = btn.getAttribute('data-title') || '';
       title.textContent = btn.getAttribute('data-title') || '';
-      desc.textContent = btn.getAttribute('data-desc') || '';
+      // le texte ne s'affiche que si Dana en a mis un sur ce tableau
+      var d = btn.getAttribute('data-desc') || '';
+      desc.textContent = d;
+      desc.hidden = !d;
       modal.hidden = false;
       document.body.style.overflow = 'hidden';
       modal.querySelector('.artwork-modal-close').focus();
@@ -809,33 +812,6 @@ function wireBoutique(root, client, ui) {
     modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !modal.hidden) close();
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
-
-// ===== Formulaire Google Forms intégré (pages ateliers / mail club / commandes) =====
-(function () {
-  function init() {
-    var slots = document.querySelectorAll('.form-slot[data-form-src]');
-    Array.prototype.forEach.call(slots, function (slot) {
-      var src = (slot.getAttribute('data-form-src') || '').trim();
-      // pas encore d'adresse de formulaire : on laisse le bloc de secours
-      if (!src) return;
-      var frame = document.createElement('iframe');
-      frame.src = src;
-      frame.title = slot.getAttribute('data-form-title') || 'Formulaire de contact';
-      frame.loading = 'lazy';
-      frame.setAttribute('frameborder', '0');
-      frame.setAttribute('marginheight', '0');
-      frame.setAttribute('marginwidth', '0');
-      slot.innerHTML = '';
-      slot.appendChild(frame);
     });
   }
 
