@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie (version simple) · Dana Illustration</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f%5B%5D=comico@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=37">
+</head>
+<body class="page-galerie-simple">
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="index.html">Dana Leriche</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="index.html#galerie">Galerie</a></li>
+        <li><a href="ateliers.html">Ateliers</a></li>
+        <li><a href="mail-club.html">Mail Club</a></li>
+        <li><a href="commandes.html">Contact</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="nav-social" href="https://www.instagram.com/dana.illustration" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="nav-social" href="https://www.facebook.com/profile.php?id=61594404233779" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.02h2.36l.35-2.74h-2.71V9.49c0-.79.22-1.33 1.36-1.33h1.45V5.71c-.25-.03-1.11-.11-2.11-.11-2.09 0-3.52 1.27-3.52 3.62v2.02H8.31v2.74h2.37V21h2.82z"/></svg></a>
+        <button class="cart-btn" type="button" aria-label="Panier">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 2.5 3.8 6.2V20a1.8 1.8 0 0 0 1.8 1.8h12.8A1.8 1.8 0 0 0 20.2 20V6.2L17.5 2.5z"/><path d="M3.8 6.2h16.4"/><path d="M15.6 9.9a3.6 3.6 0 0 1-7.2 0"/></svg>
+          <span class="cart-count">0</span>
+        </button>
+        <label for="nav-toggle" class="nav-burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </label>
+      </div>
+    </nav>
+    <div class="header-cut" aria-hidden="true">
+      <span class="header-cut-line"></span>
+      <svg class="header-cut-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.7"/><circle cx="6" cy="18" r="2.7"/><path d="M20 4 8.1 15.9"/><path d="M14.5 14.5 20 20"/><path d="M8.1 8.1 12 12"/></svg>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <h1>Galerie</h1>
+    <p>Version d’essai&nbsp;: les illustrations en grand, sans décor. À comparer avec le musée de la page d’accueil.</p>
+  </section>
+
+  <section class="plain-gallery">
+    <div class="plain-grid">
+      <button class="plain-item" type="button" data-title="Le vol du dragon" data-full="photo/illu-dragon.jpg">
+        <img src="photo/illu-dragon.jpg" alt="Le vol du dragon" loading="lazy">
+        <span class="plain-caption">Le vol du dragon</span>
+      </button>
+      <button class="plain-item" type="button" data-title="La baleine" data-full="photo/illu-baleine.jpg">
+        <img src="photo/illu-baleine.jpg" alt="La baleine" loading="lazy">
+        <span class="plain-caption">La baleine</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Bienvenue à Patina" data-full="photo/illu-bd-patina.jpg">
+        <img src="photo/illu-bd-patina.jpg" alt="Bienvenue à Patina" loading="lazy">
+        <span class="plain-caption">Bienvenue à Patina</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Le monde des poissons de verre" data-full="photo/illu-poissons-de-verre.jpg">
+        <img src="photo/illu-poissons-de-verre.jpg" alt="Le monde des poissons de verre" loading="lazy">
+        <span class="plain-caption">Le monde des poissons de verre</span>
+      </button>
+      <button class="plain-item" type="button" data-title="À la recherche du Yéti" data-full="photo/illu-yeti.jpg">
+        <img src="photo/illu-yeti.jpg" alt="À la recherche du Yéti" loading="lazy">
+        <span class="plain-caption">À la recherche du Yéti</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Mira, à l&#x27;aventure" data-full="photo/illu-mira-aventure.jpg">
+        <img src="photo/illu-mira-aventure.jpg" alt="Mira, à l&#x27;aventure" loading="lazy">
+        <span class="plain-caption">Mira, à l&#x27;aventure</span>
+      </button>
+      <button class="plain-item" type="button" data-title="La parade" data-full="photo/illu-mira-parade.jpg">
+        <img src="photo/illu-mira-parade.jpg" alt="La parade" loading="lazy">
+        <span class="plain-caption">La parade</span>
+      </button>
+      <button class="plain-item" type="button" data-title="L&#x27;heure du livre" data-full="photo/illu-heure-du-livre.jpg">
+        <img src="photo/illu-heure-du-livre.jpg" alt="L&#x27;heure du livre" loading="lazy">
+        <span class="plain-caption">L&#x27;heure du livre</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Le tigre du temple" data-full="photo/illu-tigre-temple.jpg">
+        <img src="photo/illu-tigre-temple.jpg" alt="Le tigre du temple" loading="lazy">
+        <span class="plain-caption">Le tigre du temple</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Sous les étoiles" data-full="photo/illu-ours-polaire.jpg">
+        <img src="photo/illu-ours-polaire.jpg" alt="Sous les étoiles" loading="lazy">
+        <span class="plain-caption">Sous les étoiles</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Le héron" data-full="photo/illu-heron.jpg">
+        <img src="photo/illu-heron.jpg" alt="Le héron" loading="lazy">
+        <span class="plain-caption">Le héron</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Le cygne" data-full="photo/illu-cygne.jpg">
+        <img src="photo/illu-cygne.jpg" alt="Le cygne" loading="lazy">
+        <span class="plain-caption">Le cygne</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Le messager sagittaire" data-full="photo/illu-messager-sagittaire.jpg">
+        <img src="photo/illu-messager-sagittaire.jpg" alt="Le messager sagittaire" loading="lazy">
+        <span class="plain-caption">Le messager sagittaire</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Madao &amp; Bond" data-full="photo/illu-madao-bond.jpg">
+        <img src="photo/illu-madao-bond.jpg" alt="Madao &amp; Bond" loading="lazy">
+        <span class="plain-caption">Madao &amp; Bond</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Shadow" data-full="photo/illu-shadow.jpg">
+        <img src="photo/illu-shadow.jpg" alt="Shadow" loading="lazy">
+        <span class="plain-caption">Shadow</span>
+      </button>
+      <button class="plain-item" type="button" data-title="Un anniversaire au poil" data-full="photo/illu-anniversaire.jpg">
+        <img src="photo/illu-anniversaire.jpg" alt="Un anniversaire au poil" loading="lazy">
+        <span class="plain-caption">Un anniversaire au poil</span>
+      </button>
+    </div>
+  </section>
+
+  <div class="artwork-modal" hidden>
+    <div class="artwork-modal-box" role="dialog" aria-modal="true" aria-labelledby="artwork-modal-title">
+      <button class="artwork-modal-close" type="button" aria-label="Fermer">×</button>
+      <img class="artwork-modal-img" src="" alt="">
+      <div class="artwork-modal-text">
+        <h3 id="artwork-modal-title"></h3>
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 Dana Illustration</p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=34" defer></script>
+
+</body>
+</html>

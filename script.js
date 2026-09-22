@@ -821,3 +821,52 @@ function wireBoutique(root, client, ui) {
     init();
   }
 })();
+
+// ===== Galerie simple (page d'essai) : même popup que le musée =====
+(function () {
+  function init() {
+    var items = document.querySelectorAll('.plain-item');
+    var modal = document.querySelector('.artwork-modal');
+    if (!items.length || !modal) return;
+
+    var img = modal.querySelector('.artwork-modal-img');
+    var title = modal.querySelector('.artwork-modal-text h3');
+    var desc = modal.querySelector('.artwork-modal-text p');
+    var closeBtn = modal.querySelector('.artwork-modal-close');
+    var opener = null;
+
+    function open(btn) {
+      opener = btn;
+      img.src = btn.getAttribute('data-full');
+      img.alt = btn.getAttribute('data-title') || '';
+      title.textContent = btn.getAttribute('data-title') || '';
+      var d = btn.getAttribute('data-desc') || '';
+      desc.textContent = d;
+      desc.hidden = !d;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (opener) { opener.focus(); opener = null; }
+    }
+
+    Array.prototype.forEach.call(items, function (btn) {
+      btn.addEventListener('click', function () { open(btn); });
+    });
+    closeBtn.addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) close();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
