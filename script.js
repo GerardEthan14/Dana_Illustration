@@ -77,12 +77,13 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
   // mets BANNER.html à '' (chaîne vide). Change BANNER.id pour le réafficher à
   // ceux qui l'avaient fermé.
   var BANNER = {
-    id: 'expeditions-2026-06-19',
-    html: ''
+    id: 'calendrier-2027',
+    html: 'Le calendrier 2027 arrive — <a href="calendrier.html">rejoignez la liste d\u2019attente</a>'
   };
   function injectBanner() {
     if (!BANNER.html) return;
-    if (document.body.classList.contains('page-refuge')) return; // pas sur le Refuge Club
+    if (document.body.classList.contains('page-refuge')) return;      // pas sur le Refuge Club
+    if (document.body.classList.contains('page-calendrier')) return;  // pas sur la page annoncée
     try { if (localStorage.getItem('banner-dismissed') === BANNER.id) return; } catch (e) {}
     if (document.querySelector('.site-banner')) return;
     var bar = document.createElement('div');
