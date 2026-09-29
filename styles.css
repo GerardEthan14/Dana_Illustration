@@ -2029,6 +2029,132 @@ a.quick-btn:focus-visible {
 }
 
 /* ============================================
+   Calendrier : les mois en carrousel
+   ============================================ */
+.months {
+  --slide: clamp(13rem, 34vw, 22rem);
+  --gap: clamp(0.8rem, 2vw, 1.6rem);
+  padding: 0 0 2.5rem;
+}
+
+.months-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.25rem, 1.5vw, 1rem);
+}
+
+.months-viewport {
+  overflow: hidden;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.months-track {
+  display: flex;
+  gap: var(--gap);
+  list-style: none;
+  padding-inline: calc(50% - var(--slide) / 2);
+  transform: translateX(calc(-1 * var(--index, 0) * (var(--slide) + var(--gap))));
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.month-slide {
+  flex: none;
+  width: var(--slide);
+  cursor: pointer;
+  transform: scale(0.84);
+  opacity: 0.45;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.45s;
+}
+
+.month-slide.is-active {
+  transform: scale(1);
+  opacity: 1;
+  cursor: zoom-in;
+}
+
+.month-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 26px rgba(31, 30, 28, 0.2);
+}
+
+.month-label {
+  text-align: center;
+  margin-top: 0.7rem;
+  line-height: 1.3;
+}
+
+.month-label strong {
+  display: block;
+  font-family: 'Comico', 'Jost', sans-serif;
+  font-weight: 400;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.month-label span {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.months-arrow {
+  flex: none;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.months-arrow:hover { background: var(--orange); border-color: var(--orange); color: var(--cream); }
+.months-arrow:disabled { opacity: 0.3; cursor: default; transform: none; background: var(--cream); color: var(--ink); border-color: var(--ink); }
+
+.months-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+.months-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.months-dot.is-active { background: var(--orange); border-color: var(--orange); transform: scale(1.2); }
+
+.months-hint {
+  text-align: center;
+  margin-top: 1.1rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .months { --slide: clamp(11rem, 62vw, 17rem); }
+  .months-arrow { width: 2.4rem; height: 2.4rem; font-size: 1.3rem; }
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 720px) {
