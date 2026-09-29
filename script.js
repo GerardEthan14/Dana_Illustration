@@ -871,3 +871,76 @@ function wireBoutique(root, client, ui) {
     init();
   }
 })();
+
+// ===== Calendrier : carrousel des mois (un au centre, les autres autour) =====
+(function () {
+  function init() {
+    var box = document.querySelector('.months');
+    if (!box) return;
+
+    var track = box.querySelector('.months-track');
+    var slides = Array.prototype.slice.call(box.querySelectorAll('.month-slide'));
+    var dots = Array.prototype.slice.call(box.querySelectorAll('.months-dot'));
+    var prev = box.querySelector('.months-prev');
+    var next = box.querySelector('.months-next');
+    if (!track || !slides.length) return;
+
+    var index = 0;
+
+    function render() {
+      track.style.setProperty('--index', index);
+      slides.forEach(function (s, i) {
+        var active = i === index;
+        s.classList.toggle('is-active', active);
+        s.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+      dots.forEach(function (d, i) { d.classList.toggle('is-active', i === index); });
+      if (prev) prev.disabled = index === 0;
+      if (next) next.disabled = index === slides.length - 1;
+    }
+
+    function go(i) {
+      index = Math.max(0, Math.min(slides.length - 1, i));
+      render();
+    }
+
+    if (prev) prev.addEventListener('click', function () { go(index - 1); });
+    if (next) next.addEventListener('click', function () { go(index + 1); });
+    dots.forEach(function (d) {
+      d.addEventListener('click', function () { go(parseInt(d.getAttribute('data-go'), 10) || 0); });
+    });
+
+    slides.forEach(function (s, i) {
+      s.addEventListener('click', function () {
+        // un mois de côté : on l'amène au centre ; le mois central : on l'ouvre en grand
+        if (i !== index) { go(i); return; }
+        var img = s.querySelector('img');
+        if (img) window.open(img.getAttribute('src'), '_blank', 'noopener');
+      });
+    });
+
+    // flèches du clavier
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { go(index - 1); }
+      else if (e.key === 'ArrowRight') { go(index + 1); }
+    });
+
+    // glissement du doigt
+    var x0 = null;
+    box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) { go(index + (dx < 0 ? 1 : -1)); }
+      x0 = null;
+    }, { passive: true });
+
+    render();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();

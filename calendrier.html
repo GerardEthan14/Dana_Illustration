@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendrier 2027 · Dana Illustration</title>
-  <meta name="description" content="Le calendrier 2027 illustré par Dana Leriche arrive. Inscrivez-vous à la liste d’attente pour être prévenu·e dès sa mise en vente.">
+  <meta name="description" content="Un calendrier 2027 100 % illustré à la main, rempli de détails cachés : un pays par mois pour faire découvrir le monde aux enfants. Inscrivez-vous à la liste d’attente.">
   <link rel="canonical" href="https://danaillustration.be/calendrier.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_BE">
   <meta property="og:site_name" content="Dana Illustration">
   <meta property="og:title" content="Calendrier 2027 · Dana Illustration">
-  <meta property="og:description" content="Le calendrier 2027 illustré par Dana Leriche arrive. Inscrivez-vous à la liste d’attente pour être prévenu·e dès sa mise en vente.">
+  <meta property="og:description" content="Un calendrier 2027 100 % illustré à la main, rempli de détails cachés : un pays par mois pour faire découvrir le monde aux enfants. Inscrivez-vous à la liste d’attente.">
   <meta property="og:url" content="https://danaillustration.be/calendrier.html">
-  <meta property="og:image" content="https://danaillustration.be/photo/hero-dana-leriche.jpg">
+  <meta property="og:image" content="https://danaillustration.be/photo/calendrier-janvier.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="512x512" href="/photo/favicon-512.png">
@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f%5B%5D=comico@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=40">
+  <link rel="stylesheet" href="styles.css?v=41">
 </head>
 <body class="page-calendrier">
 
@@ -57,14 +57,46 @@
 
   <section class="page-header">
     <h1>Calendrier 2027</h1>
-    <p>Douze mois, douze illustrations. Il arrive bientôt&nbsp;: laissez-moi votre e-mail et vous serez prévenu·e en premier, le jour de sa mise en vente.</p>
+    <p>Un calendrier 100&nbsp;% illustré à la main, rempli de détails cachés, pour permettre à votre enfant de découvrir le monde de manière ludique tout au long de l’année.</p>
   </section>
 
-  <!-- ============================================================
-       VISUEL DU CALENDRIER
-       Quand la couverture est prête, envoie-la-moi et je l'ajoute
-       ici, au-dessus du formulaire.
-       ============================================================ -->
+  <section class="months" aria-label="Les pages du calendrier" tabindex="0">
+    <div class="months-stage">
+      <button class="months-arrow months-prev" type="button" aria-label="Mois précédent">‹</button>
+      <div class="months-viewport">
+        <ul class="months-track">
+          <li class="month-slide">
+            <img src="photo/calendrier-janvier.jpg" width="990" height="1400"
+                 alt="Page de janvier du calendrier : Amérique du Nord">
+            <p class="month-label"><strong>Janvier</strong><span>Amérique du Nord</span></p>
+          </li>
+          <li class="month-slide">
+            <img src="photo/calendrier-fevrier.jpg" width="990" height="1400"
+                 alt="Page de février du calendrier : Chine" loading="lazy">
+            <p class="month-label"><strong>Février</strong><span>Chine</span></p>
+          </li>
+          <li class="month-slide">
+            <img src="photo/calendrier-mars.jpg" width="990" height="1400"
+                 alt="Page de mars du calendrier : Indonésie" loading="lazy">
+            <p class="month-label"><strong>Mars</strong><span>Indonésie</span></p>
+          </li>
+          <li class="month-slide">
+            <img src="photo/calendrier-avril.jpg" width="990" height="1400"
+                 alt="Page de avril du calendrier : Japon" loading="lazy">
+            <p class="month-label"><strong>Avril</strong><span>Japon</span></p>
+          </li>
+        </ul>
+      </div>
+      <button class="months-arrow months-next" type="button" aria-label="Mois suivant">›</button>
+    </div>
+    <div class="months-dots">
+        <button class="months-dot" type="button" data-go="0" aria-label="Voir Janvier"></button>
+        <button class="months-dot" type="button" data-go="1" aria-label="Voir Février"></button>
+        <button class="months-dot" type="button" data-go="2" aria-label="Voir Mars"></button>
+        <button class="months-dot" type="button" data-go="3" aria-label="Voir Avril"></button>
+    </div>
+    <p class="months-hint">Quatre mois sur douze&nbsp;— les autres arrivent.</p>
+  </section>
 
   <section class="form-section" id="liste-attente">
     <div class="form-inner">
@@ -111,7 +143,7 @@
     </div>
   </footer>
 
-  <script src="script.js?v=36" defer></script>
+  <script src="script.js?v=37" defer></script>
 
 </body>
 </html>
