@@ -78,7 +78,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
   // ceux qui l'avaient fermé.
   var BANNER = {
     id: 'calendrier-2027',
-    html: 'Le calendrier 2027 arrive — <a href="calendrier.html">rejoignez la liste d\u2019attente</a>'
+    html: ''
   };
   function injectBanner() {
     if (!BANNER.html) return;
