@@ -528,7 +528,13 @@ function wireBoutique(root, client, ui) {
       "updateItemQuantity": updateCartCount
     },
     "styles": { "button": brandBtn },
-    "text": { "total": "Sous-total", "button": "Commander" }
+    "text": {
+      "title": "Panier",
+      "total": "Sous-total",
+      "button": "Commander",
+      "empty": "Votre panier est vide.",
+      "notice": "Frais de livraison et codes de réduction calculés au paiement."
+    }
   };
   var brandToggle = {
     "styles": {
