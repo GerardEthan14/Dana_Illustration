@@ -2996,6 +2996,7 @@ a.quick-btn:focus-visible {
 }
 .refuge-save label { display: block; margin: 0.8rem 0 0.4rem; }
 .refuge-code.is-wrong { animation: refuge-shake 0.4s; }
+.refuge-credit { text-align: center; color: var(--muted); font-size: 0.75rem; margin-top: 2.5rem; }
 
 /* toasts de badges */
 .refuge-toasts {
