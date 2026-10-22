@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le Refuge · Dana Illustration</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f%5B%5D=comico@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=44">
+</head>
+<body class="page-refuge">
+
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="index.html">Dana Leriche</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="galerie.html">Galerie</a></li>
+        <li><a href="ateliers.html">Ateliers</a></li>
+        <li><a href="commandes.html">Contact</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="calendrier.html">Calendrier</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="nav-social" href="https://www.instagram.com/dana.illustration" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="nav-social" href="https://www.facebook.com/profile.php?id=61594404233779" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.02h2.36l.35-2.74h-2.71V9.49c0-.79.22-1.33 1.36-1.33h1.45V5.71c-.25-.03-1.11-.11-2.11-.11-2.09 0-3.52 1.27-3.52 3.62v2.02H8.31v2.74h2.37V21h2.82z"/></svg></a>
+        <button class="cart-btn" type="button" aria-label="Panier">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 2.5 3.8 6.2V20a1.8 1.8 0 0 0 1.8 1.8h12.8A1.8 1.8 0 0 0 20.2 20V6.2L17.5 2.5z"/><path d="M3.8 6.2h16.4"/><path d="M15.6 9.9a3.6 3.6 0 0 1-7.2 0"/></svg>
+          <span class="cart-count">0</span>
+        </button>
+        <label for="nav-toggle" class="nav-burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </label>
+      </div>
+    </nav>
+    <div class="header-cut" aria-hidden="true">
+      <span class="header-cut-line"></span>
+      <svg class="header-cut-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.7"/><circle cx="6" cy="18" r="2.7"/><path d="M20 4 8.1 15.9"/><path d="M14.5 14.5 20 20"/><path d="M8.1 8.1 12 12"/></svg>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <h1>Le Refuge</h1>
+    <p>Chaque mois, un nouveau pensionnaire arrive au refuge. Entrez le code reçu pour l'accueillir sur la carte, puis cliquez sur lui pour découvrir son histoire.</p>
+  </section>
+
+  <section class="refuge-map-section">
+    <form class="refuge-code" autocomplete="off">
+      <label for="refuge-code-input">Votre code du mois</label>
+      <div class="refuge-code-row">
+        <input id="refuge-code-input" name="code" type="text" placeholder="EX. ABCD2026" required autocapitalize="characters" spellcheck="false">
+        <button class="btn btn-pill" type="submit">Accueillir</button>
+      </div>
+      <p class="refuge-code-msg" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="refuge-map">
+      <img class="refuge-map-img" src="photo/refuge-carte.webp" alt="Carte du refuge et de ses enclos">
+      <div class="refuge-animals"></div>
+      <p class="refuge-empty">Le refuge attend son premier pensionnaire&nbsp;!</p>
+    </div>
+  </section>
+
+  <div class="artwork-modal refuge-fiche" hidden>
+    <div class="artwork-modal-box" role="dialog" aria-modal="true" aria-labelledby="refuge-fiche-name">
+      <button class="artwork-modal-close" type="button" aria-label="Fermer">×</button>
+      <img class="artwork-modal-img" src="" alt="">
+      <div class="artwork-modal-text">
+        <p class="eyebrow refuge-fiche-species"></p>
+        <h3 id="refuge-fiche-name"></h3>
+        <p class="refuge-fiche-story"></p>
+        <h4>Le saviez-vous&nbsp;?</h4>
+        <ul class="refuge-fiche-facts"></ul>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 Dana Illustration</p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=39" defer></script>
+  <script src="refuge.js?v=1" defer></script>
+
+</body>
+</html>
