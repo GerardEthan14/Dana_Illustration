@@ -2677,3 +2677,301 @@ a.quick-btn:focus-visible {
 .refuge-fiche-facts { padding-left: 1.1rem; }
 .refuge-fiche-facts li { margin-bottom: 0.35rem; line-height: 1.55; }
 .refuge-fiche-facts li::marker { color: var(--orange); }
+
+/* ---- Refuge : jeu (niveau, trésors, soins, badges, caisse, effets) ---- */
+.refuge-level {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  max-width: 32rem;
+  margin: 0 auto 1rem;
+  font-family: 'Comico', 'Jost', sans-serif;
+  color: var(--green-dark);
+}
+.refuge-level-bar {
+  flex: 1;
+  height: 0.9rem;
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.refuge-level-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #F2B544, var(--orange));
+  border-radius: inherit;
+  transition: width 0.6s cubic-bezier(0.3, 1.4, 0.6, 1);
+}
+.refuge-level-xp { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
+.refuge-level.is-gain .refuge-level-num { animation: refuge-pop 0.4s ease-out; }
+.refuge-level.is-up { animation: refuge-glow 1.2s ease-out; }
+
+.refuge-hint { text-align: center; color: var(--muted); font-size: 0.9rem; margin-top: 0.8rem; }
+
+/* les calques couvrent la carte mais laissent passer les clics jusqu'à leurs éléments */
+.refuge-pickups { position: absolute; inset: 0; z-index: 1; }
+.refuge-pickups, .refuge-animals { pointer-events: none; }
+.refuge-pickup, .refuge-animal { pointer-events: auto; }
+.refuge-pickup {
+  position: absolute;
+  translate: -50% -50%;
+  width: 2.6rem;
+  height: 2.6rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 245, 200, 0.95) 30%, rgba(255, 220, 120, 0) 70%);
+  animation: refuge-float 2s ease-in-out infinite alternate;
+}
+.refuge-pickup:hover, .refuge-pickup:focus-visible { scale: 1.25; outline: none; }
+
+.refuge-map.is-shake { animation: refuge-shake 0.45s; }
+
+.refuge-levelup {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  animation: refuge-fade 2.2s ease-in forwards;
+}
+.refuge-levelup span {
+  font-family: 'Comico', 'Jost', sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  color: var(--cream);
+  -webkit-text-stroke: 2px var(--orange);
+  text-shadow: 0 6px 0 var(--orange), 0 10px 30px rgba(31, 30, 28, 0.4);
+  animation: refuge-slam 0.6s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+/* fiche : soins et secrets */
+.refuge-care { margin-top: 1.2rem; padding-top: 1rem; border-top: 1.5px dashed var(--border); }
+.refuge-fiche .refuge-hearts { font-size: 1.5rem; letter-spacing: 0.15em; color: var(--orange); }
+.refuge-care-btn:disabled { background: var(--border); border-color: var(--border); color: var(--muted); cursor: default; transform: none; }
+.refuge-fiche .refuge-care-msg { font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem; }
+.refuge-secret {
+  margin-top: 0.7rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--mustard-soft);
+  border-radius: var(--radius-sm);
+}
+.refuge-secret.is-new { animation: refuge-slam 0.6s cubic-bezier(0.2, 1.6, 0.4, 1); }
+.refuge-fiche .artwork-modal-img.is-happy { animation: refuge-hop 0.6s ease-out; }
+
+/* badges */
+.refuge-trophies { margin-top: 3.5rem; text-align: center; }
+.refuge-trophies h2 { margin-bottom: 1.5rem; }
+.refuge-trophy-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 1rem;
+}
+.refuge-trophy {
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  opacity: 0.55;
+  filter: grayscale(1);
+}
+.refuge-trophy.is-got { opacity: 1; filter: none; box-shadow: var(--shadow-sm); border-color: #F2B544; }
+.refuge-trophy-icon { font-size: 2rem; line-height: 1.2; }
+.refuge-trophy strong { font-family: 'Comico', 'Jost', sans-serif; font-weight: 400; color: var(--orange); line-height: 1.2; }
+.refuge-trophy small { color: var(--muted); line-height: 1.35; }
+
+/* sauvegarde */
+.refuge-save { max-width: 32rem; margin: 3rem auto 0; color: var(--muted); }
+.refuge-save summary { cursor: pointer; text-align: center; font-family: 'Comico', 'Jost', sans-serif; color: var(--olive); }
+.refuge-save p { margin: 0.8rem 0; font-size: 0.9rem; }
+.refuge-save textarea {
+  width: 100%;
+  font: 0.75rem/1.4 monospace;
+  padding: 0.6rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--cream);
+  word-break: break-all;
+}
+.refuge-save label { display: block; margin: 0.8rem 0 0.4rem; }
+.refuge-code.is-wrong { animation: refuge-shake 0.4s; }
+
+/* toasts de badges */
+.refuge-toasts {
+  position: fixed;
+  left: 50%;
+  bottom: 1.2rem;
+  translate: -50% 0;
+  z-index: 1400;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
+  pointer-events: none;
+}
+.refuge-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.7rem 1.3rem 0.7rem 0.8rem;
+  background: var(--cream);
+  border: 2px solid #F2B544;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  animation: refuge-toast-in 0.5s cubic-bezier(0.2, 1.5, 0.4, 1);
+  transition: opacity 0.4s, translate 0.4s;
+}
+.refuge-toast::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.8) 50%, transparent 70%);
+  translate: -100% 0;
+  animation: refuge-shine 1.2s 0.4s ease-in-out;
+}
+.refuge-toast.is-out { opacity: 0; translate: 0 1rem; }
+.refuge-toast-icon { font-size: 1.8rem; }
+.refuge-toast small { display: block; color: var(--olive); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; }
+.refuge-toast strong { font-family: 'Comico', 'Jost', sans-serif; font-weight: 400; color: var(--orange); }
+
+/* arrivée : la caisse */
+.refuge-reveal {
+  position: fixed;
+  inset: 0;
+  z-index: 1250;
+  display: grid;
+  place-items: center;
+  background: rgba(31, 30, 28, 0.78);
+  overflow: hidden;
+}
+.refuge-reveal[hidden] { display: none; }
+.refuge-reveal-rays {
+  position: absolute;
+  width: 160vmax;
+  height: 160vmax;
+  background: repeating-conic-gradient(rgba(242, 181, 68, 0.22) 0deg 10deg, transparent 10deg 20deg);
+  -webkit-mask: radial-gradient(circle, #000 0, transparent 60%);
+  mask: radial-gradient(circle, #000 0, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s;
+  animation: refuge-spin 30s linear infinite;
+}
+.refuge-reveal.is-open .refuge-reveal-rays { opacity: 1; }
+.refuge-reveal-stage { position: relative; text-align: center; padding: 1rem; }
+.refuge-crate {
+  width: min(14rem, 60vw);
+  aspect-ratio: 1;
+  border: 6px solid #6B3E1F;
+  border-radius: 0.6rem;
+  background:
+    linear-gradient(45deg, transparent 46%, #6B3E1F 46% 54%, transparent 54%),
+    repeating-linear-gradient(0deg, #C98A4B 0 22%, #B07434 22% 25%);
+  box-shadow: inset 0 0 0 0.7rem #A86A2E, var(--shadow);
+  display: grid;
+  place-items: center;
+  animation: refuge-wobble 1.6s ease-in-out infinite;
+}
+.refuge-crate.is-knock { animation: refuge-knock 0.35s; }
+.refuge-crate[hidden] { display: none; }
+.refuge-crate-label {
+  font-family: 'Comico', 'Jost', sans-serif;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: var(--orange);
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.3rem;
+  rotate: -8deg;
+  line-height: 1.2;
+}
+.refuge-crate-hint { color: var(--cream); margin-top: 1.2rem; font-family: 'Comico', 'Jost', sans-serif; }
+.refuge-reveal-card {
+  position: relative;
+  overflow: hidden;
+  width: min(22rem, 86vw);
+  background: var(--cream);
+  border: 4px solid #F2B544;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 0 60px rgba(242, 181, 68, 0.6), var(--shadow);
+  animation: refuge-flip 0.8s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.refuge-reveal-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.85) 50%, transparent 70%);
+  translate: -100% 0;
+  animation: refuge-shine 1.2s 0.7s ease-in-out;
+  pointer-events: none;
+}
+.refuge-reveal-card img { max-height: 14rem; margin: 0 auto 1rem; animation: refuge-hop 0.8s 0.6s ease-out; }
+.refuge-reveal-card .eyebrow { margin-bottom: 0.2rem; }
+.refuge-reveal-card h3 { font-size: 2rem; text-transform: uppercase; color: var(--orange); margin-bottom: 1.2rem; }
+
+/* particules */
+.fx-bit {
+  position: fixed;
+  z-index: 1500;
+  width: 0.55rem;
+  height: 0.8rem;
+  border-radius: 2px;
+  pointer-events: none;
+  translate: -50% -50%;
+  animation: fx-fly var(--t) cubic-bezier(0.15, 0.7, 0.3, 1) forwards;
+}
+.fx-bit.fx-char { width: auto; height: auto; font-size: 1.4rem; line-height: 1; }
+.fx-float {
+  position: fixed;
+  z-index: 1500;
+  translate: -50% -50%;
+  pointer-events: none;
+  font-family: 'Comico', 'Jost', sans-serif;
+  font-size: 1.3rem;
+  color: var(--orange);
+  -webkit-text-stroke: 1px var(--cream);
+  animation: fx-rise 1s ease-out forwards;
+}
+
+@keyframes fx-fly {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translate(var(--dx), calc(var(--dy) + 60px)) rotate(var(--rot)); opacity: 0; }
+}
+@keyframes fx-rise {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  20% { transform: translateY(-10px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-60px) scale(1); opacity: 0; }
+}
+@keyframes refuge-float { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+@keyframes refuge-pop { 50% { transform: scale(1.3); color: var(--orange); } }
+@keyframes refuge-glow { 30% { filter: drop-shadow(0 0 12px #F2B544); transform: scale(1.06); } }
+@keyframes refuge-shake {
+  20% { transform: translateX(-6px) rotate(-0.5deg); }
+  40% { transform: translateX(6px) rotate(0.5deg); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+@keyframes refuge-fade { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes refuge-slam { 0% { transform: scale(2.2); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes refuge-hop { 30% { transform: translateY(-12%) scale(1.05); } 55% { transform: translateY(0) scale(1.08, 0.92); } 75% { transform: translateY(-4%); } }
+@keyframes refuge-wobble { 0%, 80%, 100% { transform: rotate(0); } 85% { transform: rotate(-3deg); } 90% { transform: rotate(3deg); } 95% { transform: rotate(-2deg); } }
+@keyframes refuge-knock { 30% { transform: scale(1.12, 0.9) rotate(-4deg); } 60% { transform: scale(0.95, 1.08) rotate(3deg); } }
+@keyframes refuge-flip { 0% { transform: perspective(800px) rotateY(90deg) scale(0.4); } 100% { transform: perspective(800px) rotateY(0) scale(1); } }
+@keyframes refuge-shine { to { translate: 100% 0; } }
+@keyframes refuge-spin { to { rotate: 360deg; } }
+@keyframes refuge-toast-in { from { transform: translateY(2rem) scale(0.8); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .refuge-pickup, .refuge-crate, .refuge-reveal-rays, .refuge-reveal-card, .refuge-reveal-card img,
+  .refuge-map.is-shake, .refuge-levelup span, .refuge-secret.is-new, .refuge-toast { animation: none; }
+}
