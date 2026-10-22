@@ -2,8 +2,10 @@
 // Pour ajouter l'animal du mois : une entrée dans ANIMALS.
 //  - code : empreinte SHA-256 du code en majuscules sans espaces
 //    (terminal : echo -n ZURI2026 | sha256sum)
-//  - zone : ellipse de son enclos, en % de la carte (centre x/y, rayons rx/ry)
-//  - size : largeur de l'animal, en % de la carte
+//  - biome : le morceau de carte où il vit (voir BIOMES)
+//  - zone : ellipse de son enclos, en % de son biome (centre x/y, rayons rx/ry)
+//  - size : largeur de l'animal, en % de son biome
+//  - hint : indice affiché tant qu'il n'est qu'une silhouette
 //  - secrets : deux anecdotes débloquées après 3 et 7 jours de friandises
 // shortcut: site statique, la progression est gardée dans le navigateur
 // (localStorage, + code de sauvegarde) et un visiteur curieux peut tricher ;
@@ -14,8 +16,10 @@
       id: 'zuri',
       code: '5e31c9c0a84d12cd6cb25fe6f251f0c53fe7a5c67559e0c4eb60c8c54807bd0e',
       img: 'photo/refuge-elephant.png',
-      zone: { x: 30, y: 56, rx: 8, ry: 3.5 },
-      size: 9,
+      biome: 'lac',
+      zone: { x: 60, y: 12, rx: 16, ry: 7 },
+      size: 18,
+      hint: "Elle adore s'asperger d'eau et n'oublie jamais un ami.",
       name: 'Zuri',
       species: "Éléphant d'Afrique",
       story: "Zuri (« la belle » en swahili) est arrivée au refuge toute petite, après avoir perdu son troupeau. " +
@@ -37,8 +41,10 @@
       id: 'baako',
       code: 'b55451316e6ff9b0208533d398acc198ac504b5fab632867c17a5a0ad12e088e',
       img: 'photo/refuge-lion.png',
-      zone: { x: 29, y: 28, rx: 5, ry: 4.5 },
-      size: 9,
+      biome: 'savane',
+      zone: { x: 58, y: 56, rx: 10, ry: 9 },
+      size: 18,
+      hint: "Sa crinière est la plus belle du refuge… et il dort presque toute la journée.",
       name: 'Baako',
       species: "Lion d'Afrique",
       story: "Baako a grandi dans un cirque, où il n'avait jamais foulé d'herbe. À son arrivée, il a passé une journée entière " +
@@ -60,8 +66,10 @@
       id: 'sirocco',
       code: '97bd058fad3f90c660242050e7444cbe921209fb0cd2d42f248b35a3a97b708a',
       img: 'photo/refuge-aigle.png',
-      zone: { x: 15, y: 88, rx: 5, ry: 3 },
-      size: 5,
+      biome: 'lac',
+      zone: { x: 30, y: 76, rx: 10, ry: 6 },
+      size: 10,
+      hint: "Il voit tout depuis le plus haut perchoir.",
       name: 'Sirocco',
       species: 'Aigle royal',
       story: "Sirocco a été retrouvé au pied d'une ligne électrique, une aile blessée. Après de longs mois de soins, " +
@@ -82,8 +90,10 @@
       id: 'zazou',
       code: 'fa1ce09fc8ffcfb202739ba854a5646085e220050cdc28b5fb49680770a244af',
       img: 'photo/refuge-zebre.png',
-      zone: { x: 62, y: 38, rx: 13, ry: 6 },
-      size: 8,
+      biome: 'plaines',
+      zone: { x: 26, y: 76, rx: 20, ry: 12 },
+      size: 16,
+      hint: "Pas deux comme lui : ses rayures sont uniques.",
       name: 'Zazou',
       species: 'Zèbre des plaines',
       story: "Zazou est né au refuge, au printemps. Curieux de tout, il suit les soigneurs pas à pas pendant leur tournée " +
@@ -104,8 +114,10 @@
       id: 'bruno',
       code: '33017bb47ec3066e2d6bc4ef225cd0e15d82db9b3c92c56249214660098c5836',
       img: 'photo/refuge-ours.png',
-      zone: { x: 91, y: 67, rx: 3, ry: 4 },
-      size: 8,
+      biome: 'foret',
+      zone: { x: 82, y: 34, rx: 6, ry: 8 },
+      size: 16,
+      hint: "Un grand gourmand qui cache des pommes sous les feuilles.",
       name: 'Bruno',
       species: 'Ours brun',
       story: "Bruno a été recueilli encore ourson, trop jeune pour se débrouiller seul. C'est un gourmand : " +
@@ -125,6 +137,19 @@
     }
   ];
 
+  // La carte est une grille de biomes : une image carrée chacun, dessinés à la même échelle
+  // pour que les bords se raccordent. Le premier est ouvert d'office ; les autres sortent
+  // de la brume quand on accueille leur premier animal. soon : le panneau dans la brume.
+  var GRID = { cols: 2, rows: 2 };
+  var BIOMES = [
+    { id: 'savane', name: 'La Savane', col: 0, row: 0, img: 'photo/refuge-biome-savane.webp' },
+    { id: 'plaines', name: 'Les Grandes Plaines', col: 1, row: 0, img: 'photo/refuge-biome-plaines.webp', soon: 'Bientôt' },
+    { id: 'lac', name: 'Le Lac', col: 0, row: 1, img: 'photo/refuge-biome-lac.webp', soon: 'Ouverture en novembre' },
+    { id: 'foret', name: 'La Forêt', col: 1, row: 1, img: 'photo/refuge-biome-foret.webp', soon: 'Bientôt' }
+  ];
+  // Le prochain pensionnaire, montré en silhouette avant son arrivée.
+  var NEXT = { id: 'baako', when: 'Arrive en novembre' };
+
   // Badges, cousus sur l'écharpe. reward : réduction offerte dans la boutique
   // (le code doit exister dans Shopify > Réductions).
   // shortcut: les codes de réduction sont lisibles dans ce fichier ; les limiter
@@ -139,6 +164,8 @@
     { id: 'glaneur', icon: '🧺', color: '#8B5A2B', name: 'Glaneur', desc: 'Ramasser 25 trésors', test: function (s) { return s.found >= 25; } },
     { id: 'fidele', icon: '📅', color: '#C9787A', name: 'Soigneur fidèle', desc: 'Venir gâter vos animaux 7 jours différents', reward: { percent: 5, code: 'REFUGE-FIDELE5' }, test: function (s) { return s.careDays >= 7; } },
     { id: 'ami', icon: '💛', color: '#E07B39', name: 'Ami pour la vie', desc: 'Remplir le cœur d\'un animal', test: function (s) { return maxAffection(s) >= SECRET_AT[1]; } },
+    { id: 'explorateur', icon: '🧭', color: '#3E7C8C', name: 'Explorateur', desc: 'Ouvrir un nouveau biome', test: function (s) { return openIds(s).length >= 2; } },
+    { id: 'cartographe', icon: '🗺️', color: '#9B6B43', name: 'Cartographe', desc: 'Ouvrir tous les biomes', test: function (s) { return openIds(s).length === BIOMES.length; } },
     { id: 'niveau5', icon: '⭐', color: '#283C23', name: 'Refuge étoilé', desc: 'Atteindre le niveau 5', reward: { percent: 10, code: 'REFUGE-ETOILE10' }, test: function (s) { return levelOf(s.xp) >= 5; } }
   ];
 
@@ -170,6 +197,15 @@
 
   function today() { return new Date().toLocaleDateString('sv'); } // AAAA-MM-JJ, heure locale
   function byId(id) { return ANIMALS.filter(function (a) { return a.id === id; })[0]; }
+  function biomeOf(a) { return BIOMES.filter(function (b) { return b.id === a.biome; })[0]; }
+  // biomes ouverts : le premier, plus ceux où vit au moins un animal accueilli
+  function openIds(s) {
+    return BIOMES.filter(function (b, i) {
+      return i === 0 || s.animals.some(function (id) { return byId(id).biome === b.id; });
+    }).map(function (b) { return b.id; });
+  }
+  // point d'un biome (en %) -> point de la carte entière (en %)
+  function toWorld(b, p) { return { x: (b.col * 100 + p.x) / GRID.cols, y: (b.row * 100 + p.y) / GRID.rows }; }
   function totalCare(s) { return Object.keys(s.care).reduce(function (t, k) { return t + s.care[k].n; }, 0); }
   function maxAffection(s) { return Object.keys(s.care).reduce(function (m, k) { return Math.max(m, s.care[k].n); }, 0); }
   // niveau 2 à 10 XP, 3 à 40, 4 à 90, 5 à 160...
@@ -317,36 +353,59 @@
 
     function commit() { save(state); renderLevel(); renderSash(); renderSave(); }
 
-    // ---- carte : se déplacer et zoomer ----
-    var view = { s: 1, x: 0, y: 0 }, base = 0;
+    // ---- carte : se déplacer et zoomer, dans les limites des biomes ouverts ----
+    var MARGIN = 0.45; // on voit le bord des biomes voisins, et leur panneau, dans la brume
+    var view = { s: 1, x: 0, y: 0 }, tile = 0, box = null;
+    function computeBox() {
+      var open = openIds(state).map(function (id) { return BIOMES.filter(function (b) { return b.id === id; })[0]; });
+      var x0 = Math.min.apply(null, open.map(function (b) { return b.col; }));
+      var y0 = Math.min.apply(null, open.map(function (b) { return b.row; }));
+      var x1 = Math.max.apply(null, open.map(function (b) { return b.col + 1; }));
+      var y1 = Math.max.apply(null, open.map(function (b) { return b.row + 1; }));
+      box = {
+        x0: Math.max(0, x0 - MARGIN), y0: Math.max(0, y0 - MARGIN),
+        x1: Math.min(GRID.cols, x1 + MARGIN), y1: Math.min(GRID.rows, y1 + MARGIN)
+      };
+    }
+    // zoom minimal : la zone ouverte remplit juste la fenêtre
+    function minScale() {
+      return Math.max(map.clientWidth / ((box.x1 - box.x0) * tile), map.clientHeight / ((box.y1 - box.y0) * tile));
+    }
     function applyView() {
-      var size = base * view.s;
-      view.x = Math.min(0, Math.max(map.clientWidth - size, view.x));
-      view.y = Math.min(0, Math.max(map.clientHeight - size, view.y));
+      var min = minScale();
+      view.s = Math.min(min * MAX_ZOOM, Math.max(min, view.s));
+      view.x = Math.min(-box.x0 * tile * view.s, Math.max(map.clientWidth - box.x1 * tile * view.s, view.x));
+      view.y = Math.min(-box.y0 * tile * view.s, Math.max(map.clientHeight - box.y1 * tile * view.s, view.y));
       world.style.transform = 'translate(' + view.x + 'px, ' + view.y + 'px) scale(' + view.s + ')';
     }
     function zoomAt(px, py, s) {
-      s = Math.min(MAX_ZOOM, Math.max(1, s));
+      var min = minScale();
+      s = Math.min(min * MAX_ZOOM, Math.max(min, s));
       view.x = px - (px - view.x) * s / view.s;
       view.y = py - (py - view.y) * s / view.s;
       view.s = s;
       applyView();
     }
-    function smoothly(fn) {
+    function smoothly(fn, ms) {
       if (!calm) world.classList.add('is-smooth');
+      world.style.transitionDuration = (ms || 300) + 'ms';
       fn();
-      setTimeout(function () { world.classList.remove('is-smooth'); }, 350);
+      setTimeout(function () { world.classList.remove('is-smooth'); }, (ms || 300) + 50);
     }
-    // la carte couvre toute la fenêtre, centrée
+    // vue d'ensemble : toute la zone ouverte, centrée
     function fit() {
-      base = Math.max(map.clientWidth, map.clientHeight);
-      world.style.width = world.style.height = base + 'px';
-      view = { s: 1, x: (map.clientWidth - base) / 2, y: (map.clientHeight - base) / 2 };
+      tile = Math.max(map.clientWidth, map.clientHeight);
+      world.style.width = GRID.cols * tile + 'px';
+      world.style.height = GRID.rows * tile + 'px';
+      computeBox();
+      view.s = minScale();
+      view.x = map.clientWidth / 2 - (box.x0 + box.x1) / 2 * tile * view.s;
+      view.y = map.clientHeight / 2 - (box.y0 + box.y1) / 2 * tile * view.s;
       applyView();
     }
-    function centerOn(el, s) {
-      var x = parseFloat(el.style.left) / 100 * base, y = parseFloat(el.style.top) / 100 * base;
-      view.s = Math.min(MAX_ZOOM, Math.max(view.s, s));
+    function centerOn(el, zoom) {
+      var x = parseFloat(el.style.left) / 100 * GRID.cols * tile, y = parseFloat(el.style.top) / 100 * GRID.rows * tile;
+      view.s = Math.max(view.s, minScale() * zoom);
       view.x = map.clientWidth / 2 - x * view.s;
       view.y = map.clientHeight / 2 - y * view.s;
       applyView();
@@ -394,7 +453,7 @@
       if (e.detail && moved > 8 && !e.target.closest('.refuge-bubble, .refuge-map-tools')) {
         e.stopPropagation();
         e.preventDefault();
-      } else if (e.target === world || e.target.classList.contains('refuge-map-img')) {
+      } else if (e.target === world || e.target.classList.contains('refuge-tile')) {
         closeBubble();
       }
     }, true);
@@ -407,9 +466,9 @@
       zoomAt(e.clientX - r.left, e.clientY - r.top, view.s * Math.exp(-d * 0.01));
     }, { passive: false });
     map.addEventListener('dblclick', function (e) {
-      if (e.target.closest('.refuge-bubble, .refuge-map-tools, .refuge-animal, .refuge-pickup')) return;
+      if (e.target.closest('.refuge-bubble, .refuge-map-tools, .refuge-animal, .refuge-pickup, .refuge-sign')) return;
       var r = map.getBoundingClientRect();
-      smoothly(function () { zoomAt(e.clientX - r.left, e.clientY - r.top, view.s >= MAX_ZOOM ? 1 : view.s * 2); });
+      smoothly(function () { zoomAt(e.clientX - r.left, e.clientY - r.top, view.s >= minScale() * MAX_ZOOM * 0.99 ? 0 : view.s * 2); });
     });
     map.addEventListener('keydown', function (e) {
       if (e.target !== map) return;
@@ -678,31 +737,120 @@
       if (e.key === 'Escape') closeBubble();
     });
 
+    // ---- biomes : tuiles, brume et silhouettes ----
+    var tiles = map.querySelector('.refuge-tiles');
+    var shownOpen = [];
+    function renderBiomes() {
+      var open = openIds(state);
+      var opened = BIOMES.filter(function (b) { return open.indexOf(b.id) !== -1; });
+      var ox = opened.reduce(function (t, b) { return t + b.col + 0.5; }, 0) / opened.length;
+      var oy = opened.reduce(function (t, b) { return t + b.row + 0.5; }, 0) / opened.length;
+      tiles.innerHTML = '';
+      BIOMES.forEach(function (b) {
+        var isOpen = open.indexOf(b.id) !== -1;
+        var img = document.createElement('img');
+        img.className = 'refuge-tile' + (isOpen ? '' : ' is-locked');
+        img.src = b.img;
+        img.alt = b.name + (isOpen ? '' : ' (dans la brume)');
+        img.draggable = false;
+        place2(img, b);
+        tiles.appendChild(img);
+        if (isOpen) return;
+        var fog = document.createElement('div');
+        fog.className = 'refuge-fog';
+        fog.setAttribute('data-biome', b.id);
+        place2(fog, b);
+        // emblème : le premier animal de ce biome, en silhouette
+        var emblem = ANIMALS.filter(function (a) { return a.biome === b.id; })[0];
+        var sign = document.createElement('button');
+        sign.type = 'button';
+        sign.className = 'refuge-sign';
+        sign.innerHTML = (emblem ? '<img src="' + emblem.img + '" alt="">' : '') +
+          '<strong></strong><span class="refuge-sign-soon"></span><span class="refuge-sign-hint"></span>';
+        sign.querySelector('strong').textContent = b.name;
+        sign.querySelector('.refuge-sign-soon').textContent = '🔒 ' + (b.soon || 'Bientôt');
+        sign.querySelector('.refuge-sign-hint').textContent = emblem && emblem.hint ? '« ' + emblem.hint + ' »' : '';
+        sign.setAttribute('aria-label', b.name + ', dans la brume. ' + (b.soon || 'Bientôt'));
+        sign.addEventListener('click', function () { sign.classList.toggle('is-told'); sfx('pop'); });
+        // le panneau se pose du côté des biomes ouverts, pour être vu sans chercher
+        var dx = Math.max(-1, Math.min(1, ox - (b.col + 0.5))), dy = Math.max(-1, Math.min(1, oy - (b.row + 0.5)));
+        sign.style.left = (50 + dx * 30) + '%';
+        sign.style.top = (50 + dy * 30) + '%';
+        fog.appendChild(sign);
+        tiles.appendChild(fog);
+      });
+      shownOpen = open;
+    }
+    function place2(el, b) {
+      el.style.left = b.col * 100 / GRID.cols + '%';
+      el.style.top = b.row * 100 / GRID.rows + '%';
+      el.style.width = 100 / GRID.cols + '%';
+      el.style.height = 100 / GRID.rows + '%';
+    }
+    // la brume se lève sur un biome qui vient d'ouvrir
+    function liftFog(b, then) {
+      var fog = tiles.querySelector('.refuge-fog[data-biome="' + b.id + '"]');
+      var img = tiles.querySelector('.refuge-tile.is-locked[src="' + b.img + '"]');
+      sfx('open');
+      if (fog) {
+        fog.classList.add('is-lifting');
+        burst(center(fog), { count: 50, spread: 260 });
+      }
+      if (img) img.classList.remove('is-locked');
+      computeBox();
+      smoothly(function () {
+        view.s = minScale() * 1.2;
+        var cx = (b.col + 0.5) * tile, cy = (b.row + 0.5) * tile;
+        view.x = map.clientWidth / 2 - cx * view.s;
+        view.y = map.clientHeight / 2 - cy * view.s;
+        applyView();
+      }, 900);
+      setTimeout(function () { renderBiomes(); then(); }, calm ? 0 : 1300);
+    }
+    var ghost = null;
+    function renderGhost() {
+      if (ghost) { ghost.remove(); ghost = null; }
+      var a = byId(NEXT.id);
+      if (!a || state.animals.indexOf(a.id) !== -1 || openIds(state).indexOf(a.biome) === -1) return;
+      ghost = place(a, false, true);
+    }
+
     // ---- animaux sur la carte ----
-    function place(a, isNew) {
+    // ghost : le prochain pensionnaire, en silhouette, qui ne se laisse pas encore approcher
+    function place(a, isNew, isGhost) {
       var btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'refuge-animal' + (isNew ? ' is-new' : '');
-      btn.style.width = a.size + '%';
-      btn.setAttribute('aria-label', 'Voir la fiche de ' + a.name);
-      btn.innerHTML = '<img src="' + a.img + '" alt="" draggable="false"><span class="refuge-animal-name">' + a.name + '</span>';
-      var spot = randomSpot(a.zone);
-      btn.style.left = spot.x + '%';
-      btn.style.top = spot.y + '%';
-      btn.addEventListener('click', function () { openBubble(a, btn); });
+      btn.className = 'refuge-animal' + (isNew ? ' is-new' : '') + (isGhost ? ' is-ghost' : '');
+      btn.style.width = a.size / GRID.cols + '%';
+      if (isGhost) {
+        btn.setAttribute('aria-label', 'Un mystérieux pensionnaire. ' + NEXT.when);
+        btn.innerHTML = '<img src="' + a.img + '" alt="" draggable="false"><span class="refuge-animal-name">?</span>' +
+          '<span class="refuge-ghost-tip"><strong></strong><span></span></span>';
+        btn.querySelector('.refuge-ghost-tip strong').textContent = NEXT.when;
+        btn.querySelector('.refuge-ghost-tip span').textContent = a.hint || '';
+        btn.addEventListener('click', function () { btn.classList.toggle('is-told'); sfx('pop'); });
+      } else {
+        btn.setAttribute('aria-label', 'Voir la fiche de ' + a.name);
+        btn.innerHTML = '<img src="' + a.img + '" alt="" draggable="false"><span class="refuge-animal-name">' + a.name + '</span>';
+        btn.addEventListener('click', function () { openBubble(a, btn); });
+        map.classList.add('has-animals');
+      }
+      var spot = randomSpot(a.zone), at = toWorld(biomeOf(a), spot);
+      btn.style.left = at.x + '%';
+      btn.style.top = at.y + '%';
       layer.appendChild(btn);
-      map.classList.add('has-animals');
       if (!calm) wander(a, btn, spot);
       return btn;
     }
     function wander(a, btn, from) {
       setTimeout(function () {
-        var to = randomSpot(a.zone);
-        var dist = Math.hypot(to.x - from.x, to.y - from.y);
+        if (!btn.isConnected) return;
+        var to = randomSpot(a.zone), at = toWorld(biomeOf(a), to);
+        var dist = Math.hypot(to.x - from.x, to.y - from.y) / GRID.cols;
         btn.style.transitionDuration = (dist * 0.9).toFixed(1) + 's';
         btn.classList.toggle('faces-left', to.x < from.x);
-        btn.style.left = to.x + '%';
-        btn.style.top = to.y + '%';
+        btn.style.left = at.x + '%';
+        btn.style.top = at.y + '%';
         wander(a, btn, to);
       }, 2500 + Math.random() * 4000);
     }
@@ -717,8 +865,11 @@
         b.className = 'refuge-pickup';
         b.textContent = t.icon;
         b.setAttribute('aria-label', 'Ramasser ' + t.name);
-        b.style.left = (8 + Math.random() * 84) + '%';
-        b.style.top = (8 + Math.random() * 84) + '%';
+        var open = openIds(state), id = open[Math.floor(Math.random() * open.length)];
+        var biome = BIOMES.filter(function (x) { return x.id === id; })[0];
+        var at = toWorld(biome, { x: 8 + Math.random() * 84, y: 8 + Math.random() * 84 });
+        b.style.left = at.x + '%';
+        b.style.top = at.y + '%';
         b.style.animationDelay = (-Math.random() * 2) + 's';
         b.addEventListener('click', function () {
           var p = center(this);
@@ -774,18 +925,24 @@
       var a = arriving;
       reveal.hidden = true;
       document.body.style.overflow = '';
-      var btn = place(a, true);
       map.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' });
-      smoothly(function () { centerOn(btn, 1.6); });
-      setTimeout(function () {
-        replay(map, 'is-shake');
-        sfx('pop');
-        var p = center(btn);
-        burst(p, { count: 40, spread: 160 });
-        gainXp(XP.animal, p);
-        commit();
-      }, calm ? 0 : 600);
       msg.textContent = 'Bienvenue à ' + a.name + ' ! Touchez ' + a.name + ' pour découvrir son histoire.';
+      function arrive() {
+        renderGhost();
+        var btn = place(a, true);
+        smoothly(function () { centerOn(btn, 1.6); });
+        setTimeout(function () {
+          replay(map, 'is-shake');
+          sfx('pop');
+          var p = center(btn);
+          burst(p, { count: 40, spread: 160 });
+          gainXp(XP.animal, p);
+          commit();
+        }, calm ? 0 : 600);
+      }
+      // nouveau biome : on lève d'abord la brume, puis l'animal entre
+      if (shownOpen.indexOf(a.biome) === -1) setTimeout(function () { liftFog(biomeOf(a), arrive); }, calm ? 0 : 500);
+      else arrive();
     });
 
     form.addEventListener('submit', function (e) {
@@ -812,8 +969,10 @@
       });
     });
 
+    renderBiomes();
     fit();
     state.animals.forEach(function (id) { place(byId(id), false); });
+    renderGhost();
     spawnPickups();
     commit();
   }
