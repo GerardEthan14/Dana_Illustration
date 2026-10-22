@@ -138,17 +138,18 @@
   ];
 
   // La carte est une grille de biomes : une image carrée chacun, dessinés à la même échelle
-  // pour que les bords se raccordent. Le premier est ouvert d'office ; les autres sortent
-  // de la brume quand on accueille leur premier animal. soon : le panneau dans la brume.
+  // pour que les bords se raccordent. Le premier est ouvert d'office ; les autres sont
+  // cachés sous les nuages jusqu'à l'arrivée de leur premier animal.
   var GRID = { cols: 2, rows: 2 };
   var BIOMES = [
     { id: 'savane', name: 'La Savane', col: 0, row: 0, img: 'photo/refuge-biome-savane.webp' },
-    { id: 'plaines', name: 'Les Grandes Plaines', col: 1, row: 0, img: 'photo/refuge-biome-plaines.webp', soon: 'Bientôt' },
-    { id: 'lac', name: 'Le Lac', col: 0, row: 1, img: 'photo/refuge-biome-lac.webp', soon: 'Ouverture en novembre' },
-    { id: 'foret', name: 'La Forêt', col: 1, row: 1, img: 'photo/refuge-biome-foret.webp', soon: 'Bientôt' }
+    { id: 'plaines', name: 'Les Grandes Plaines', col: 1, row: 0, img: 'photo/refuge-biome-plaines.webp' },
+    { id: 'lac', name: 'Le Lac', col: 0, row: 1, img: 'photo/refuge-biome-lac.webp' },
+    { id: 'foret', name: 'La Forêt', col: 1, row: 1, img: 'photo/refuge-biome-foret.webp' }
   ];
   // Le prochain pensionnaire, montré en silhouette avant son arrivée.
   var NEXT = { id: 'baako', when: 'Arrive en novembre' };
+  var CLOUD = 'photo/refuge-nuage.png';
 
   // Badges, cousus sur l'écharpe. reward : réduction offerte dans la boutique
   // (le code doit exister dans Shopify > Réductions).
@@ -354,7 +355,7 @@
     function commit() { save(state); renderLevel(); renderSash(); renderSave(); }
 
     // ---- carte : se déplacer et zoomer, dans les limites des biomes ouverts ----
-    var MARGIN = 0.45; // on voit le bord des biomes voisins, et leur panneau, dans la brume
+    var MARGIN = 0.3; // on voit les nuages qui cachent les biomes voisins
     var view = { s: 1, x: 0, y: 0 }, tile = 0, box = null;
     function computeBox() {
       var open = openIds(state).map(function (id) { return BIOMES.filter(function (b) { return b.id === id; })[0]; });
@@ -466,7 +467,7 @@
       zoomAt(e.clientX - r.left, e.clientY - r.top, view.s * Math.exp(-d * 0.01));
     }, { passive: false });
     map.addEventListener('dblclick', function (e) {
-      if (e.target.closest('.refuge-bubble, .refuge-map-tools, .refuge-animal, .refuge-pickup, .refuge-sign')) return;
+      if (e.target.closest('.refuge-bubble, .refuge-map-tools, .refuge-animal, .refuge-pickup')) return;
       var r = map.getBoundingClientRect();
       smoothly(function () { zoomAt(e.clientX - r.left, e.clientY - r.top, view.s >= minScale() * MAX_ZOOM * 0.99 ? 0 : view.s * 2); });
     });
@@ -742,41 +743,66 @@
     var shownOpen = [];
     function renderBiomes() {
       var open = openIds(state);
-      var opened = BIOMES.filter(function (b) { return open.indexOf(b.id) !== -1; });
-      var ox = opened.reduce(function (t, b) { return t + b.col + 0.5; }, 0) / opened.length;
-      var oy = opened.reduce(function (t, b) { return t + b.row + 0.5; }, 0) / opened.length;
       tiles.innerHTML = '';
       BIOMES.forEach(function (b) {
-        var isOpen = open.indexOf(b.id) !== -1;
         var img = document.createElement('img');
-        img.className = 'refuge-tile' + (isOpen ? '' : ' is-locked');
+        img.className = 'refuge-tile' + (open.indexOf(b.id) !== -1 ? '' : ' is-locked');
         img.src = b.img;
-        img.alt = b.name + (isOpen ? '' : ' (dans la brume)');
+        img.alt = open.indexOf(b.id) !== -1 ? b.name : '';
         img.draggable = false;
         place2(img, b);
         tiles.appendChild(img);
-        if (isOpen) return;
+      });
+      // les nuages viennent après toutes les tuiles pour déborder sur les biomes ouverts
+      BIOMES.forEach(function (b, n) {
+        if (open.indexOf(b.id) !== -1) return;
         var fog = document.createElement('div');
         fog.className = 'refuge-fog';
         fog.setAttribute('data-biome', b.id);
+        fog.setAttribute('role', 'img');
+        fog.setAttribute('aria-label', b.name + ', encore dans les nuages');
         place2(fog, b);
-        // emblème : le premier animal de ce biome, en silhouette
-        var emblem = ANIMALS.filter(function (a) { return a.biome === b.id; })[0];
-        var sign = document.createElement('button');
-        sign.type = 'button';
-        sign.className = 'refuge-sign';
-        sign.innerHTML = (emblem ? '<img src="' + emblem.img + '" alt="">' : '') +
-          '<strong></strong><span class="refuge-sign-soon"></span><span class="refuge-sign-hint"></span>';
-        sign.querySelector('strong').textContent = b.name;
-        sign.querySelector('.refuge-sign-soon').textContent = '🔒 ' + (b.soon || 'Bientôt');
-        sign.querySelector('.refuge-sign-hint').textContent = emblem && emblem.hint ? '« ' + emblem.hint + ' »' : '';
-        sign.setAttribute('aria-label', b.name + ', dans la brume. ' + (b.soon || 'Bientôt'));
-        sign.addEventListener('click', function () { sign.classList.toggle('is-told'); sfx('pop'); });
-        // le panneau se pose du côté des biomes ouverts, pour être vu sans chercher
-        var dx = Math.max(-1, Math.min(1, ox - (b.col + 0.5))), dy = Math.max(-1, Math.min(1, oy - (b.row + 0.5)));
-        sign.style.left = (50 + dx * 30) + '%';
-        sign.style.top = (50 + dy * 30) + '%';
-        fog.appendChild(sign);
+        // amas de nuages, toujours le même pour un biome donné ; ils débordent
+        // un peu de la case pour que la limite ne soit jamais une ligne droite
+        var seed = n * 9301 + 49297;
+        function rand() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+        var spots = [];
+        for (var row = 0; row < 6; row++) {
+          for (var col = 0; col < 3; col++) {
+            spots.push({ x: 5 + col * 45 + (row % 2) * 22 + (rand() - 0.5) * 14, y: 4 + row * 19 + (rand() - 0.5) * 8, w: 50 + rand() * 25 });
+          }
+        }
+        // une rangée serrée de nuages posée pile sur chaque bord qui touche un biome ouvert
+        function isOpenAt(c, r) {
+          return BIOMES.some(function (o) { return o.col === c && o.row === r && open.indexOf(o.id) !== -1; });
+        }
+        for (var k = 0; k <= 10; k++) {
+          var t = k * 10 + (rand() - 0.5) * 4;
+          if (isOpenAt(b.col - 1, b.row)) spots.push({ x: 2 + rand() * 4, y: t, w: 34 + rand() * 12 });
+          if (isOpenAt(b.col + 1, b.row)) spots.push({ x: 98 - rand() * 4, y: t, w: 34 + rand() * 12 });
+          if (isOpenAt(b.col, b.row - 1)) spots.push({ x: t, y: 2 + rand() * 3, w: 34 + rand() * 12 });
+          if (isOpenAt(b.col, b.row + 1)) spots.push({ x: t, y: 98 - rand() * 3, w: 34 + rand() * 12 });
+        }
+        spots.forEach(function (sp) {
+            var cloud = document.createElement('img');
+            cloud.className = 'refuge-cloud';
+            cloud.src = CLOUD;
+            cloud.alt = '';
+            cloud.draggable = false;
+            var x = sp.x, y = sp.y, w = sp.w;
+            cloud.style.left = x + '%';
+            cloud.style.top = y + '%';
+            cloud.style.width = w + '%';
+            if (rand() < 0.5) cloud.style.scale = '-1 1';
+            cloud.style.setProperty('--drift', (rand() * 6 + 2) * (rand() < 0.5 ? -1 : 1) + '%');
+            cloud.style.animationDuration = (10 + rand() * 10) + 's';
+            cloud.style.animationDelay = (-rand() * 20) + 's';
+            // en se levant, chaque nuage s'envole loin du centre du biome
+            cloud.style.setProperty('--fly-x', (x - 50) * 2.5 + '%');
+            cloud.style.setProperty('--fly-y', (y - 50) * 2.5 + '%');
+            cloud.style.transitionDelay = rand() * 0.35 + 's';
+            fog.appendChild(cloud);
+        });
         tiles.appendChild(fog);
       });
       shownOpen = open;
@@ -791,10 +817,12 @@
     function liftFog(b, then) {
       var fog = tiles.querySelector('.refuge-fog[data-biome="' + b.id + '"]');
       var img = tiles.querySelector('.refuge-tile.is-locked[src="' + b.img + '"]');
+      if (img) img.alt = b.name;
       sfx('open');
       if (fog) {
         fog.classList.add('is-lifting');
         burst(center(fog), { count: 50, spread: 260 });
+        setTimeout(function () { fog.remove(); }, 1600);
       }
       if (img) img.classList.remove('is-locked');
       computeBox();
@@ -805,6 +833,7 @@
         view.y = map.clientHeight / 2 - cy * view.s;
         applyView();
       }, 900);
+      // les biomes encore fermés qui touchent le nouveau reçoivent leur bordure de nuages
       setTimeout(function () { renderBiomes(); then(); }, calm ? 0 : 1300);
     }
     var ghost = null;
