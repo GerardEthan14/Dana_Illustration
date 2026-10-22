@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f%5B%5D=comico@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=45">
+  <link rel="stylesheet" href="styles.css?v=46">
 </head>
 <body class="page-refuge">
 
@@ -67,17 +67,53 @@
       <span class="refuge-level-xp"></span>
     </div>
 
-    <div class="refuge-map">
-      <img class="refuge-map-img" src="photo/refuge-carte.webp" alt="Carte du refuge et de ses enclos">
-      <div class="refuge-pickups"></div>
-      <div class="refuge-animals"></div>
+    <div class="refuge-map" tabindex="0" aria-label="Carte du refuge : glissez pour vous déplacer, pincez ou utilisez les boutons pour zoomer">
+      <div class="refuge-world">
+        <img class="refuge-map-img" src="photo/refuge-carte.webp" alt="Carte du refuge et de ses enclos" draggable="false">
+        <div class="refuge-pickups"></div>
+        <div class="refuge-animals"></div>
+      </div>
       <p class="refuge-empty">Le refuge attend son premier pensionnaire&nbsp;!</p>
-    </div>
-    <p class="refuge-hint">Des trésors apparaissent chaque jour sur la carte&nbsp;: touchez-les pour les ramasser.</p>
 
-    <div class="refuge-trophies">
-      <h2>Mes badges</h2>
-      <ul class="refuge-trophy-list"></ul>
+      <div class="refuge-map-tools">
+        <button type="button" class="refuge-tool" data-zoom="in" aria-label="Zoomer">+</button>
+        <button type="button" class="refuge-tool" data-zoom="out" aria-label="Dézoomer">−</button>
+        <button type="button" class="refuge-tool" data-zoom="fit" aria-label="Voir toute la carte">⤢</button>
+        <button type="button" class="refuge-tool" data-sound="sfx" aria-label="Effets sonores" aria-pressed="true">🔊</button>
+        <button type="button" class="refuge-tool" data-sound="music" aria-label="Musique" aria-pressed="true">🎵</button>
+      </div>
+
+      <div class="refuge-bubble" role="dialog" aria-labelledby="refuge-bubble-name" hidden>
+        <button class="refuge-bubble-close" type="button" aria-label="Fermer">×</button>
+        <div class="refuge-bubble-head">
+          <img class="refuge-bubble-img" src="" alt="">
+          <div>
+            <p class="eyebrow refuge-bubble-species"></p>
+            <h3 id="refuge-bubble-name"></h3>
+            <p class="refuge-hearts" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="refuge-care">
+          <button class="btn btn-pill refuge-care-btn" type="button">Donner une friandise</button>
+          <p class="refuge-care-msg"></p>
+        </div>
+        <div class="refuge-bubble-body">
+          <div class="refuge-secrets"></div>
+          <p class="refuge-bubble-story"></p>
+          <h4>Le saviez-vous&nbsp;?</h4>
+          <ul class="refuge-bubble-facts"></ul>
+        </div>
+      </div>
+    </div>
+    <p class="refuge-hint">Glissez pour vous promener, pincez pour zoomer. Des trésors apparaissent chaque jour&nbsp;: touchez-les pour les ramasser.</p>
+
+    <div class="refuge-sash">
+      <h2>Mon écharpe</h2>
+      <p class="refuge-sash-intro">Chaque badge gagné est cousu sur votre écharpe. Certains offrent une réduction dans la boutique&nbsp;!</p>
+      <div class="refuge-sash-band">
+        <ul class="refuge-patches"></ul>
+      </div>
+      <div class="refuge-patch-info" aria-live="polite"></div>
     </div>
 
     <details class="refuge-save">
@@ -111,25 +147,6 @@
     </div>
   </div>
 
-  <div class="artwork-modal refuge-fiche" hidden>
-    <div class="artwork-modal-box" role="dialog" aria-modal="true" aria-labelledby="refuge-fiche-name">
-      <button class="artwork-modal-close" type="button" aria-label="Fermer">×</button>
-      <img class="artwork-modal-img" src="" alt="">
-      <div class="artwork-modal-text">
-        <p class="eyebrow refuge-fiche-species"></p>
-        <h3 id="refuge-fiche-name"></h3>
-        <p class="refuge-fiche-story"></p>
-        <h4>Le saviez-vous&nbsp;?</h4>
-        <ul class="refuge-fiche-facts"></ul>
-        <div class="refuge-care">
-          <p class="refuge-hearts" aria-live="polite"></p>
-          <button class="btn btn-pill refuge-care-btn" type="button">Donner une friandise</button>
-          <p class="refuge-care-msg"></p>
-          <div class="refuge-secrets"></div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <footer class="site-footer">
     <div class="footer-inner">
@@ -138,7 +155,9 @@
   </footer>
 
   <script src="script.js?v=39" defer></script>
-  <script src="refuge.js?v=3" defer></script>
+  <audio class="refuge-music" src="son/refuge-musique.mp3" loop preload="none"></audio>
+
+  <script src="refuge.js?v=4" defer></script>
 
 </body>
 </html>
