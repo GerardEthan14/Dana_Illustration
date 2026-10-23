@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f%5B%5D=comico@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=49">
+  <link rel="stylesheet" href="styles.css?v=50">
 </head>
 <body class="page-refuge">
 
@@ -69,7 +69,8 @@
 
     <div class="refuge-map" tabindex="0" aria-label="Carte du refuge : glissez pour vous déplacer, pincez ou utilisez les boutons pour zoomer">
       <div class="refuge-world">
-        <div class="refuge-tiles"></div>
+        <img class="refuge-map-img" src="" alt="Carte du refuge" draggable="false">
+        <div class="refuge-fogs"></div>
         <div class="refuge-pickups"></div>
         <div class="refuge-animals"></div>
       </div>
@@ -159,7 +160,7 @@
   <script src="script.js?v=39" defer></script>
   <audio class="refuge-music" src="son/refuge-musique.mp3" loop preload="none"></audio>
 
-  <script src="refuge.js?v=6" defer></script>
+  <script src="refuge.js?v=7" defer></script>
 
 </body>
 </html>
