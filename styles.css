@@ -2627,7 +2627,7 @@ a.quick-btn:focus-visible {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  background: #E6EEF0; /* ciel entre les nuages */
+  background: var(--cream); /* la brume de la carte est dessinée pour un fond clair */
   touch-action: none;
   cursor: grab;
   user-select: none;
@@ -2645,6 +2645,8 @@ a.quick-btn:focus-visible {
 .refuge-world.is-smooth { transition: transform 0.3s ease-out; }
 .refuge-map-img { position: absolute; inset: 0; width: 100%; height: 100%; -webkit-user-drag: none; }
 .refuge-fogs { position: absolute; inset: 0; }
+.refuge-decor { position: absolute; inset: 0; pointer-events: none; }
+.refuge-decor-item { position: absolute; translate: -50% -100%; max-width: none; }
 /* biome fermé : un amas de nuages qui dérivent et débordent sur les bords */
 .refuge-fog { position: absolute; inset: 0; pointer-events: none; }
 /* la masse des nuages : couleur et texture de nuage, découpée par un masque aux bords doux */
