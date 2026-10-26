@@ -1424,11 +1424,37 @@ a.quick-btn:focus-visible {
   color: #74550d;
 }
 
-/* ---- Panneaux de produits ---- */
-.shop-panel[hidden] {
-  display: none;
+/* ---- Barre : catégories (balises) + tri ---- */
+.shop-toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
 }
+.shop-toolbar .shop-cats { margin-bottom: 0; }
+.shop-sort {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Comico', 'Jost', sans-serif;
+  color: var(--olive);
+}
+.shop-sort select {
+  font: inherit;
+  font-family: 'Jost', sans-serif;
+  color: var(--ink);
+  padding: 0.45rem 2.2rem 0.45rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--cream) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23657007' stroke-width='1.8'/%3E%3C/svg%3E") no-repeat right 0.9rem center;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+.shop-sort select:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
 
+/* ---- Grille de produits ---- */
 .shop-collection {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -2176,7 +2202,7 @@ a.quick-btn:focus-visible {
 }
 
 /* palier intermédiaire : la barre reste sur une ligne jusqu'au menu burger */
-@media (max-width: 1180px) {
+@media (max-width: 1360px) {
   .nav { gap: 1.25rem; }
   .nav-links { gap: 1.1rem; }
   .nav-links a { font-size: 0.94rem; }
@@ -2195,7 +2221,10 @@ a.quick-btn:focus-visible {
   .contact-card { width: 100%; }
   .shop-arrow { width: 2.4rem; height: 2.4rem; font-size: 1.2rem; }
   .footer-inner { justify-content: center; text-align: center; }
+}
 
+/* menu burger : les 8 entrées du menu ne tiennent plus sur une ligne */
+@media (max-width: 1180px) {
   /* Mobile navigation: burger toggles a dropdown panel */
   .nav-burger { display: flex; }
   .nav-links {
@@ -2220,7 +2249,7 @@ a.quick-btn:focus-visible {
   .nav-links a::after { display: none; }
   .nav-links a.active { background: var(--cream-warm); }
   .nav-toggle:checked ~ .nav-links {
-    max-height: 22rem;
+    max-height: 32rem;
     opacity: 1;
     pointer-events: auto;
   }
