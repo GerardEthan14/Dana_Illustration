@@ -543,18 +543,70 @@ function renderTagShop(root, products, ui) {
     }
   }
 
+  // Panier en caisse de bois : planches, montants foncés, étiquette tamponnée.
+  var WOOD_DARK = "#6B3E1F", CREAM = "#FBF7EC";
+  var woodPlanks = "repeating-linear-gradient(180deg, transparent 0 58px, rgba(70, 35, 12, 0.55) 58px 61px, rgba(255, 230, 190, 0.18) 61px 62px), " +
+    "repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 2px, rgba(0, 0, 0, 0.035) 2px 7px), " +
+    "linear-gradient(90deg, #C98A4B, #B5793B 45%, #C48545)";
+  var onWood = { "color": CREAM, "text-shadow": "0 1px 0 rgba(60, 30, 10, 0.55)" };
   var brandCart = {
     "events": {
       "afterRender": updateCartCount,
       "updateItemQuantity": updateCartCount
     },
-    "styles": { "button": brandBtn },
+    "googleFonts": ["Jost"],
+    "styles": {
+      "cart": {
+        "background-color": "#B5793B",
+        "background-image": woodPlanks,
+        "border-left": "12px solid " + WOOD_DARK,
+        "box-shadow": "inset 0 0 0 6px #8A5428, inset 0 0 40px rgba(60, 30, 10, 0.45)",
+        "font-family": "'Jost', sans-serif"
+      },
+      "header": { "background-color": "transparent" },
+      "title": {
+        "display": "inline-block",
+        "color": CREAM,
+        "background-color": "#D8560E",
+        "border": "2px dashed rgba(251, 247, 236, 0.7)",
+        "padding": "4px 16px",
+        "border-radius": "4px",
+        "transform": "rotate(-4deg)",
+        "text-transform": "uppercase",
+        "letter-spacing": "0.12em",
+        "font-weight": "600",
+        "box-shadow": "0 3px 0 rgba(60, 30, 10, 0.35)"
+      },
+      "close": { "color": CREAM, ":hover": { "color": "#F4D9C4" } },
+      "empty": onWood,
+      "footer": {
+        "background-color": "rgba(80, 42, 14, 0.55)",
+        "border-top": "6px solid " + WOOD_DARK
+      },
+      "subtotalText": onWood,
+      "subtotal": onWood,
+      "notice": { "color": "rgba(251, 247, 236, 0.85)" },
+      "button": brandBtn
+    },
     "text": {
       "title": "Panier",
       "total": "Sous-total",
       "button": "Commander",
       "empty": "Votre panier est vide.",
       "notice": "Frais de livraison et codes de réduction calculés au paiement."
+    }
+  };
+  // Les articles posés dans la caisse : texte crème, vignette comme une étiquette.
+  var brandLineItem = {
+    "styles": {
+      "itemTitle": Object.assign({ "font-weight": "600" }, onWood),
+      "variantTitle": { "color": "rgba(251, 247, 236, 0.85)" },
+      "price": onWood,
+      "fullPrice": { "color": "rgba(251, 247, 236, 0.7)" },
+      "discount": onWood,
+      "image": { "border": "3px solid " + CREAM, "border-radius": "4px", "box-shadow": "0 3px 6px rgba(60, 30, 10, 0.45)" },
+      "quantityInput": { "background-color": CREAM, "border-color": WOOD_DARK, "color": "#1F1E1C" },
+      "quantityButton": { "background-color": CREAM, "border-color": WOOD_DARK, "color": "#1F1E1C", ":hover": { "background-color": "#F4D9C4" } }
     }
   };
   var brandToggle = {
@@ -591,6 +643,7 @@ function renderTagShop(root, products, ui) {
     },
     "modalProduct": brandModal,
     "cart": brandCart,
+    "lineItem": brandLineItem,
     "toggle": brandToggle
   };
 
@@ -641,6 +694,7 @@ function renderTagShop(root, products, ui) {
       "text": { "button": "Ajouter au panier" }
     },
     "cart": brandCart,
+    "lineItem": brandLineItem,
     "toggle": brandToggle
   };
 
@@ -688,7 +742,7 @@ function renderTagShop(root, products, ui) {
       // pages : c'est le panier du site, qui ouvre le tiroir et persiste.
       try {
         var cartPromise = ui.createComponent('cart', {
-          options: { cart: brandCart, toggle: brandToggle }
+          options: { cart: brandCart, lineItem: brandLineItem, toggle: brandToggle }
         });
         if (cartPromise && typeof cartPromise.then === 'function') {
           cartPromise.then(function (c) { cartComponent = c; updateCartCount(c); });
