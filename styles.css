@@ -426,7 +426,7 @@ em {
 }
 
 /* ============================================
-   Accès rapides (4 pastilles reliées en pointillés)
+   Accès rapides (5 pastilles reliées en pointillés)
    ============================================ */
 .quick-links {
   padding: 3.5rem 1.5rem 3rem;
@@ -434,11 +434,11 @@ em {
 
 .quick-row {
   position: relative;
-  max-width: 62rem;
+  max-width: 70rem;
   margin: 0 auto;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.5rem;
   align-items: start;
 }
@@ -488,6 +488,7 @@ em {
 .quick-item:nth-child(2) .quick-btn { --pastille: var(--green-light); --pastille-ink: var(--green-dark); }
 .quick-item:nth-child(3) .quick-btn { --pastille: var(--green-dark); }
 .quick-item:nth-child(4) .quick-btn { --pastille: var(--orange); }
+.quick-item:nth-child(5) .quick-btn { --pastille: #F2B544; --pastille-ink: var(--ink); }
 
 a.quick-btn:hover,
 a.quick-btn:focus-visible {
@@ -2184,8 +2185,9 @@ a.quick-btn:focus-visible {
    Responsive
    ============================================ */
 @media (max-width: 720px) {
-  /* les 4 pastilles passent en 2 colonnes, sans le fil pointillé */
-  .quick-row { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
+  /* les pastilles passent 2 par ligne (la 5e centrée), sans le fil pointillé */
+  .quick-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem 0; }
+  .quick-item { flex: 0 0 50%; }
   .quick-row::before { display: none; }
   .quick-btn { width: 5.4rem; height: 5.4rem; }
   .quick-btn svg { width: 2.1rem; height: 2.1rem; }
