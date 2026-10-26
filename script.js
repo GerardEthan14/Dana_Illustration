@@ -106,31 +106,23 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
 })();
 
 /* ============================================================
-   Boutique pilotée par les collections Shopify
+   Boutiques pilotées par Shopify : Le Refuge (boutique.html)
+   et Le Coin des Petits Soigneurs (petits-soigneurs.html)
    ------------------------------------------------------------
-   - Un onglet est créé automatiquement pour chaque collection.
-   - Convention de nommage pour les sous-catégories :
-       "Prints"        -> onglet "Prints" (sans sous-menu)
-       "Prints / A5"   -> onglet "Prints", entrée "A5" dans le menu déroulant
-       "Prints / A4"   -> se range sous le même onglet "Prints"
-   - Les produits sont affichés par le composant "collection" de Shopify :
-     ajoute un produit à une collection sur Shopify, il apparaît tout seul.
+   - data-collection="enfant" sur [data-shop-catalog] : seulement les produits
+     de la collection Shopify « enfant ». Sans cet attribut : tous les produits,
+     sauf ceux de la collection enfant, qui ont leur propre coin.
+   - Les catégories sont les balises (tags) des produits :
+       "Prints"        -> catégorie « Prints »
+       "Prints / A5"   -> catégorie « Prints », sous-catégorie « A5 »
+       "1 Prints"      -> un numéro en tête fixe l'ordre (il n'est pas affiché)
+     Un produit avec plusieurs balises apparaît dans chaque catégorie.
+   - Tri : meilleures ventes (classement de Shopify), prix croissant ou décroissant.
    ============================================================ */
 function el(tag, className) {
   var n = document.createElement(tag);
   if (className) n.className = className;
   return n;
-}
-
-function subBtn(sub, label, active) {
-  var li = el('li');
-  var b = el('button', 'shop-subcat-btn' + (active ? ' is-active' : ''));
-  b.type = 'button';
-  b.dataset.sub = sub;
-  b.setAttribute('role', 'menuitem');
-  b.textContent = label;
-  li.appendChild(b);
-  return li;
 }
 
 // Le composant "collection" de Shopify attend un id numérique, alors que
@@ -155,35 +147,6 @@ function parseOrdered(name) {
   var m = s.match(/^(\d+)\s*[-.).\]]?\s*(.+)$/);
   if (m) return { order: parseInt(m[1], 10), label: m[2].trim() };
   return { order: 1e9, label: s };
-}
-
-// Regroupe les collections en catégories (parent) + sous-catégories (enfant)
-// d'après la convention "Parent / Enfant", triées par numéro de tête (masqué).
-function groupCollections(collections) {
-  var order = [];
-  var map = {};
-  collections.forEach(function (col) {
-    var title = (col.title || '').trim();
-    if (!title) return;
-    var parts = title.split(/\s*\/\s*/);
-    var p = parseOrdered(parts[0]);
-    var childRaw = parts.length >= 2 ? parts.slice(1).join(' / ').trim() : '';
-    var c = childRaw ? parseOrdered(childRaw) : { order: 1e9, label: '' };
-    if (!map[p.label]) {
-      map[p.label] = { label: p.label, order: p.order, items: [] };
-      order.push(p.label);
-    }
-    // On garde le plus petit numéro rencontré pour la catégorie.
-    if (p.order < map[p.label].order) map[p.label].order = p.order;
-    map[p.label].items.push({ id: col.id, sub: c.label, subOrder: c.order });
-  });
-  var groups = order.map(function (k) { return map[k]; });
-  // Tri des catégories par numéro, puis alphabétique pour celles sans numéro.
-  groups.sort(function (a, b) { return (a.order - b.order) || a.label.localeCompare(b.label); });
-  groups.forEach(function (g) {
-    g.items.sort(function (a, b) { return (a.subOrder - b.subOrder) || a.sub.localeCompare(b.sub); });
-  });
-  return groups;
 }
 
 // ===== Fiche produit en popup (sur NOTRE site, même panier Shopify) =====
@@ -252,152 +215,210 @@ function openProductModal(ui, productId) {
   document.body.style.overflow = 'hidden';
 }
 
-function buildBoutique(root, client, ui) {
-  root.innerHTML = '<p class="shop-loading">Chargement de la boutique…</p>';
-  client.collection.fetchAll(250).then(function (collections) {
-    // On exclut la collection "Frontpage" générée automatiquement par Shopify.
-    collections = (collections || []).filter(function (c) {
-      return c.handle !== 'frontpage' && (c.title || '').trim().toLowerCase() !== 'home page';
-    });
-    if (!collections.length) {
-      root.innerHTML = '<p class="shop-empty">La boutique sera bientôt disponible 🌿</p>';
-      return;
-    }
-    renderBoutique(root, groupCollections(collections), client, ui);
-  }).catch(function (err) {
-    root.innerHTML = '<p class="shop-empty">Impossible de charger la boutique pour le moment.</p>';
-    console.error('Erreur de chargement des collections Shopify :', err);
+var SHOP_DOMAIN = 'u17zw5-c9.myshopify.com';
+var SHOP_TOKEN = '67936409c1773375c0943c4b698564c4';
+var KIDS_COLLECTION = 'enfant';
+var HIDDEN_TAGS = ['enfant', 'enfants']; // balises techniques, jamais montrées comme catégorie
+
+// Demande directe à l'API Storefront : le SDK Buy Button ne donne ni les balises
+// ni le classement des meilleures ventes.
+function storefront(query) {
+  return fetch('https://' + SHOP_DOMAIN + '/api/2024-10/graphql.json', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': SHOP_TOKEN },
+    body: JSON.stringify({ query: query })
+  }).then(function (r) { return r.json(); }).then(function (res) {
+    if (res.errors) throw new Error(res.errors.map(function (e) { return e.message; }).join(' ; '));
+    return res.data;
   });
 }
 
-function renderBoutique(root, groups, client, ui) {
+// Produits de la boutique, dans l'ordre des meilleures ventes, au format attendu
+// par renderProductCard.
+function fetchShopProducts(kidsOnly) {
+  function isKids(c) {
+    var label = parseOrdered(c.title || '').label.toLowerCase();
+    return c.handle === KIDS_COLLECTION || c.handle === KIDS_COLLECTION + 's' || label === KIDS_COLLECTION || label === KIDS_COLLECTION + 's';
+  }
+  function load(withTags) {
+    var fields = 'id title ' + (withTags ? 'tags ' : '') +
+      'images(first: 1) { edges { node { url } } } priceRange { minVariantPrice { amount } }';
+    return storefront('{ collections(first: 100) { edges { node { id handle title } } } }').then(function (d) {
+      var kids = d.collections.edges.map(function (e) { return e.node; }).filter(isKids)[0];
+      if (kidsOnly) {
+        if (!kids) return [];
+        return storefront('{ collection(id: "' + kids.id + '") { products(first: 250, sortKey: BEST_SELLING) { edges { node { ' + fields + ' } } } } }')
+          .then(function (d2) { return d2.collection.products.edges.map(function (e) { return e.node; }); });
+      }
+      return storefront('{ products(first: 250, sortKey: BEST_SELLING) { edges { node { ' + fields + ' } } }' +
+        (kids ? ' kids: collection(id: "' + kids.id + '") { products(first: 250) { edges { node { id } } } }' : '') + ' }')
+        .then(function (d2) {
+          var kidIds = kids ? d2.kids.products.edges.map(function (e) { return e.node.id; }) : [];
+          return d2.products.edges.map(function (e) { return e.node; })
+            .filter(function (p) { return kidIds.indexOf(p.id) === -1; });
+        });
+    });
+  }
+  // Shopify ne donne les balises que si la clé d'accès y a droit : sinon on
+  // affiche quand même les produits, sans catégories.
+  return load(true).catch(function (err) {
+    console.warn('Balises Shopify indisponibles, boutique sans catégories :', err);
+    return load(false);
+  }).then(function (nodes) {
+    return nodes.map(function (n, rank) {
+      var price = parseFloat(n.priceRange.minVariantPrice.amount);
+      return {
+        id: n.id, title: n.title, rank: rank, price: price,
+        tags: (n.tags || []).filter(function (t) { return HIDDEN_TAGS.indexOf(t.trim().toLowerCase()) === -1; }),
+        images: n.images.edges.map(function (e) { return { src: e.node.url }; }),
+        variants: [{ price: { amount: price } }]
+      };
+    });
+  });
+}
+
+// Balise "1 Prints / A5" -> { cat: "Prints", order: 1, sub: "A5", subOrder }
+function parseTag(tag) {
+  var parts = tag.split(/\s*\/\s*/);
+  var p = parseOrdered(parts[0]);
+  var c = parts.length > 1 ? parseOrdered(parts.slice(1).join(' / ')) : { order: 1e9, label: '' };
+  return { cat: p.label, order: p.order, sub: c.label, subOrder: c.order };
+}
+
+function buildTagShop(root, ui) {
+  var kidsOnly = root.getAttribute('data-collection') === KIDS_COLLECTION;
+  root.innerHTML = '<p class="shop-loading">Chargement de la boutique…</p>';
+  fetchShopProducts(kidsOnly).then(function (products) {
+    if (!products.length) {
+      root.innerHTML = '<p class="shop-empty">Bientôt de nouvelles créations 🌿</p>';
+      return;
+    }
+    renderTagShop(root, products, ui);
+  }).catch(function (err) {
+    root.innerHTML = '<p class="shop-empty">Impossible de charger la boutique pour le moment.</p>';
+    console.error('Chargement de la boutique Shopify :', err);
+  });
+}
+
+function renderTagShop(root, products, ui) {
+  // catégories et sous-catégories tirées des balises
+  var cats = {}, order = [];
+  products.forEach(function (p) {
+    p.tags.forEach(function (t) {
+      var tag = parseTag(t);
+      if (!tag.cat) return;
+      if (!cats[tag.cat]) { cats[tag.cat] = { label: tag.cat, order: tag.order, subs: {} }; order.push(tag.cat); }
+      cats[tag.cat].order = Math.min(cats[tag.cat].order, tag.order);
+      if (tag.sub) cats[tag.cat].subs[tag.sub] = Math.min(cats[tag.cat].subs[tag.sub] || 1e9, tag.subOrder);
+    });
+  });
+  function byOrder(list, ord) {
+    return list.sort(function (a, b) { return (ord(a) - ord(b)) || a.localeCompare(b); });
+  }
+  order = byOrder(order, function (k) { return cats[k].order; });
+
+  var state = { cat: '', sub: '', sort: 'best' };
   root.innerHTML = '';
+  var bar = el('div', 'shop-toolbar');
   var nav = el('nav', 'shop-cats');
   nav.setAttribute('aria-label', 'Catégories de la boutique');
-  var panels = el('div', 'shop-panels');
-
-  groups.forEach(function (group, gi) {
-    var active = gi === 0;
-    var catId = 'cat-' + gi;
-
-    // --- Pastille de catégorie (+ liste déroulante éventuelle) ---
-    var catEl = el('div', 'shop-cat' + (active ? ' is-active' : ''));
-    catEl.dataset.cat = catId;
-
+  [''].concat(order).forEach(function (key) {
+    var catEl = el('div', 'shop-cat' + (key === '' ? ' is-active' : ''));
+    catEl.dataset.cat = key;
     var btn = el('button', 'shop-cat-btn');
     btn.type = 'button';
-    btn.textContent = group.label;
+    btn.textContent = key || 'Tout';
     btn.setAttribute('aria-expanded', 'false');
     catEl.appendChild(btn);
-
-    var hasSubs = group.items.some(function (it) { return it.sub; });
-    if (hasSubs) {
+    var subs = key ? byOrder(Object.keys(cats[key].subs), function (k) { return cats[key].subs[k]; }) : [];
+    if (subs.length) {
       var ul = el('ul', 'shop-subcats');
       ul.setAttribute('role', 'menu');
-      ul.appendChild(subBtn('', 'Tout', true));
-      group.items.forEach(function (it) {
-        if (it.sub) ul.appendChild(subBtn(it.sub, it.sub, false));
+      [''].concat(subs).forEach(function (sub) {
+        var li = el('li');
+        var b = el('button', 'shop-subcat-btn' + (sub === '' ? ' is-active' : ''));
+        b.type = 'button';
+        b.dataset.sub = sub;
+        b.setAttribute('role', 'menuitem');
+        b.textContent = sub || 'Tout';
+        li.appendChild(b);
+        ul.appendChild(li);
       });
       catEl.appendChild(ul);
     }
     nav.appendChild(catEl);
-
-    // --- Panneau : une grille de cartes produits par (sous-)collection ---
-    var panel = el('div', 'shop-panel');
-    panel.dataset.cat = catId;
-    panel.hidden = !active;
-    group.items.forEach(function (it) {
-      var holder = el('div', 'shop-collection');
-      holder.dataset.sub = it.sub || '';
-      holder.dataset.gid = String(it.id);
-      panel.appendChild(holder);
-    });
-    panels.appendChild(panel);
   });
+  if (order.length) bar.appendChild(nav);
+  var sortLabel = el('label', 'shop-sort');
+  sortLabel.innerHTML = '<span>Trier par</span><select>' +
+    '<option value="best">Meilleures ventes</option>' +
+    '<option value="asc">Prix croissant</option>' +
+    '<option value="desc">Prix décroissant</option></select>';
+  bar.appendChild(sortLabel);
+  var grid = el('div', 'shop-collection');
+  root.appendChild(bar);
+  root.appendChild(grid);
 
-  root.appendChild(nav);
-  root.appendChild(panels);
-  wireBoutique(root, client, ui);
-  mountPanel(root.querySelector('.shop-panel:not([hidden])'), client, ui);
-}
-
-// Charge (à la demande) les produits d'un panneau et les affiche en cartes
-// cliquables qui ouvrent le popup fiche produit (comme les nouveautés).
-function mountPanel(panel, client, ui) {
-  if (!panel) return;
-  panel.querySelectorAll('.shop-collection').forEach(function (holder) {
-    if (holder.dataset.mounted) return;
-    holder.dataset.mounted = '1';
-    holder.innerHTML = '<p class="shop-loading">Chargement…</p>';
-    client.collection.fetchWithProducts(holder.dataset.gid, { productsFirst: 100 }).then(function (col) {
-      var products = (col && col.products) || [];
-      holder.innerHTML = '';
-      if (!products.length) { holder.innerHTML = '<p class="shop-empty">Bientôt de nouvelles créations 🌿</p>'; return; }
-      products.forEach(function (p) { holder.appendChild(renderProductCard(p, ui)); });
-    }).catch(function (e) {
-      holder.innerHTML = '<p class="shop-empty">Impossible de charger ces produits.</p>';
-      console.error('Collection boutique :', e);
+  function render() {
+    var list = products.filter(function (p) {
+      return !state.cat || p.tags.some(function (t) {
+        var tag = parseTag(t);
+        return tag.cat === state.cat && (!state.sub || tag.sub === state.sub);
+      });
     });
-  });
-}
+    list.sort(function (a, b) {
+      return state.sort === 'asc' ? (a.price - b.price) || (a.rank - b.rank)
+        : state.sort === 'desc' ? (b.price - a.price) || (a.rank - b.rank)
+        : a.rank - b.rank;
+    });
+    grid.innerHTML = '';
+    if (!list.length) { grid.innerHTML = '<p class="shop-empty">Bientôt de nouvelles créations 🌿</p>'; return; }
+    list.forEach(function (p) { grid.appendChild(renderProductCard(p, ui)); });
+  }
 
-function wireBoutique(root, client, ui) {
   function closeMenus() {
-    root.querySelectorAll('.shop-cat').forEach(function (c) {
+    nav.querySelectorAll('.shop-cat').forEach(function (c) {
       c.classList.remove('is-open');
-      var b = c.querySelector('.shop-cat-btn');
-      if (b) b.setAttribute('aria-expanded', 'false');
+      c.querySelector('.shop-cat-btn').setAttribute('aria-expanded', 'false');
     });
   }
-
-  function activate(catId) {
-    root.querySelectorAll('.shop-cat').forEach(function (c) {
-      c.classList.toggle('is-active', c.dataset.cat === catId);
-    });
-    root.querySelectorAll('.shop-panel').forEach(function (p) {
-      var on = p.dataset.cat === catId;
-      p.hidden = !on;
-      if (on) mountPanel(p, client, ui);
-    });
-  }
-
-  function filterSub(catEl, sub) {
-    catEl.querySelectorAll('.shop-subcat-btn').forEach(function (b) {
-      b.classList.toggle('is-active', b.dataset.sub === sub);
-    });
-    var panel = root.querySelector('.shop-panel[data-cat="' + catEl.dataset.cat + '"]');
-    if (!panel) return;
-    panel.querySelectorAll('.shop-collection').forEach(function (h) {
-      h.hidden = sub !== '' && h.dataset.sub !== sub;
-    });
-  }
-
-  root.querySelectorAll('.shop-cat').forEach(function (catEl) {
+  nav.querySelectorAll('.shop-cat').forEach(function (catEl) {
     var hasSubs = !!catEl.querySelector('.shop-subcats');
     catEl.querySelector('.shop-cat-btn').addEventListener('click', function (e) {
       e.stopPropagation();
       var wasOpen = catEl.classList.contains('is-open');
-      activate(catEl.dataset.cat);
+      nav.querySelectorAll('.shop-cat').forEach(function (c) { c.classList.toggle('is-active', c === catEl); });
       closeMenus();
-      // On ouvre le menu déroulant seulement s'il était fermé.
+      // le menu déroulant ne s'ouvre que s'il était fermé
       if (hasSubs && !wasOpen) {
         catEl.classList.add('is-open');
         catEl.querySelector('.shop-cat-btn').setAttribute('aria-expanded', 'true');
+      }
+      if (state.cat !== catEl.dataset.cat) {
+        state.cat = catEl.dataset.cat;
+        state.sub = '';
+        catEl.querySelectorAll('.shop-subcat-btn').forEach(function (b) { b.classList.toggle('is-active', b.dataset.sub === ''); });
+        render();
       }
     });
     catEl.querySelectorAll('.shop-subcat-btn').forEach(function (sb) {
       sb.addEventListener('click', function (e) {
         e.stopPropagation();
-        filterSub(catEl, sb.dataset.sub);
+        state.sub = sb.dataset.sub;
+        catEl.querySelectorAll('.shop-subcat-btn').forEach(function (b) { b.classList.toggle('is-active', b === sb); });
         closeMenus(); // la liste se referme après le choix
+        render();
       });
     });
   });
-
-  // Clic en dehors d'une catégorie : on referme les menus déroulants.
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.shop-cat')) closeMenus();
   });
+  sortLabel.querySelector('select').addEventListener('change', function () {
+    state.sort = this.value;
+    render();
+  });
+  render();
 }
 
 // ===== Shopify Buy Button =====
@@ -573,33 +594,6 @@ function wireBoutique(root, client, ui) {
     "toggle": brandToggle
   };
 
-  // Options de la grille boutique : 4 produits par ligne, images uniformes.
-  var collectionOptions = {
-    "product": {
-      "styles": {
-        "product": Object.assign(
-          {
-            "@media (min-width: 601px)": {
-              "max-width": "calc(25% - 20px)",
-              "width": "calc(25% - 20px)",
-              "margin-left": "20px",
-              "margin-bottom": "50px"
-            }
-          },
-          imgUniform
-        ),
-        "button": brandBtn
-      },
-      "text": { "button": "Ajouter au panier" }
-    },
-    "productSet": {
-      "styles": { "products": { "@media (min-width: 601px)": { "margin-left": "-20px" } } }
-    },
-    "modalProduct": brandModal,
-    "cart": brandCart,
-    "toggle": brandToggle
-  };
-
   // Fiche produit détaillée affichée dans le popup (sur notre site), stylée pour
   // coller au site : fond blanc, police Avenir, bouton « pilule », description
   // sous le titre, liste déroulante arrondie, sans choix de quantité.
@@ -650,8 +644,8 @@ function wireBoutique(root, client, ui) {
     "toggle": brandToggle
   };
 
-  // Exposé pour mountPanel() (boutique) et le popup fiche produit.
-  window.SHOP_OPTIONS = { product: productOptions, collection: collectionOptions, productDetail: productDetailOptions };
+  // Exposé pour la recherche et le popup fiche produit.
+  window.SHOP_OPTIONS = { product: productOptions, productDetail: productDetailOptions };
 
   var boutiqueRoot = document.querySelector('[data-shop-catalog]');
   var featuredHost = document.querySelector('.shop-cards[data-featured]');
@@ -709,7 +703,7 @@ function wireBoutique(root, client, ui) {
       });
 
       if (boutiqueRoot) {
-        buildBoutique(boutiqueRoot, client, ui);
+        buildTagShop(boutiqueRoot, ui);
       }
       buildFeatured(client, ui);
       setupSearch(client, ui);
