@@ -1,4 +1,5 @@
-// ===== Le Refuge : carte où les animaux débloqués se promènent =====
+// ===== Le Sanctuaire : carte où les animaux débloqués se promènent =====
+// (sanctuaire.html ; les classes CSS gardent leur ancien préfixe « refuge- »)
 // Pour ajouter l'animal du mois : une entrée dans ANIMALS.
 //  - code : empreinte SHA-256 du code en majuscules sans espaces
 //    (terminal : echo -n ZURI2026 | sha256sum)
@@ -13,158 +14,234 @@
 (function () {
   var ANIMALS = [
     {
-      id: 'zuri',
-      code: '5e31c9c0a84d12cd6cb25fe6f251f0c53fe7a5c67559e0c4eb60c8c54807bd0e',
-      img: 'photo/refuge-elephant.png',
+      id: 'quinoa',
+      code: '9dbd69b8962baf2e52aed27728bf8924770672822e43b0bfa5c3a13e41534452',
+      img: 'photo/sanctuaire-lama.png',
       biome: 'ile',
-      zone: { x: 45, y: 66, rx: 4, ry: 2 },
-      size: 5,
-      hint: "Elle adore s'asperger d'eau et n'oublie jamais un ami.",
-      name: 'Zuri',
-      species: "Éléphant d'Afrique",
-      story: "Zuri (« la belle » en swahili) est arrivée au refuge toute petite, après avoir perdu son troupeau. " +
-        "Les soigneurs l'ont nourrie au biberon pendant des mois. Aujourd'hui, elle passe ses journées au bord du lac " +
-        "à s'asperger d'eau, et elle accueille chaque nouveau pensionnaire d'un grand coup de trompe.",
+      zone: { x: 40, y: 47, rx: 5, ry: 3.5 },
+      size: 7.3,
+      hint: "Il porte sa laine comme un manteau et regarde toujours les montagnes.",
+      name: "Quinoa",
+      species: "Lama",
+      story: "Quinoa est arrivé au sanctuaire après avoir porté, pendant des années, les sacs des randonneurs dans les montagnes. Aujourd'hui, il ne porte plus rien d'autre que sa belle laine, et il passe ses après-midi à contempler les sommets.",
       facts: [
-        "C'est le plus grand animal terrestre : un mâle adulte peut peser jusqu'à 6 tonnes.",
-        "Sa trompe compte des dizaines de milliers de muscles : elle sert à boire, sentir, saluer et attraper.",
-        "Ses grandes oreilles l'aident à se rafraîchir quand il fait chaud.",
-        "Les éléphants se parlent avec des sons très graves, que nos oreilles n'entendent pas, sur plusieurs kilomètres.",
-        "Une maman éléphant porte son petit pendant environ 22 mois."
+        "Le lama vit dans les Andes, en Amérique du Sud, parfois à plus de 4 000 mètres d'altitude.",
+        "Les lamas crachent surtout… sur d'autres lamas, pour régler leurs disputes.",
+        "Depuis des milliers d'années, les peuples des Andes l'utilisent pour porter des charges.",
+        "C'est un animal très sociable, qui n'aime pas vivre seul."
       ],
       secrets: [
-        "Zuri a une meilleure amie : une petite tortue qui vit près du lac. Elle fait toujours très attention où elle pose les pattes quand elle est là.",
-        "Quand il pleut, Zuri lève sa trompe vers le ciel pour attraper les gouttes. Les soigneurs jurent qu'elle sourit."
+        "Quinoa fredonne : les lamas émettent un petit son doux, comme un bourdonnement, quand ils sont contents.",
+        "Chaque matin, Quinoa attend l'ara Rubis au pied de la montagne pour lui dire bonjour."
       ]
     },
     {
-      id: 'baako',
-      code: 'b55451316e6ff9b0208533d398acc198ac504b5fab632867c17a5a0ad12e088e',
-      img: 'photo/refuge-lion.png',
+      id: 'inti',
+      code: 'd4dd79c2b047ba36c72c31e84d36c8a8037b1d98b38d88163826af02c8a27da0',
+      img: 'photo/sanctuaire-ours-lunettes.png',
       biome: 'ile',
-      zone: { x: 27, y: 66, rx: 3, ry: 2.5 },
-      size: 4.5,
-      hint: "Sa crinière est la plus belle du refuge… et il dort presque toute la journée.",
-      name: 'Baako',
-      species: "Lion d'Afrique",
-      story: "Baako a grandi dans un cirque, où il n'avait jamais foulé d'herbe. À son arrivée, il a passé une journée entière " +
-        "à renifler chaque brin. Aujourd'hui, c'est le plus grand dormeur du refuge : on le trouve souvent allongé au soleil, " +
-        "la crinière ébouriffée, à surveiller ses voisins d'un œil.",
+      zone: { x: 52, y: 52, rx: 4, ry: 2.5 },
+      size: 8.8,
+      hint: "Il porte des « lunettes » dessinées par la nature.",
+      name: "Inti",
+      species: "Ours à lunettes",
+      story: "Inti (« soleil » en quechua) a été recueilli tout petit, seul au bord d'une forêt de nuages. Il est devenu un grand grimpeur et se construit des nids de branches pour faire la sieste au soleil.",
       facts: [
-        "Le lion est le seul grand félin à vivre en groupe, appelé une troupe.",
-        "Son rugissement peut s'entendre jusqu'à 8 kilomètres.",
-        "Ce sont surtout les lionnes qui chassent, souvent en équipe.",
-        "Un lion peut se reposer jusqu'à 20 heures par jour.",
-        "L'espèce est classée vulnérable : il reste beaucoup moins de lions qu'il y a un siècle."
+        "C'est le seul ours d'Amérique du Sud.",
+        "Les taches claires autour de ses yeux sont différentes pour chaque ours, comme une empreinte.",
+        "Excellent grimpeur, il se fabrique des plateformes de branches dans les arbres.",
+        "Il mange surtout des plantes : fruits, feuilles et cœurs de broméliacées."
       ],
       secrets: [
-        "Baako a peur des papillons. Quand l'un d'eux se pose sur son nez, il fait semblant de dormir.",
-        "Chaque soir, Baako rugit une seule fois, juste avant la nuit, comme pour souhaiter bonne nuit à tout le refuge."
+        "Inti garde toujours une figue cachée derrière son oreille… enfin, il essaie.",
+        "Les soirs de pleine lune, Inti s'assoit en haut de son arbre et regarde les étoiles."
       ]
     },
     {
-      id: 'sirocco',
-      code: '97bd058fad3f90c660242050e7444cbe921209fb0cd2d42f248b35a3a97b708a',
-      img: 'photo/refuge-aigle.png',
-      biome: 'ouest',
-      zone: { x: 15, y: 18, rx: 3, ry: 3 },
-      size: 3,
-      hint: "Il voit tout depuis le plus haut perchoir.",
-      name: 'Sirocco',
-      species: 'Aigle royal',
-      story: "Sirocco a été retrouvé au pied d'une ligne électrique, une aile blessée. Après de longs mois de soins, " +
-        "il vole de nouveau, mais pas assez bien pour vivre seul dans la nature. Il a choisi le plus haut perchoir du refuge, " +
-        "d'où il garde un œil sur tout le monde.",
-      facts: [
-        "Ses ailes déployées peuvent dépasser 2 mètres d'envergure.",
-        "En piqué, il peut dépasser les 200 km/h.",
-        "Sa vue est bien plus perçante que la nôtre : il repère un lièvre à plus d'un kilomètre.",
-        "Un couple d'aigles reste souvent ensemble toute sa vie et réutilise le même nid d'année en année."
-      ],
-      secrets: [
-        "Sirocco collectionne les plumes tombées des autres oiseaux et les range soigneusement dans son nid.",
-        "Le jour de son premier vol après sa blessure, tous les soigneurs ont applaudi. Depuis, il fait un petit tour au-dessus d'eux chaque matin."
-      ]
-    },
-    {
-      id: 'zazou',
-      code: 'fa1ce09fc8ffcfb202739ba854a5646085e220050cdc28b5fb49680770a244af',
-      img: 'photo/refuge-zebre.png',
+      id: 'rubis',
+      code: 'b73222a2be32ef5c24816d3ae577d11691d635a82f154ea9f5d41145de45cb4e',
+      img: 'photo/sanctuaire-ara.png',
       biome: 'ile',
-      zone: { x: 45, y: 82, rx: 4, ry: 2.5 },
-      size: 4.5,
-      hint: "Pas deux comme lui : ses rayures sont uniques.",
-      name: 'Zazou',
-      species: 'Zèbre des plaines',
-      story: "Zazou est né au refuge, au printemps. Curieux de tout, il suit les soigneurs pas à pas pendant leur tournée " +
-        "et galope autour du lac dès qu'il entend la brouette du repas. Sa maman dit qu'il a les plus jolies rayures du troupeau.",
+      zone: { x: 22, y: 52, rx: 6, ry: 4 },
+      size: 12.8,
+      hint: "Rouge, bleu et jaune, il ne tient pas en place.",
+      name: "Rubis",
+      species: "Ara rouge",
+      story: "Rubis a vécu longtemps dans une cage trop petite. Au sanctuaire, il a réappris à voler, d'abord d'une branche à l'autre, puis au-dessus de toute l'île. Il ne s'arrête plus de faire des loopings.",
       facts: [
-        "Chaque zèbre a des rayures uniques, comme une empreinte digitale.",
-        "Sous son pelage, sa peau est noire.",
-        "Les scientifiques pensent que ses rayures l'aident à éloigner les mouches piqueuses.",
-        "Il vit en famille : un étalon, plusieurs juments et leurs petits.",
-        "Il peut courir jusqu'à environ 60 km/h pour échapper aux prédateurs."
+        "Un ara peut vivre plusieurs dizaines d'années.",
+        "Les aras vivent souvent en couple toute leur vie.",
+        "Ils mangent de l'argile au bord des rivières, qui les aide à digérer certaines graines.",
+        "Son bec est si puissant qu'il casse des noix très dures."
       ],
       secrets: [
-        "Zazou adore se rouler dans la poussière : c'est sa façon à lui de prendre un bain.",
-        "Zazou reconnaît la voix de chaque soigneur et répond à son nom par un petit hennissement."
+        "Rubis imite le rire des soigneurs, et ça fait rire tout le monde.",
+        "Rubis a choisi Quinoa comme meilleur ami : il se pose parfois sur son dos."
       ]
     },
     {
-      id: 'bruno',
-      code: '33017bb47ec3066e2d6bc4ef225cd0e15d82db9b3c92c56249214660098c5836',
-      img: 'photo/refuge-ours.png',
-      biome: 'nord',
-      zone: { x: 42, y: 25, rx: 4, ry: 2.5 },
-      size: 4.5,
-      hint: "Un grand gourmand qui cache des pommes sous les feuilles.",
-      name: 'Bruno',
-      species: 'Ours brun',
-      story: "Bruno a été recueilli encore ourson, trop jeune pour se débrouiller seul. C'est un gourmand : " +
-        "il connaît par cœur l'heure des fruits et cache parfois des pommes sous les feuilles pour plus tard. " +
-        "En hiver, il fait de longues siestes dans sa tanière.",
+      id: 'bruyere',
+      code: '44919c43467526be1f10cca801f0a46fbd7dc85cdfc64894a0802ce1f5e04f3c',
+      img: 'photo/sanctuaire-vache-highland.png',
+      biome: 'doree',
+      zone: { x: 84, y: 64, rx: 4, ry: 2.5 },
+      size: 9.3,
+      hint: "Une frange, des cornes et un manteau tout roux.",
+      name: "Bruyère",
+      species: "Vache Highland",
+      story: "Bruyère vient d'une ferme où elle était la plus petite du troupeau. Au sanctuaire, elle a trouvé sa place : elle veille sur tout le monde depuis la colline, la frange au vent.",
       facts: [
-        "Son odorat est l'un des meilleurs de tout le monde animal.",
-        "Il se dresse parfois sur ses pattes arrière pour mieux voir et mieux sentir.",
-        "En hiver, il peut passer des mois dans sa tanière sans manger ni boire.",
-        "Les oursons naissent en plein hiver et ne pèsent que quelques centaines de grammes.",
-        "Il mange de tout : baies, racines, insectes, poissons…"
+        "La vache Highland vient des Highlands, les montagnes d'Écosse.",
+        "Son double pelage la protège du froid, du vent et de la pluie.",
+        "Sa longue frange protège ses yeux du vent et des insectes.",
+        "Elle est très rustique : elle vit dehors toute l'année."
       ],
       secrets: [
-        "Bruno a un tronc préféré pour se gratter le dos. Quand il s'y frotte, on dirait qu'il danse.",
-        "Avant de s'endormir pour l'hiver, Bruno fait le tour de son enclos, comme pour dire au revoir à tout le monde."
+        "Bruyère adore qu'on lui gratte le front, juste sous la frange.",
+        "Quand il pleut, Bruyère se met à l'abri… à côté de la martre Noisette, pour lui faire de l'ombre."
+      ]
+    },
+    {
+      id: 'noisette',
+      code: '26a2ba91d38a7049d7f5ac8655728dfacf9682bfc3c48e073e19ff4524800e8a',
+      img: 'photo/sanctuaire-martre.png',
+      biome: 'doree',
+      zone: { x: 68, y: 69, rx: 4, ry: 1.5 },
+      size: 9.3,
+      hint: "Une queue touffue et une tache claire sous le menton.",
+      name: "Noisette",
+      species: "Martre des pins",
+      story: "Noisette a été retrouvée dans un grenier, bien loin de sa forêt. Au sanctuaire, elle file entre les arbres comme une flèche et connaît toutes les cachettes de l'île.",
+      facts: [
+        "La martre des pins vit dans les forêts et grimpe très bien aux arbres.",
+        "La tache claire sur sa gorge est différente pour chaque martre.",
+        "Elle est surtout active au crépuscule et la nuit.",
+        "Elle aime les fruits et les baies autant que les petites proies."
+      ],
+      secrets: [
+        "Noisette cache des baies dans un vieux tronc, et oublie toujours où.",
+        "Noisette fait sa toilette avec beaucoup de soin, au moins dix fois par jour."
+      ]
+    },
+    {
+      id: 'myrtille',
+      code: 'd148fb0ac3d5739312928226823fdf1f1f569f7cb5dadde7e53fc9dbd89f5b8b',
+      img: 'photo/sanctuaire-ourse.png',
+      biome: 'doree',
+      zone: { x: 63, y: 86, rx: 3.5, ry: 2 },
+      size: 13.4,
+      hint: "Une maman, un ourson et un poisson qui gigote.",
+      name: "Myrtille et Pépin",
+      species: "Ours brun",
+      story: "Myrtille est arrivée au sanctuaire avec Pépin, son ourson, après un hiver difficile. Elle lui apprend à pêcher dans la rivière : Pépin, lui, préfère encore regarder les poissons.",
+      facts: [
+        "Les oursons restent deux à trois ans avec leur mère, qui leur apprend tout.",
+        "L'ours brun pêche les saumons quand ils remontent les rivières.",
+        "En hiver, il peut passer des mois dans sa tanière sans manger.",
+        "Son odorat est l'un des meilleurs de tout le monde animal."
+      ],
+      secrets: [
+        "Pépin a peur des grenouilles, mais il ne veut pas que Myrtille le sache.",
+        "Myrtille donne toujours le plus beau poisson à Pépin."
+      ]
+    },
+    {
+      id: 'galet',
+      code: 'eb8904a399c3e6bcf3af6833d65af26b2a00aac0e271d10ba35d63e28bdb1904',
+      img: 'photo/sanctuaire-phoque.png',
+      biome: 'ilot',
+      zone: { x: 13, y: 37, rx: 3, ry: 1 },
+      size: 5.3,
+      hint: "Il sort la tête de l'eau pour voir ce qui se passe.",
+      name: "Galet",
+      species: "Phoque veau-marin",
+      story: "Galet a été trouvé sur une plage, tout seul, quand il n'était qu'un bébé phoque. Il a grandi au sanctuaire et passe ses journées à sortir la tête de l'eau pour observer ce qui se passe.",
+      facts: [
+        "Le phoque veau-marin vit aussi sur les côtes de la mer du Nord.",
+        "Ses moustaches sentent le mouvement des poissons dans l'eau, même dans le noir.",
+        "Il peut rester sous l'eau jusqu'à une demi-heure.",
+        "Chaque phoque a des taches différentes."
+      ],
+      secrets: [
+        "Galet a toujours l'air de sourire, même quand il dort.",
+        "Galet salue chaque bateau qui passe en tapant l'eau avec sa nageoire."
+      ]
+    },
+    {
+      id: 'flocon',
+      code: 'd087287ed282c8f9b8e7664b8b7e12c14daaaa3da9fd529f845a919139e9de0e',
+      img: 'photo/sanctuaire-ours-polaire.png',
+      biome: 'banquise',
+      zone: { x: 74, y: 36, rx: 3, ry: 0.8 },
+      size: 8.4,
+      hint: "Blanc comme la neige, il adore glisser sur le ventre.",
+      name: "Flocon",
+      species: "Ours polaire",
+      story: "Flocon a été recueilli tout petit, quand la glace de sa banquise a fondu trop tôt. Il adore glisser sur le ventre et faire des bulles en nageant.",
+      facts: [
+        "Sous ses poils, la peau de l'ours polaire est noire, et ses poils sont transparents.",
+        "C'est un excellent nageur, capable de nager pendant des heures.",
+        "Son odorat lui permet de sentir un phoque à plus d'un kilomètre.",
+        "Les oursons naissent dans une tanière creusée dans la neige."
+      ],
+      secrets: [
+        "Flocon se roule dans la neige pour se sécher, comme un chien.",
+        "Flocon et Galet se regardent de loin, chacun sur son îlot. Les soigneurs pensent qu'ils sont amis."
       ]
     }
   ];
 
-  // La carte est une seule grande image. Chaque biome est fait d'un ou plusieurs rectangles
-  // [gauche, haut, droite, bas] en % de la carte. La carte est découpée en CELLS × CELLS cases ;
-  // chaque case appartient au premier biome qui la contient. Le premier biome est ouvert d'office,
-  // les autres restent dans les nuages jusqu'à l'arrivée de leur premier animal. Les cases
-  // d'aucun biome forment l'horizon, dévoilé une fois tous les biomes ouverts.
-  var MAP_IMG = 'photo/refuge-carte-monde.webp';
-  var CELLS = 20;
-  var BIOMES = [
-    { id: 'ile', name: 'La Grande Île', rects: [[15, 38, 57, 91], [57, 48, 72, 91]] },
-    { id: 'nord', name: "L'Île du Nord", rects: [[27, 1, 60, 34]] },
-    { id: 'ouest', name: "L'Île aux Cascades", rects: [[3, 2, 27, 30]] },
-    { id: 'archipel', name: "L'Archipel", rects: [[56, 32, 84, 51]] },
-    { id: 'volcans', name: 'Les Volcans', rects: [[77, 40, 97, 80]] },
-    { id: 'horizon', name: "L'Horizon", rects: [] }
+  // La carte : une seule image. CELL_MAP la découpe en CELLS × CELLS cases ; chaque lettre dit
+  // à quel biome appartient la case (majuscule : la terre, minuscule : la mer autour, qui s'ouvre
+  // avec l'île ; point : l'horizon, dévoilé une fois tous les biomes ouverts). Le premier biome
+  // est ouvert d'office, les autres restent dans les nuages jusqu'à l'arrivée de leur premier animal.
+  var MAP_IMG = 'photo/sanctuaire-carte.webp';
+  var CELLS = 25;
+  var CELL_MAP = [
+    '.........................',
+    '.........................',
+    '.........................',
+    '.........................',
+    '.........................',
+    '.........................',
+    '................pppppp...',
+    '.ggggg..sssssssspPPPPp...',
+    'ggGGGgsssSSSSSSSsPPPpp...',
+    'gGGGgssSSSSSSSSSsPppp....',
+    'ggggSSSSSSSSSSSSSpp...ddd',
+    '...sSSSSSSSSSSSSSs..dddDd',
+    '..ssSSSSSSSSSSSSss..dDDDd',
+    '..sSSSSSSSSSSSSsdddddDDDd',
+    '..sSSSSSSSSSSSsdDDDDDDDDd',
+    '..ssSSSSSSSSSssdDDDDDDDDd',
+    '...sSSSSSSSSss.dDDDDDDDDd',
+    '..ssSSSSSSSSsdddDDDDDDDDD',
+    '..sSSSSSSSssDDdDDDDDDDDDD',
+    '..sSSSSSssdDDDDDDDDDDDddd',
+    '..sSSSSss.dDDDDDDDDdddd..',
+    '..ssssss..dDDDDDDDDd.....',
+    '..........dddddDDDdd.....',
+    '..............ddDdd......',
+    '...............ddd.......'
   ];
-  var CELL_OWNER = []; // CELL_OWNER[ligne][colonne] = id du biome
-  for (var row = 0; row < CELLS; row++) {
-    CELL_OWNER.push([]);
-    for (var col = 0; col < CELLS; col++) {
-      var cx = (col + 0.5) * 100 / CELLS, cy = (row + 0.5) * 100 / CELLS;
-      var owner = BIOMES.filter(function (b) {
-        return b.rects.some(function (r) { return cx >= r[0] && cx < r[2] && cy >= r[1] && cy < r[3]; });
-      })[0];
-      CELL_OWNER[row].push(owner ? owner.id : 'horizon');
-    }
-  }
+  var BIOMES = [
+    { id: 'ile', key: 's', name: 'La Grande Île' },
+    { id: 'doree', key: 'd', name: "L'Île Dorée" },
+    { id: 'ilot', key: 'g', name: "L'Îlot des Phoques" },
+    { id: 'banquise', key: 'p', name: 'La Banquise' },
+    { id: 'horizon', key: '.', name: "L'Horizon" }
+  ];
+  // décor fixe, en % de la carte (x, y : le pied de l'objet)
+  var DECOR = [
+    { img: 'photo/sanctuaire-buisson.png', x: 83, y: 47, size: 7.6 }
+  ];
+  var CELL_OWNER = CELL_MAP.map(function (line) {
+    return line.split('').map(function (ch) {
+      return BIOMES.filter(function (b) { return b.key === ch.toLowerCase(); })[0].id;
+    });
+  });
   // Le prochain pensionnaire, montré en silhouette avant son arrivée.
-  var NEXT = { id: 'baako', when: 'Arrive en novembre' };
+  var NEXT = { id: 'quinoa', when: 'Arrive en novembre' };
   var CLOUD = 'photo/refuge-nuage.png';
 
   // Badges, cousus sur l'écharpe. reward : réduction offerte dans la boutique
@@ -177,16 +254,16 @@
     { id: 'famille', icon: '🏡', color: '#B6BD77', name: 'Petite famille', desc: 'Accueillir 3 animaux', test: function (s) { return s.animals.length >= 3; } },
     { id: 'curieux', icon: '📖', color: '#5B7FA6', name: 'Curieux', desc: 'Lire la fiche de 3 animaux', test: function (s) { return s.seen.length >= 3; } },
     { id: 'secret', icon: '🔑', color: '#F2B544', name: 'Gardien de secrets', desc: 'Découvrir le secret d\'un animal', test: function (s) { return maxAffection(s) >= SECRET_AT[0]; } },
-    { id: 'arche', icon: '🌍', color: '#657007', name: 'Grand refuge', desc: 'Accueillir 5 animaux', reward: { percent: 5, code: 'REFUGE-ARCHE5' }, test: function (s) { return s.animals.length >= 5; } },
+    { id: 'arche', icon: '🌍', color: '#657007', name: 'Grand sanctuaire', desc: 'Accueillir 5 animaux', reward: { percent: 5, code: 'REFUGE-ARCHE5' }, test: function (s) { return s.animals.length >= 5; } },
     { id: 'glaneur', icon: '🧺', color: '#8B5A2B', name: 'Glaneur', desc: 'Ramasser 25 trésors', test: function (s) { return s.found >= 25; } },
     { id: 'fidele', icon: '📅', color: '#C9787A', name: 'Soigneur fidèle', desc: 'Venir gâter vos animaux 7 jours différents', reward: { percent: 5, code: 'REFUGE-FIDELE5' }, test: function (s) { return s.careDays >= 7; } },
     { id: 'ami', icon: '💛', color: '#E07B39', name: 'Ami pour la vie', desc: 'Remplir le cœur d\'un animal', test: function (s) { return maxAffection(s) >= SECRET_AT[1]; } },
     { id: 'explorateur', icon: '🧭', color: '#3E7C8C', name: 'Explorateur', desc: 'Ouvrir un nouveau biome', test: function (s) { return openIds(s).length >= 2; } },
     { id: 'cartographe', icon: '🗺️', color: '#9B6B43', name: 'Cartographe', desc: 'Ouvrir tous les biomes', test: function (s) { return openIds(s).length === BIOMES.length; } },
-    { id: 'niveau5', icon: '⭐', color: '#283C23', name: 'Refuge étoilé', desc: 'Atteindre le niveau 5', reward: { percent: 10, code: 'REFUGE-ETOILE10' }, test: function (s) { return levelOf(s.xp) >= 5; } }
+    { id: 'niveau5', icon: '⭐', color: '#283C23', name: 'Sanctuaire étoilé', desc: 'Atteindre le niveau 5', reward: { percent: 10, code: 'REFUGE-ETOILE10' }, test: function (s) { return levelOf(s.xp) >= 5; } }
   ];
 
-  var STORE = 'refuge-etat-2'; // nouvelle clé = progression remise à zéro (nouvelle carte)
+  var STORE = 'refuge-etat-3'; // nouvelle clé = progression remise à zéro (nouvelle carte, nouveaux animaux)
   var PREFS = 'refuge-son';
   var XP = { animal: 15, care: 5, pickup: 2 };
   var SECRET_AT = [3, 7]; // jours de friandises pour débloquer chaque secret
@@ -264,7 +341,7 @@
     } catch (e) { return normalize({}); }
   }
   function save(s) {
-    try { localStorage.setItem(STORE, JSON.stringify(s)); } catch (e) { /* navigation privée : le refuge dure jusqu'au rechargement */ }
+    try { localStorage.setItem(STORE, JSON.stringify(s)); } catch (e) { /* navigation privée : le sanctuaire dure jusqu'au rechargement */ }
   }
   function exportCode(s) { return btoa(JSON.stringify(s)); }
   function importCode(code) { return normalize(JSON.parse(atob(code.trim()))); }
@@ -663,7 +740,7 @@
         return;
       }
       save(state);
-      out.textContent = 'Refuge restauré ! Rechargement…';
+      out.textContent = 'Sanctuaire restauré ! Rechargement…';
       setTimeout(function () { location.reload(); }, 800);
     });
 
@@ -757,6 +834,17 @@
     // ---- biomes : tuiles, brume et silhouettes ----
     var fogs = map.querySelector('.refuge-fogs');
     map.querySelector('.refuge-map-img').src = MAP_IMG;
+    DECOR.forEach(function (d) {
+      var img = document.createElement('img');
+      img.className = 'refuge-decor-item';
+      img.src = d.img;
+      img.alt = '';
+      img.draggable = false;
+      img.style.left = d.x + '%';
+      img.style.top = d.y + '%';
+      img.style.width = d.size + '%';
+      map.querySelector('.refuge-decor').appendChild(img);
+    });
     var shownOpen = [];
     function renderBiomes() {
       var open = openIds(state);
@@ -991,7 +1079,7 @@
           return;
         }
         if (state.animals.indexOf(a.id) !== -1) {
-          msg.textContent = a.name + ' est déjà dans votre refuge.';
+          msg.textContent = a.name + ' est déjà dans votre sanctuaire.';
           return;
         }
         state.animals.push(a.id);
