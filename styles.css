@@ -3,8 +3,8 @@
    ============================================ */
 :root {
   /* Charte Dana Leriche */
-  --cream: #FBF7EC;        /* crème clair : cartes, header */
-  --cream-warm: #F5ECD5;   /* crème de la charte éclairci de 20 % vers le blanc : fond de page */
+  --cream: #FFFDF8;        /* crème très clair : cartes, header */
+  --cream-warm: #FAF6EC;   /* crème de la charte, nettement éclairci vers le blanc : fond de page */
   --orange: #D8560E;       /* accent */
   --green-light: #B6BD77;
   --olive: #657007;
@@ -20,7 +20,7 @@
   --peach-light: #FBEEDE;
   --dark: var(--ink);
   --muted: #6E6553;
-  --border: #DED0AE;
+  --border: #E6DBC2;
 
   --shadow: 0 30px 60px -25px rgba(31, 30, 28, 0.20);
   --shadow-sm: 0 10px 25px -10px rgba(31, 30, 28, 0.16);
@@ -210,7 +210,7 @@ em {
 
 /* Petit nom de marque à gauche du menu */
 .brand {
-  font-family: 'Bevellier', 'Jost', sans-serif;
+  font-family: 'Comico', 'Jost', sans-serif;
   font-size: 1.08rem;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -426,7 +426,7 @@ em {
 }
 
 /* ============================================
-   Accès rapides (5 pastilles reliées en pointillés)
+   Accès rapides (pastilles reliées en pointillés, centrées)
    ============================================ */
 .quick-links {
   padding: 3.5rem 1.5rem 3rem;
@@ -437,8 +437,8 @@ em {
   max-width: 70rem;
   margin: 0 auto;
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  justify-content: center;
   gap: 1.5rem;
   align-items: start;
 }
@@ -488,7 +488,7 @@ em {
 .quick-item:nth-child(2) .quick-btn { --pastille: var(--green-light); --pastille-ink: var(--green-dark); }
 .quick-item:nth-child(3) .quick-btn { --pastille: var(--green-dark); }
 .quick-item:nth-child(4) .quick-btn { --pastille: var(--orange); }
-.quick-item:nth-child(5) .quick-btn { --pastille: #F2B544; --pastille-ink: var(--ink); }
+.quick-item.is-club .quick-btn { --pastille: #F2B544; --pastille-ink: var(--ink); }
 
 a.quick-btn:hover,
 a.quick-btn:focus-visible {
@@ -1356,8 +1356,7 @@ a.quick-btn:focus-visible {
   position: relative;
 }
 
-.shop-cat-btn,
-.shop-sort-btn {
+.shop-cat-btn {
   position: relative;
   font-family: 'Jost', sans-serif;
   font-size: 1rem;
@@ -1370,8 +1369,7 @@ a.quick-btn:focus-visible {
 }
 
 /* le même soulignement orange que les titres du menu */
-.shop-cat-btn::after,
-.shop-sort-btn::after {
+.shop-cat-btn::after {
   content: '';
   position: absolute;
   left: 0; right: 0; bottom: -2px;
@@ -1383,14 +1381,10 @@ a.quick-btn:focus-visible {
 }
 
 .shop-cat-btn:hover,
-.shop-sort-btn:hover,
-.shop-cat.is-active .shop-cat-btn,
-.shop-sort-btn.is-active { color: var(--orange); }
+.shop-cat.is-active .shop-cat-btn { color: var(--orange); }
 
 .shop-cat-btn:hover::after,
-.shop-sort-btn:hover::after,
-.shop-cat.is-active .shop-cat-btn::after,
-.shop-sort-btn.is-active::after { transform: scaleX(1); }
+.shop-cat.is-active .shop-cat-btn::after { transform: scaleX(1); }
 
 /* petite flèche pour les catégories qui ont des sous-catégories */
 .shop-cat-btn[aria-haspopup]::before {
@@ -1448,22 +1442,43 @@ a.quick-btn:focus-visible {
 /* ---- Barre : catégories (balises) + tri ---- */
 .shop-toolbar {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem 2rem;
   margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
 }
-.shop-toolbar .shop-cats { margin-bottom: 0; }
+.shop-toolbar .shop-cats { margin-bottom: 0; justify-content: flex-start; }
 .shop-sort {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: baseline;
-  gap: 0.4rem 1.4rem;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: auto;
   font-size: 0.9rem;
   color: var(--muted);
 }
-.shop-sort-btn { font-size: 0.9rem; }
+.shop-sort select {
+  font: inherit;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  color: var(--ink);
+  padding: 0.4rem 2.1rem 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--cream) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231F1E1C' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 0.8rem center;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+.shop-sort select:hover { border-color: var(--orange); }
+.shop-sort select:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+@media (max-width: 720px) {
+  .shop-toolbar { justify-content: center; }
+  .shop-toolbar .shop-cats { justify-content: center; }
+  .shop-sort { margin-left: 0; }
+}
 
 /* ---- Grille de produits ---- */
 .shop-collection {
