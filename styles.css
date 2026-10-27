@@ -4,7 +4,7 @@
 :root {
   /* Charte Dana Leriche */
   --cream: #FBF7EC;        /* crème clair : cartes, header */
-  --cream-warm: #F2E7CB;   /* crème de la charte : fond de page */
+  --cream-warm: #F5ECD5;   /* crème de la charte éclairci de 20 % vers le blanc : fond de page */
   --orange: #D8560E;       /* accent */
   --green-light: #B6BD77;
   --olive: #657007;
@@ -48,7 +48,7 @@ a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; }
 
 h1, h2 {
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: 0.01em;
@@ -57,7 +57,7 @@ h1, h2 {
 }
 
 h3, h4, h5 {
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: 0;
@@ -146,7 +146,7 @@ em {
   border: 1.5px solid var(--orange);
   padding: 0.85rem 1.9rem;
   display: inline-block;
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 1rem;
 }
 
@@ -210,7 +210,7 @@ em {
 
 /* Petit nom de marque à gauche du menu */
 .brand {
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 1.08rem;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -498,7 +498,7 @@ a.quick-btn:focus-visible {
 }
 
 .quick-label {
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 0.98rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -650,7 +650,6 @@ a.quick-btn:focus-visible {
   width: 100%;
   aspect-ratio: 1 / 1;
   background: none;
-  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 .shop-card-custom .pc-img img {
@@ -745,7 +744,7 @@ a.quick-btn:focus-visible {
 }
 
 .shop-name {
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 1.1rem;
   color: var(--olive-dark);
   margin-bottom: 0.2rem;
@@ -1025,7 +1024,7 @@ a.quick-btn:focus-visible {
 .footer-copy {
   font-size: 0.82rem;
   color: var(--muted);
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
 }
 
 /* Liens légaux du pied de page */
@@ -1349,7 +1348,7 @@ a.quick-btn:focus-visible {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem 1.25rem;
+  gap: 0.6rem 1.6rem;
   margin-bottom: 3rem;
 }
 
@@ -1357,27 +1356,48 @@ a.quick-btn:focus-visible {
   position: relative;
 }
 
-.shop-cat-btn {
-  font-family: 'Comico', 'Jost', sans-serif;
-  font-size: 1.2rem;
-  padding: 0.7rem 2rem;
+.shop-cat-btn,
+.shop-sort-btn {
+  position: relative;
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  padding: 0.25rem 0;
   border: none;
-  border-radius: 40px;
-  /* Même apparence que les boutons "Ajouter au panier" de Shopify */
-  background: #ecd080;
-  color: #74550d;
-  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+  background: none;
+  color: var(--ink);
+  transition: color 0.2s;
 }
 
-.shop-cat-btn:hover {
-  background: #d4bb73;
-  transform: translateY(-2px);
+/* le même soulignement orange que les titres du menu */
+.shop-cat-btn::after,
+.shop-sort-btn::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 1.5px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
 }
 
-.shop-cat.is-active .shop-cat-btn {
-  background: var(--olive);
-  color: var(--cream);
-  box-shadow: var(--shadow-sm);
+.shop-cat-btn:hover,
+.shop-sort-btn:hover,
+.shop-cat.is-active .shop-cat-btn,
+.shop-sort-btn.is-active { color: var(--orange); }
+
+.shop-cat-btn:hover::after,
+.shop-sort-btn:hover::after,
+.shop-cat.is-active .shop-cat-btn::after,
+.shop-sort-btn.is-active::after { transform: scaleX(1); }
+
+/* petite flèche pour les catégories qui ont des sous-catégories */
+.shop-cat-btn[aria-haspopup]::before {
+  content: '▾';
+  float: right;
+  margin-left: 0.3rem;
+  font-size: 0.75em;
 }
 
 /* ---- Liste déroulante de sous-catégories ---- */
@@ -1410,7 +1430,7 @@ a.quick-btn:focus-visible {
   border: none;
   border-radius: var(--radius-sm);
   background: transparent;
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 1rem;
   color: var(--dark);
   transition: background 0.15s ease;
@@ -1436,24 +1456,14 @@ a.quick-btn:focus-visible {
 .shop-toolbar .shop-cats { margin-bottom: 0; }
 .shop-sort {
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: 'Comico', 'Jost', sans-serif;
-  color: var(--olive);
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.4rem 1.4rem;
+  font-size: 0.9rem;
+  color: var(--muted);
 }
-.shop-sort select {
-  font: inherit;
-  font-family: 'Jost', sans-serif;
-  color: var(--ink);
-  padding: 0.45rem 2.2rem 0.45rem 1rem;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--cream) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23657007' stroke-width='1.8'/%3E%3C/svg%3E") no-repeat right 0.9rem center;
-  -webkit-appearance: none;
-  appearance: none;
-  cursor: pointer;
-}
-.shop-sort select:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.shop-sort-btn { font-size: 0.9rem; }
 
 /* ---- Grille de produits ---- */
 .shop-collection {
@@ -1475,7 +1485,7 @@ a.quick-btn:focus-visible {
 .shop-empty,
 .shop-loading {
   text-align: center;
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 1.25rem;
   color: var(--muted);
   padding: 4rem 1rem;
@@ -1623,7 +1633,7 @@ a.quick-btn:focus-visible {
   font-size: 1.2rem;
   color: var(--olive-dark);
   margin-bottom: 0.5rem;
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
 }
 
 .refuge-feature p {
@@ -1856,7 +1866,7 @@ a.quick-btn:focus-visible {
 .poster-link img { display: block; width: 100%; height: auto; }
 
 .poster-kicker {
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--orange);
@@ -1949,7 +1959,6 @@ a.quick-btn:focus-visible {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--radius-sm);
   box-shadow: 0 6px 18px rgba(31, 30, 28, 0.13);
   transition: transform 0.28s ease, box-shadow 0.28s ease;
 }
@@ -1961,7 +1970,7 @@ a.quick-btn:focus-visible {
 
 .plain-caption {
   display: block;
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -2000,7 +2009,6 @@ a.quick-btn:focus-visible {
 .preview-item {
   display: block;
   line-height: 0;
-  border-radius: var(--radius-sm);
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(31, 30, 28, 0.13);
   transition: transform 0.28s ease, box-shadow 0.28s ease;
@@ -2118,7 +2126,7 @@ a.quick-btn:focus-visible {
 
 .month-label strong {
   display: block;
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-weight: 400;
   font-size: 1.15rem;
   text-transform: uppercase;
@@ -2302,7 +2310,7 @@ a.quick-btn:focus-visible {
   left: 1rem;
   background: var(--olive);
   color: var(--cream);
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 0.85rem;
   padding: 0.35rem 0.95rem;
   border-radius: var(--radius-pill);
@@ -2545,11 +2553,10 @@ a.quick-btn:focus-visible {
   height: auto;
   max-height: 74vh;
   object-fit: contain;
-  border-radius: var(--radius-sm);
 }
 
 .artwork-modal-text h3 {
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 1.6rem;
   text-transform: uppercase;
   color: var(--orange);
@@ -2599,7 +2606,7 @@ a.quick-btn:focus-visible {
 }
 .refuge-code label {
   display: block;
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   color: var(--olive);
   margin-bottom: 0.5rem;
 }
@@ -2709,7 +2716,7 @@ a.quick-btn:focus-visible {
   font-size: 0.9rem;
   background: var(--cream);
   color: var(--orange);
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   padding: 0.4rem 1.1rem;
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-sm);
@@ -2764,7 +2771,7 @@ a.quick-btn:focus-visible {
   transform-origin: 50% 100%;
   transition: opacity 0.15s, scale 0.35s cubic-bezier(0.3, 1.8, 0.5, 1);
 }
-.refuge-ghost-tip strong { display: block; font-family: 'Comico', 'Jost', sans-serif; font-weight: 400; color: var(--orange); font-size: 0.85rem; }
+.refuge-ghost-tip strong { display: block; font-family: 'Bevellier', 'Jost', sans-serif; font-weight: 400; color: var(--orange); font-size: 0.85rem; }
 .refuge-animal.is-told .refuge-ghost-tip { opacity: 1; scale: 1; }
 .refuge-animal.is-told .refuge-animal-name { opacity: 0; }
 
@@ -2775,7 +2782,7 @@ a.quick-btn:focus-visible {
   translate: -50% 0;
   background: var(--cream);
   color: var(--orange);
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 0.65rem;
   line-height: 1.3;
   padding: 0.05rem 0.45rem;
@@ -2866,7 +2873,7 @@ a.quick-btn:focus-visible {
   gap: 0.8rem;
   max-width: 32rem;
   margin: 0 auto 1rem;
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   color: var(--green-dark);
 }
 .refuge-level-bar {
@@ -2920,7 +2927,7 @@ a.quick-btn:focus-visible {
   animation: refuge-fade 2.2s ease-in forwards;
 }
 .refuge-levelup span {
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   text-transform: uppercase;
   font-size: clamp(2rem, 8vw, 4.5rem);
   color: var(--cream);
@@ -2987,7 +2994,7 @@ a.quick-btn:focus-visible {
   border: 2px dashed rgba(251, 247, 236, 0.35);
   background: rgba(0, 0, 0, 0.12);
   color: rgba(251, 247, 236, 0.45);
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   rotate: var(--r);
   transition: translate 0.2s, scale 0.2s;
 }
@@ -3039,7 +3046,7 @@ a.quick-btn:focus-visible {
 }
 .refuge-patch-empty { width: 100%; text-align: center; color: var(--muted); }
 .refuge-patch-big { font-size: 2.4rem; flex: none; }
-.refuge-patch-info strong { font-family: 'Comico', 'Jost', sans-serif; font-weight: 400; color: var(--orange); font-size: 1.1rem; }
+.refuge-patch-info strong { font-family: 'Bevellier', 'Jost', sans-serif; font-weight: 400; color: var(--orange); font-size: 1.1rem; }
 .refuge-patch-info p { color: var(--muted); font-size: 0.92rem; }
 .refuge-reward { margin-top: 0.5rem; font-size: 0.92rem; }
 .refuge-reward code {
@@ -3070,7 +3077,7 @@ a.quick-btn:focus-visible {
 
 /* sauvegarde */
 .refuge-save { max-width: 32rem; margin: 3rem auto 0; color: var(--muted); }
-.refuge-save summary { cursor: pointer; text-align: center; font-family: 'Comico', 'Jost', sans-serif; color: var(--olive); }
+.refuge-save summary { cursor: pointer; text-align: center; font-family: 'Bevellier', 'Jost', sans-serif; color: var(--olive); }
 .refuge-save p { margin: 0.8rem 0; font-size: 0.9rem; }
 .refuge-save textarea {
   width: 100%;
@@ -3123,7 +3130,7 @@ a.quick-btn:focus-visible {
 .refuge-toast.is-out { opacity: 0; translate: 0 1rem; }
 .refuge-toast-icon { font-size: 1.8rem; }
 .refuge-toast small { display: block; color: var(--olive); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; }
-.refuge-toast strong { font-family: 'Comico', 'Jost', sans-serif; font-weight: 400; color: var(--orange); }
+.refuge-toast strong { font-family: 'Bevellier', 'Jost', sans-serif; font-weight: 400; color: var(--orange); }
 
 /* arrivée : la caisse */
 .refuge-reveal {
@@ -3165,7 +3172,7 @@ a.quick-btn:focus-visible {
 .refuge-crate.is-knock { animation: refuge-knock 0.35s; }
 .refuge-crate[hidden] { display: none; }
 .refuge-crate-label {
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   text-transform: uppercase;
   color: var(--cream);
   background: var(--orange);
@@ -3174,7 +3181,7 @@ a.quick-btn:focus-visible {
   rotate: -8deg;
   line-height: 1.2;
 }
-.refuge-crate-hint { color: var(--cream); margin-top: 1.2rem; font-family: 'Comico', 'Jost', sans-serif; }
+.refuge-crate-hint { color: var(--cream); margin-top: 1.2rem; font-family: 'Bevellier', 'Jost', sans-serif; }
 .refuge-reveal-card {
   position: relative;
   overflow: hidden;
@@ -3216,7 +3223,7 @@ a.quick-btn:focus-visible {
   z-index: 1500;
   translate: -50% -50%;
   pointer-events: none;
-  font-family: 'Comico', 'Jost', sans-serif;
+  font-family: 'Bevellier', 'Jost', sans-serif;
   font-size: 1.3rem;
   color: var(--orange);
   -webkit-text-stroke: 1px var(--cream);
