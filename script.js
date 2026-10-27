@@ -350,13 +350,11 @@ function renderTagShop(root, products, ui) {
     nav.appendChild(catEl);
   });
   if (order.length) bar.appendChild(nav);
-  var sortBar = el('div', 'shop-sort');
-  sortBar.setAttribute('role', 'group');
-  sortBar.setAttribute('aria-label', 'Trier les produits');
-  sortBar.innerHTML = '<span>Trier par</span>' +
-    '<button type="button" class="shop-sort-btn is-active" data-sort="best" aria-pressed="true">Meilleures ventes</button>' +
-    '<button type="button" class="shop-sort-btn" data-sort="asc" aria-pressed="false">Prix croissant</button>' +
-    '<button type="button" class="shop-sort-btn" data-sort="desc" aria-pressed="false">Prix décroissant</button>';
+  var sortBar = el('label', 'shop-sort');
+  sortBar.innerHTML = '<span>Trier par</span><select>' +
+    '<option value="best">Meilleures ventes</option>' +
+    '<option value="asc">Prix croissant</option>' +
+    '<option value="desc">Prix décroissant</option></select>';
   bar.appendChild(sortBar);
   var grid = el('div', 'shop-collection');
   root.appendChild(bar);
@@ -418,15 +416,9 @@ function renderTagShop(root, products, ui) {
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.shop-cat')) closeMenus();
   });
-  sortBar.querySelectorAll('.shop-sort-btn').forEach(function (b) {
-    b.addEventListener('click', function () {
-      state.sort = b.dataset.sort;
-      sortBar.querySelectorAll('.shop-sort-btn').forEach(function (x) {
-        x.classList.toggle('is-active', x === b);
-        x.setAttribute('aria-pressed', x === b);
-      });
-      render();
-    });
+  sortBar.querySelector('select').addEventListener('change', function () {
+    state.sort = this.value;
+    render();
   });
   render();
 }
