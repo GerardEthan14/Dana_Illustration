@@ -328,10 +328,11 @@ function renderTagShop(root, products, ui) {
     var btn = el('button', 'shop-cat-btn');
     btn.type = 'button';
     btn.textContent = key || 'Tout';
-    btn.setAttribute('aria-expanded', 'false');
     catEl.appendChild(btn);
     var subs = key ? byOrder(Object.keys(cats[key].subs), function (k) { return cats[key].subs[k]; }) : [];
     if (subs.length) {
+      btn.setAttribute('aria-haspopup', 'true');
+      btn.setAttribute('aria-expanded', 'false');
       var ul = el('ul', 'shop-subcats');
       ul.setAttribute('role', 'menu');
       [''].concat(subs).forEach(function (sub) {
@@ -349,12 +350,14 @@ function renderTagShop(root, products, ui) {
     nav.appendChild(catEl);
   });
   if (order.length) bar.appendChild(nav);
-  var sortLabel = el('label', 'shop-sort');
-  sortLabel.innerHTML = '<span>Trier par</span><select>' +
-    '<option value="best">Meilleures ventes</option>' +
-    '<option value="asc">Prix croissant</option>' +
-    '<option value="desc">Prix décroissant</option></select>';
-  bar.appendChild(sortLabel);
+  var sortBar = el('div', 'shop-sort');
+  sortBar.setAttribute('role', 'group');
+  sortBar.setAttribute('aria-label', 'Trier les produits');
+  sortBar.innerHTML = '<span>Trier par</span>' +
+    '<button type="button" class="shop-sort-btn is-active" data-sort="best" aria-pressed="true">Meilleures ventes</button>' +
+    '<button type="button" class="shop-sort-btn" data-sort="asc" aria-pressed="false">Prix croissant</button>' +
+    '<button type="button" class="shop-sort-btn" data-sort="desc" aria-pressed="false">Prix décroissant</button>';
+  bar.appendChild(sortBar);
   var grid = el('div', 'shop-collection');
   root.appendChild(bar);
   root.appendChild(grid);
@@ -379,7 +382,8 @@ function renderTagShop(root, products, ui) {
   function closeMenus() {
     nav.querySelectorAll('.shop-cat').forEach(function (c) {
       c.classList.remove('is-open');
-      c.querySelector('.shop-cat-btn').setAttribute('aria-expanded', 'false');
+      var b = c.querySelector('.shop-cat-btn[aria-haspopup]');
+      if (b) b.setAttribute('aria-expanded', 'false');
     });
   }
   nav.querySelectorAll('.shop-cat').forEach(function (catEl) {
@@ -414,9 +418,15 @@ function renderTagShop(root, products, ui) {
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.shop-cat')) closeMenus();
   });
-  sortLabel.querySelector('select').addEventListener('change', function () {
-    state.sort = this.value;
-    render();
+  sortBar.querySelectorAll('.shop-sort-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.sort = b.dataset.sort;
+      sortBar.querySelectorAll('.shop-sort-btn').forEach(function (x) {
+        x.classList.toggle('is-active', x === b);
+        x.setAttribute('aria-pressed', x === b);
+      });
+      render();
+    });
   });
   render();
 }
