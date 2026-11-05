@@ -218,7 +218,9 @@ function openProductModal(ui, productId) {
 var SHOP_DOMAIN = 'u17zw5-c9.myshopify.com';
 var SHOP_TOKEN = '67936409c1773375c0943c4b698564c4';
 var KIDS_COLLECTION = 'enfant';
+var CLUB_TAG = 'refuge_club'; // abonnements du Refuge Club : vendus sur leur page, pas dans les boutiques
 var HIDDEN_TAGS = ['enfant', 'enfants']; // balises techniques, jamais montrées comme catégorie
+function isClubTag(t) { return t.trim().toLowerCase().replace(/[\s-]+/g, '_') === CLUB_TAG; }
 
 // Demande directe à l'API Storefront : le SDK Buy Button ne donne ni les balises
 // ni le classement des meilleures ventes.
@@ -250,7 +252,7 @@ function fetchShopProducts(kidsOnly) {
         return storefront('{ collection(id: "' + kids.id + '") { products(first: 250, sortKey: BEST_SELLING) { edges { node { ' + fields + ' } } } } }')
           .then(function (d2) { return d2.collection.products.edges.map(function (e) { return e.node; }); });
       }
-      return storefront('{ products(first: 250, sortKey: BEST_SELLING) { edges { node { ' + fields + ' } } }' +
+      return storefront('{ products(first: 250, sortKey: BEST_SELLING, query: "-tag:' + CLUB_TAG + '") { edges { node { ' + fields + ' } } }' +
         (kids ? ' kids: collection(id: "' + kids.id + '") { products(first: 250) { edges { node { id } } } }' : '') + ' }')
         .then(function (d2) {
           var kidIds = kids ? d2.kids.products.edges.map(function (e) { return e.node.id; }) : [];
@@ -265,6 +267,7 @@ function fetchShopProducts(kidsOnly) {
     console.warn('Balises Shopify indisponibles, boutique sans catégories :', err);
     return load(false);
   }).then(function (nodes) {
+    nodes = nodes.filter(function (n) { return !(n.tags || []).some(isClubTag); });
     return nodes.map(function (n, rank) {
       var price = parseFloat(n.priceRange.minVariantPrice.amount);
       return {
@@ -283,6 +286,31 @@ function parseTag(tag) {
   var p = parseOrdered(parts[0]);
   var c = parts.length > 1 ? parseOrdered(parts.slice(1).join(' / ')) : { order: 1e9, label: '' };
   return { cat: p.label, order: p.order, sub: c.label, subOrder: c.order };
+}
+
+// Page du Refuge Club : un bouton par abonnement (produit avec la balise refuge_club),
+// qui ouvre sa fiche Shopify pour l'ajouter au panier.
+function buildClubButtons(root, ui) {
+  storefront('{ products(first: 10, query: "tag:' + CLUB_TAG + '") { edges { node { id title priceRange { minVariantPrice { amount } } } } } }')
+    .then(function (d) {
+      var products = d.products.edges.map(function (e) { return e.node; });
+      root.innerHTML = '';
+      if (!products.length) {
+        root.innerHTML = '<p class="club-buy-loading">Les abonnements ouvrent bientôt 🌿</p>';
+        return;
+      }
+      products.forEach(function (p) {
+        var btn = el('button', 'btn btn-pill club-buy-btn');
+        btn.type = 'button';
+        btn.textContent = p.title + ' · ' + formatPrice({ variants: [{ price: { amount: p.priceRange.minVariantPrice.amount } }] });
+        btn.addEventListener('click', function () { openProductModal(ui, p.id); });
+        root.appendChild(btn);
+      });
+    })
+    .catch(function (err) {
+      root.innerHTML = '<p class="club-buy-loading">Impossible de charger les abonnements pour le moment.</p>';
+      console.error('Abonnements Refuge Club :', err);
+    });
 }
 
 function buildTagShop(root, ui) {
@@ -723,6 +751,8 @@ function renderTagShop(root, products, ui) {
       if (boutiqueRoot) {
         buildTagShop(boutiqueRoot, ui);
       }
+      var clubRoot = document.querySelector('[data-club-products]');
+      if (clubRoot) buildClubButtons(clubRoot, ui);
       buildFeatured(client, ui);
       setupSearch(client, ui);
     });

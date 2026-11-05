@@ -1703,6 +1703,39 @@ a.quick-btn:focus-visible {
 }
 
 /* ============================================
+   Le Refuge Club : visuel du mois + formules
+   ============================================ */
+.club-offer { padding: 1rem 2.5rem 5rem; }
+.club-offer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 3.5rem;
+  align-items: start;
+}
+.club-visual img { width: 100%; height: auto; box-shadow: var(--shadow); }
+.club-formulas { display: grid; gap: 1.6rem; }
+.club-formula {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  padding: 1.6rem 1.8rem;
+}
+.club-formula .eyebrow { margin-bottom: 0.3rem; }
+.club-formula h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: 0.8rem; }
+.club-formula ul { padding-left: 1.2rem; color: var(--muted); line-height: 1.75; }
+.club-formula li::marker { color: var(--orange); }
+.club-shipping h3 { margin-bottom: 0.3rem; }
+.club-shipping p { color: var(--muted); line-height: 1.7; }
+.club-buy { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+.club-buy-loading { color: var(--muted); }
+@media (max-width: 860px) {
+  .club-offer { padding: 0.5rem 1.4rem 4rem; }
+  .club-offer-inner { grid-template-columns: 1fr; gap: 2.2rem; }
+  .club-buy-btn { width: 100%; text-align: center; }
+}
+
+/* ============================================
    Formulaire de contact
    ============================================ */
 .form-section {
