@@ -288,10 +288,12 @@ function parseTag(tag) {
   return { cat: p.label, order: p.order, sub: c.label, subOrder: c.order };
 }
 
-// Page du Refuge Club : un bouton par abonnement (produit avec la balise refuge_club),
-// qui ouvre sa fiche Shopify pour l'ajouter au panier.
+// Page du Refuge Club : un bouton par abonnement (produit avec la balise refuge_club).
+// Un vrai abonnement Shopify (« requiert un plan de vente ») ne passe pas par le panier
+// du site, qui ne gère pas les abonnements : le bouton mène à sa page dans la boutique
+// Shopify, où l'abonnement se choisit et se paie. Sinon, il ouvre la fiche comme ailleurs.
 function buildClubButtons(root, ui) {
-  var fields = 'id title tags priceRange { minVariantPrice { amount } }';
+  var fields = 'id title tags onlineStoreUrl requiresSellingPlan priceRange { minVariantPrice { amount } }';
   storefront('{ products(first: 10, query: "tag:' + CLUB_TAG + '") { edges { node { ' + fields + ' } } } }')
     .then(function (d) {
       var products = d.products.edges.map(function (e) { return e.node; });
@@ -310,10 +312,18 @@ function buildClubButtons(root, ui) {
         return;
       }
       products.forEach(function (p) {
-        var btn = el('button', 'btn btn-pill club-buy-btn');
-        btn.type = 'button';
-        btn.textContent = p.title + ' · ' + formatPrice({ variants: [{ price: { amount: p.priceRange.minVariantPrice.amount } }] });
-        btn.addEventListener('click', function () { openProductModal(ui, p.id); });
+        var label = p.title + ' · ' + formatPrice({ variants: [{ price: { amount: p.priceRange.minVariantPrice.amount } }] });
+        var btn;
+        if (p.requiresSellingPlan && p.onlineStoreUrl) {
+          btn = el('a', 'btn btn-pill club-buy-btn');
+          btn.href = p.onlineStoreUrl;
+          btn.textContent = 'S\u2019abonner · ' + label;
+        } else {
+          btn = el('button', 'btn btn-pill club-buy-btn');
+          btn.type = 'button';
+          btn.textContent = label;
+          btn.addEventListener('click', function () { openProductModal(ui, p.id); });
+        }
         root.appendChild(btn);
       });
     })
