@@ -1249,6 +1249,7 @@ a.quick-btn:focus-visible {
   color: var(--muted);
   font-size: 1.05rem;
 }
+.page-header p + p { margin-top: 0.6rem; max-width: 42rem; }
 
 /* ============================================
    Portfolio full page wrapper
