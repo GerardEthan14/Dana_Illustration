@@ -291,9 +291,19 @@ function parseTag(tag) {
 // Page du Refuge Club : un bouton par abonnement (produit avec la balise refuge_club),
 // qui ouvre sa fiche Shopify pour l'ajouter au panier.
 function buildClubButtons(root, ui) {
-  storefront('{ products(first: 10, query: "tag:' + CLUB_TAG + '") { edges { node { id title priceRange { minVariantPrice { amount } } } } } }')
+  var fields = 'id title tags priceRange { minVariantPrice { amount } }';
+  storefront('{ products(first: 10, query: "tag:' + CLUB_TAG + '") { edges { node { ' + fields + ' } } } }')
     .then(function (d) {
       var products = d.products.edges.map(function (e) { return e.node; });
+      if (products.length) return products;
+      // la recherche de Shopify met parfois du temps à voir une balise toute neuve :
+      // on relit alors tous les produits et on trie nous-mêmes
+      return storefront('{ products(first: 250) { edges { node { ' + fields + ' } } } }').then(function (d2) {
+        return d2.products.edges.map(function (e) { return e.node; })
+          .filter(function (p) { return (p.tags || []).some(isClubTag); });
+      });
+    })
+    .then(function (products) {
       root.innerHTML = '';
       if (!products.length) {
         root.innerHTML = '<p class="club-buy-loading">Les abonnements ouvrent bientôt 🌿</p>';
