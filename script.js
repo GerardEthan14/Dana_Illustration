@@ -289,12 +289,13 @@ function parseTag(tag) {
 }
 
 // Page du Refuge Club : un bouton par abonnement (produit avec la balise refuge_club).
-// Un produit qui propose un abonnement (plan de vente, obligatoire ou au choix) ne passe pas
-// par le panier du site, qui ne gère pas les abonnements : le bouton mène à sa page dans la
-// boutique Shopify, où l'abonnement (ou l'achat unique) se choisit et se paie. Sinon, il
-// ouvre la fiche comme ailleurs.
+// Le panier du site ne gère pas les abonnements : le bouton mène à la page du produit dans
+// la boutique Shopify, où l'abonnement (ou l'achat unique) se choisit et se paie. Seul un
+// produit absent de la boutique en ligne Shopify ouvre la fiche comme ailleurs.
 function buildClubButtons(root, ui) {
-  var fields = 'id title tags onlineStoreUrl requiresSellingPlan sellingPlanGroups(first: 1) { edges { node { name } } } priceRange { minVariantPrice { amount } }';
+  // pas de liste des plans d'abonnement : la clé du site n'a pas le droit de la lire,
+  // et Shopify refuserait alors toute la demande
+  var fields = 'id title tags onlineStoreUrl priceRange { minVariantPrice { amount } }';
   storefront('{ products(first: 10, query: "tag:' + CLUB_TAG + '") { edges { node { ' + fields + ' } } } }')
     .then(function (d) {
       var products = d.products.edges.map(function (e) { return e.node; });
@@ -315,8 +316,7 @@ function buildClubButtons(root, ui) {
       products.forEach(function (p) {
         var label = p.title + ' · ' + formatPrice({ variants: [{ price: { amount: p.priceRange.minVariantPrice.amount } }] });
         var btn;
-        var hasPlan = p.requiresSellingPlan || (p.sellingPlanGroups && p.sellingPlanGroups.edges.length > 0);
-        if (hasPlan && p.onlineStoreUrl) {
+        if (p.onlineStoreUrl) {
           btn = el('a', 'btn btn-pill club-buy-btn');
           btn.href = p.onlineStoreUrl;
           btn.textContent = 'S\u2019abonner · ' + label;
