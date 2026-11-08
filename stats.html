@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- Pas de Google Tag Manager ici : consulter les stats ne doit pas compter comme une visite -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Statistiques · Dana Illustration</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; font-family: 'Jost', sans-serif; background: #FAF6EC; color: #1F1E1C; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.25rem; }
+    h1 { font-size: 1.25rem; font-weight: 500; margin: 0; color: #283C23; }
+    a { color: #D8560E; }
+    iframe { display: block; width: 100%; height: calc(100vh - 4rem); border: 0; }
+    .setup { max-width: 40rem; margin: 2rem auto; padding: 0 1.25rem; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Statistiques du site</h1>
+    <a href="https://analytics.google.com/" target="_blank" rel="noopener">Ouvrir Google Analytics ↗</a>
+  </header>
+  <main id="stats"></main>
+  <script>
+    // Coller ici le lien d'intégration Looker Studio (Fichier > Intégrer le rapport > Intégrer l'URL)
+    const REPORT_URL = 'https://datastudio.google.com/embed/reporting/082856b8-02b1-40ae-8901-c9ae8026989e/page/hU8CG';
+
+    const main = document.getElementById('stats');
+    if (REPORT_URL) {
+      main.innerHTML = '<iframe title="Statistiques" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>';
+      main.firstChild.src = REPORT_URL;
+    } else {
+      main.innerHTML = `<div class="setup">
+        <p>Le tableau de bord n'est pas encore branché.</p>
+        <ol>
+          <li>Ouvrir <a href="https://lookerstudio.google.com/" target="_blank" rel="noopener">Looker Studio</a> avec le compte Google qui a accès à Analytics.</li>
+          <li>Créer un rapport vide, choisir la source <b>Google Analytics</b>, puis la propriété du site.</li>
+          <li>Ajouter les graphiques voulus (utilisateurs, pages vues, pays, sources de trafic…).</li>
+          <li>Menu <b>Fichier &gt; Intégrer le rapport</b>, cocher « Activer l'intégration », copier l'<b>URL d'intégration</b>.</li>
+          <li>La coller dans <code>stats.html</code>, à la ligne <code>REPORT_URL</code>.</li>
+        </ol>
+        <p>Le rapport reste privé : seuls les comptes Google avec qui il est partagé peuvent voir les chiffres.</p>
+      </div>`;
+    }
+  </script>
+</body>
+</html>
