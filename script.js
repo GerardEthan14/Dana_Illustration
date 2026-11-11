@@ -1,3 +1,27 @@
+// ===== Version anglaise (pages du dossier en/) =====
+// Textes affichés par ce script, traduits sur les pages en anglais.
+var LANG_EN = document.documentElement.lang === 'en';
+var EN_TEXT = {
+  'Mentions légales': 'Legal notice', 'CGV': 'Terms of sale', 'Confidentialité': 'Privacy',
+  'Retours & remboursements': 'Returns & refunds', 'Réseaux sociaux': 'Social networks',
+  'Informations légales': 'Legal information', 'Fermer': 'Close',
+  'Les abonnements ouvrent bientôt 🌿': 'Subscriptions open soon 🌿', 'S\u2019abonner · ': 'Subscribe · ',
+  'Impossible de charger les abonnements pour le moment.': 'Subscriptions cannot be loaded right now.',
+  'Chargement de la boutique…': 'Loading the shop…', 'Bientôt de nouvelles créations 🌿': 'New creations coming soon 🌿',
+  'Impossible de charger la boutique pour le moment.': 'The shop cannot be loaded right now.',
+  'Impossible de charger les nouveautés.': 'New arrivals cannot be loaded.',
+  'Catégories de la boutique': 'Shop categories', 'Tout': 'All', 'Trier par': 'Sort by',
+  'Meilleures ventes': 'Best sellers', 'Prix croissant': 'Price, low to high', 'Prix décroissant': 'Price, high to low',
+  'Rechercher un produit…': 'Search for a product…', 'Rechercher un produit': 'Search for a product',
+  'Fermer la recherche': 'Close search', 'Recherche…': 'Searching…', 'Aucun produit trouvé.': 'No products found.',
+  'Erreur lors de la recherche.': 'Search error.', 'Ajouter au panier': 'Add to cart',
+  'Caisse de transport': 'Travel crate', 'Sous-total': 'Subtotal', 'Commander': 'Check out',
+  'Votre panier est vide.': 'Your cart is empty.',
+  'Frais de livraison et codes de réduction calculés au paiement.': 'Shipping and discount codes are calculated at checkout.',
+  'Revenir à la première salle': 'Back to the first room', 'Salle suivante': 'Next room'
+};
+function t(s) { return (LANG_EN && EN_TEXT[s]) || s; }
+
 // ===== Shop carousel arrows (looping) =====
 document.querySelectorAll('.shop-carousel').forEach(c => {
   const track = c.querySelector('.shop-cards');
@@ -41,10 +65,10 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
 
   // Liens vers les pages légales (ajoutés au pied de page de chaque page).
   var LEGAL = [
-    { name: 'Mentions légales', href: 'mentions-legales.html' },
-    { name: 'CGV', href: 'cgv.html' },
-    { name: 'Confidentialité', href: 'confidentialite.html' },
-    { name: 'Retours & remboursements', href: 'retours.html' }
+    { name: t('Mentions légales'), href: 'mentions-legales.html' },
+    { name: t('CGV'), href: 'cgv.html' },
+    { name: t('Confidentialité'), href: 'confidentialite.html' },
+    { name: t('Retours & remboursements'), href: 'retours.html' }
   ];
 
   function enhanceFooter() {
@@ -54,7 +78,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
       if (inner && SOCIALS.length && !inner.querySelector('.footer-social')) {
         var nav = document.createElement('nav');
         nav.className = 'footer-social';
-        nav.setAttribute('aria-label', 'Réseaux sociaux');
+        nav.setAttribute('aria-label', t('Réseaux sociaux'));
         nav.innerHTML = SOCIALS.map(function (s) {
           return '<a href="' + s.href + '" target="_blank" rel="noopener" aria-label="' + s.name + '">' + s.svg + '</a>';
         }).join('');
@@ -64,7 +88,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
       if (!footer.querySelector('.footer-legal')) {
         var legal = document.createElement('nav');
         legal.className = 'footer-legal';
-        legal.setAttribute('aria-label', 'Informations légales');
+        legal.setAttribute('aria-label', t('Informations légales'));
         legal.innerHTML = LEGAL.map(function (l) {
           return '<a href="' + l.href + '">' + l.name + '</a>';
         }).join('');
@@ -89,7 +113,7 @@ document.querySelectorAll('.shop-carousel').forEach(c => {
     var bar = document.createElement('div');
     bar.className = 'site-banner';
     bar.innerHTML = '<span class="site-banner-text">' + BANNER.html + '</span>' +
-      '<button type="button" class="site-banner-close" aria-label="Fermer">×</button>';
+      '<button type="button" class="site-banner-close" aria-label="' + t('Fermer') + '">×</button>';
     document.body.insertBefore(bar, document.body.firstChild);
     bar.querySelector('.site-banner-close').addEventListener('click', function () {
       bar.remove();
@@ -153,14 +177,108 @@ function parseOrdered(name) {
 // Info d'expédition affichée dans le popup (modifiable ici, '' pour la retirer).
 var PRODUCT_SHIP_NOTE = '';
 
-// Formate un prix Shopify en « 12,00 € ».
+// ===== Prix dans la devise du pays du visiteur (Shopify Markets) =====
+// Le pays est deviné par le fuseau horaire de l'appareil (rien n'est envoyé ailleurs),
+// sinon par la langue du navigateur. Shopify renvoie alors les prix de ce pays.
+// shortcut: un voyageur voit les prix du pays de son fuseau horaire ; ajouter un choix
+// du pays si des clients s'en plaignent.
+// Fuseau -> pays, tiré de la base tzdata (zone.tab + anciens noms des fuseaux).
+var TZ_COUNTRY = 'AD Europe/Andorra,AE Asia/Dubai,AF Asia/Kabul,AG America/Antigua,AI America/Anguilla,AL Europe/Tirane,AM Asia/Yerevan,AO Africa/Luanda,AQ Antarctica/Casey Antarctica/Davis Antarctica/DumontDUrville Antarctica/Mawson Antarctica/McMurdo Antarctica/Palmer Antarctica/Rothera Antarctica/South_Pole Antarctica/Syowa Antarctica/Troll Antarctica/Vostok,AR America/Argentina/Buenos_Aires America/Argentina/Catamarca America/Argentina/ComodRivadavia America/Argentina/Cordoba America/Argentina/Jujuy America/Argentina/La_Rioja America/Argentina/Mendoza America/Argentina/Rio_Gallegos America/Argentina/Salta America/Argentina/San_Juan America/Argentina/San_Luis America/Argentina/Tucuman America/Argentina/Ushuaia America/Buenos_Aires America/Catamarca America/Cordoba America/Jujuy America/Mendoza America/Rosario,AS Pacific/Pago_Pago Pacific/Samoa,AT Europe/Vienna,AU Antarctica/Macquarie Australia/ACT Australia/Adelaide Australia/Brisbane Australia/Broken_Hill Australia/Canberra Australia/Currie Australia/Darwin Australia/Eucla Australia/Hobart Australia/LHI Australia/Lindeman Australia/Lord_Howe Australia/Melbourne Australia/NSW Australia/North Australia/Perth Australia/Queensland Australia/South Australia/Sydney Australia/Tasmania Australia/Victoria Australia/West Australia/Yancowinna,AW America/Aruba,AX Europe/Mariehamn,AZ Asia/Baku,BA Europe/Sarajevo,BB America/Barbados,BD Asia/Dacca Asia/Dhaka,BE Europe/Brussels,BF Africa/Ouagadougou,BG Europe/Sofia,BH Asia/Bahrain,BI Africa/Bujumbura,BJ Africa/Porto-Novo,BL America/St_Barthelemy,BM Atlantic/Bermuda,BN Asia/Brunei,BO America/La_Paz,BQ America/Kralendijk,BR America/Araguaina America/Bahia America/Belem America/Boa_Vista America/Campo_Grande America/Cuiaba America/Eirunepe America/Fortaleza America/Maceio America/Manaus America/Noronha America/Porto_Acre America/Porto_Velho America/Recife America/Rio_Branco America/Santarem America/Sao_Paulo,BS America/Nassau,BT Asia/Thimbu Asia/Thimphu,BW Africa/Gaborone,BY Europe/Minsk,BZ America/Belize,CA America/Atikokan America/Blanc-Sablon America/Cambridge_Bay America/Coral_Harbour America/Creston America/Dawson America/Dawson_Creek America/Edmonton America/Fort_Nelson America/Glace_Bay America/Goose_Bay America/Halifax America/Inuvik America/Iqaluit America/Moncton America/Montreal America/Nipigon America/Pangnirtung America/Rainy_River America/Rankin_Inlet America/Regina America/Resolute America/St_Johns America/Swift_Current America/Thunder_Bay America/Toronto America/Vancouver America/Whitehorse America/Winnipeg America/Yellowknife,CC Indian/Cocos,CD Africa/Kinshasa Africa/Lubumbashi,CF Africa/Bangui,CG Africa/Brazzaville,CH Europe/Zurich,CI Africa/Abidjan,CK Pacific/Rarotonga,CL America/Coyhaique America/Punta_Arenas America/Santiago Pacific/Easter,CM Africa/Douala,CN Asia/Chongqing Asia/Chungking Asia/Harbin Asia/Kashgar Asia/Shanghai Asia/Urumqi,CO America/Bogota,CR America/Costa_Rica,CU America/Havana,CV Atlantic/Cape_Verde,CW America/Curacao,CX Indian/Christmas,CY Asia/Famagusta Asia/Nicosia Europe/Nicosia,CZ Europe/Prague,DE Europe/Berlin Europe/Busingen,DJ Africa/Djibouti,DK Europe/Copenhagen,DM America/Dominica,DO America/Santo_Domingo,DZ Africa/Algiers,EC America/Guayaquil Pacific/Galapagos,EE Europe/Tallinn,EG Africa/Cairo,EH Africa/El_Aaiun,ER Africa/Asmara Africa/Asmera,ES Africa/Ceuta Atlantic/Canary Europe/Madrid,ET Africa/Addis_Ababa,FI Europe/Helsinki,FJ Pacific/Fiji,FK Atlantic/Stanley,FM Pacific/Chuuk Pacific/Kosrae Pacific/Pohnpei Pacific/Ponape Pacific/Truk Pacific/Yap,FO Atlantic/Faeroe Atlantic/Faroe,FR Europe/Paris,GA Africa/Libreville,GB Europe/Belfast Europe/London,GD America/Grenada,GE Asia/Tbilisi,GF America/Cayenne,GG Europe/Guernsey,GH Africa/Accra,GI Europe/Gibraltar,GL America/Danmarkshavn America/Godthab America/Nuuk America/Scoresbysund America/Thule,GM Africa/Banjul,GN Africa/Conakry,GP America/Guadeloupe,GQ Africa/Malabo,GR Europe/Athens,GS Atlantic/South_Georgia,GT America/Guatemala,GU Pacific/Guam,GW Africa/Bissau,GY America/Guyana,HK Asia/Hong_Kong,HN America/Tegucigalpa,HR Europe/Zagreb,HT America/Port-au-Prince,HU Europe/Budapest,ID Asia/Jakarta Asia/Jayapura Asia/Makassar Asia/Pontianak Asia/Ujung_Pandang,IE Europe/Dublin,IL Asia/Jerusalem Asia/Tel_Aviv,IM Europe/Isle_of_Man,IN Asia/Calcutta Asia/Kolkata,IO Indian/Chagos,IQ Asia/Baghdad,IR Asia/Tehran,IS Atlantic/Reykjavik,IT Europe/Rome,JE Europe/Jersey,JM America/Jamaica,JO Asia/Amman,JP Asia/Tokyo,KE Africa/Nairobi,KG Asia/Bishkek,KH Asia/Phnom_Penh,KI Pacific/Enderbury Pacific/Kanton Pacific/Kiritimati Pacific/Tarawa,KM Indian/Comoro,KN America/St_Kitts,KP Asia/Pyongyang,KR Asia/Seoul,KW Asia/Kuwait,KY America/Cayman,KZ Asia/Almaty Asia/Aqtau Asia/Aqtobe Asia/Atyrau Asia/Oral Asia/Qostanay Asia/Qyzylorda,LA Asia/Vientiane,LB Asia/Beirut,LC America/St_Lucia,LI Europe/Vaduz,LK Asia/Colombo,LR Africa/Monrovia,LS Africa/Maseru,LT Europe/Vilnius,LU Europe/Luxembourg,LV Europe/Riga,LY Africa/Tripoli,MA Africa/Casablanca,MC Europe/Monaco,MD Europe/Chisinau Europe/Tiraspol,ME Europe/Podgorica,MF America/Marigot,MG Indian/Antananarivo,MH Pacific/Kwajalein Pacific/Majuro,MK Europe/Skopje,ML Africa/Bamako Africa/Timbuktu,MM Asia/Rangoon Asia/Yangon,MN Asia/Choibalsan Asia/Hovd Asia/Ulaanbaatar Asia/Ulan_Bator,MO Asia/Macao Asia/Macau,MP Pacific/Saipan,MQ America/Martinique,MR Africa/Nouakchott,MS America/Montserrat,MT Europe/Malta,MU Indian/Mauritius,MV Indian/Maldives,MW Africa/Blantyre,MX America/Bahia_Banderas America/Cancun America/Chihuahua America/Ciudad_Juarez America/Ensenada America/Hermosillo America/Matamoros America/Mazatlan America/Merida America/Mexico_City America/Monterrey America/Ojinaga America/Santa_Isabel America/Tijuana,MY Asia/Kuala_Lumpur Asia/Kuching,MZ Africa/Maputo,NA Africa/Windhoek,NC Pacific/Noumea,NE Africa/Niamey,NF Pacific/Norfolk,NG Africa/Lagos,NI America/Managua,NL Europe/Amsterdam,NO Atlantic/Jan_Mayen Europe/Oslo,NP Asia/Kathmandu Asia/Katmandu,NR Pacific/Nauru,NU Pacific/Niue,NZ Pacific/Auckland Pacific/Chatham,OM Asia/Muscat,PA America/Panama,PE America/Lima,PF Pacific/Gambier Pacific/Marquesas Pacific/Tahiti,PG Pacific/Bougainville Pacific/Port_Moresby,PH Asia/Manila,PK Asia/Karachi,PL Europe/Warsaw,PM America/Miquelon,PN Pacific/Pitcairn,PR America/Puerto_Rico,PS Asia/Gaza Asia/Hebron,PT Atlantic/Azores Atlantic/Madeira Europe/Lisbon,PW Pacific/Palau,PY America/Asuncion,QA Asia/Qatar,RE Indian/Reunion,RO Europe/Bucharest,RS Europe/Belgrade,RU Asia/Anadyr Asia/Barnaul Asia/Chita Asia/Irkutsk Asia/Kamchatka Asia/Khandyga Asia/Krasnoyarsk Asia/Magadan Asia/Novokuznetsk Asia/Novosibirsk Asia/Omsk Asia/Sakhalin Asia/Srednekolymsk Asia/Tomsk Asia/Ust-Nera Asia/Vladivostok Asia/Yakutsk Asia/Yekaterinburg Europe/Astrakhan Europe/Kaliningrad Europe/Kirov Europe/Moscow Europe/Samara Europe/Saratov Europe/Ulyanovsk Europe/Volgograd,RW Africa/Kigali,SA Asia/Riyadh,SB Pacific/Guadalcanal,SC Indian/Mahe,SD Africa/Khartoum,SE Europe/Stockholm,SG Asia/Singapore,SH Atlantic/St_Helena,SI Europe/Ljubljana,SJ Arctic/Longyearbyen,SK Europe/Bratislava,SL Africa/Freetown,SM Europe/San_Marino,SN Africa/Dakar,SO Africa/Mogadishu,SR America/Paramaribo,SS Africa/Juba,ST Africa/Sao_Tome,SV America/El_Salvador,SX America/Lower_Princes,SY Asia/Damascus,SZ Africa/Mbabane,TC America/Grand_Turk,TD Africa/Ndjamena,TF Indian/Kerguelen,TG Africa/Lome,TH Asia/Bangkok,TJ Asia/Dushanbe,TK Pacific/Fakaofo,TL Asia/Dili,TM Asia/Ashgabat Asia/Ashkhabad,TN Africa/Tunis,TO Pacific/Tongatapu,TR Asia/Istanbul Europe/Istanbul,TT America/Port_of_Spain,TV Pacific/Funafuti,TW Asia/Taipei,TZ Africa/Dar_es_Salaam,UA Europe/Kiev Europe/Kyiv Europe/Simferopol Europe/Uzhgorod Europe/Zaporozhye,UG Africa/Kampala,UM Pacific/Midway Pacific/Wake,US America/Adak America/Anchorage America/Atka America/Boise America/Chicago America/Denver America/Detroit America/Fort_Wayne America/Indiana/Indianapolis America/Indiana/Knox America/Indiana/Marengo America/Indiana/Petersburg America/Indiana/Tell_City America/Indiana/Vevay America/Indiana/Vincennes America/Indiana/Winamac America/Indianapolis America/Juneau America/Kentucky/Louisville America/Kentucky/Monticello America/Knox_IN America/Los_Angeles America/Louisville America/Menominee America/Metlakatla America/New_York America/Nome America/North_Dakota/Beulah America/North_Dakota/Center America/North_Dakota/New_Salem America/Phoenix America/Shiprock America/Sitka America/Yakutat Pacific/Honolulu Pacific/Johnston,UY America/Montevideo,UZ Asia/Samarkand Asia/Tashkent,VA Europe/Vatican,VC America/St_Vincent,VE America/Caracas,VG America/Tortola,VI America/St_Thomas America/Virgin,VN Asia/Ho_Chi_Minh Asia/Saigon,VU Pacific/Efate,WF Pacific/Wallis,WS Pacific/Apia,YE Asia/Aden,YT Indian/Mayotte,ZA Africa/Johannesburg,ZM Africa/Lusaka,ZW Africa/Harare';
+var SHOP_COUNTRY = ''; // vide : prix du marché principal de la boutique
+var SHOP_CURRENCY = 'EUR';
+// Sur les pages anglaises, Shopify renvoie les textes des produits traduits dans Shopify
+// (appli Translate & Adapt), sinon les textes français.
+var SHOP_LANG = LANG_EN ? 'EN' : '';
+var MONEY_FORMAT = moneyFormatFor('EUR');
+
+function guessCountry() {
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    var hit = TZ_COUNTRY.split(',').filter(function (g) { return (' ' + g + ' ').indexOf(' ' + tz + ' ') > 2; })[0];
+    if (hit) return hit.slice(0, 2);
+  } catch (e) {}
+  var langs = navigator.languages || [navigator.language || ''];
+  for (var i = 0; i < langs.length; i++) {
+    var m = /-([A-Z]{2})$/i.exec(langs[i]);
+    if (m) return m[1].toUpperCase();
+  }
+  return '';
+}
+
+// Ajoute @inContext(country: XX, language: EN) à une requête GraphQL Storefront.
+function withCountry(query) {
+  var args = [];
+  if (SHOP_COUNTRY) args.push('country: ' + SHOP_COUNTRY);
+  if (SHOP_LANG) args.push('language: ' + SHOP_LANG);
+  if (!args.length) return query;
+  var d = ' @inContext(' + args.join(', ') + ')';
+  if (/^\s*\{/.test(query)) return 'query' + d + ' ' + query;
+  return query.replace(/(^|\}[\s,]*)(query|mutation)([^{]*)\{/, '$1$2$3' + d + ' {');
+}
+
+// Format de prix du Buy Button pour une devise, ex. « 12,00 € », « 12,00 CHF ».
+function moneyFormatFor(cur) {
+  return encodeURIComponent(new Intl.NumberFormat('fr-BE', { style: 'currency', currency: cur }).formatToParts(1)
+    .map(function (x) { return /integer|decimal|fraction|group/.test(x.type) ? '#' : x.value; })
+    .join('').replace(/#+/, '{{amount_with_comma_separator}}'));
+}
+
+// Fetch donné au SDK Buy Button : chaque demande part avec le pays du visiteur, et un
+// nouveau panier est créé pour ce pays (donc dans sa devise jusqu'au paiement).
+function shopFetch(url, opts) {
+  var body = JSON.parse(opts.body);
+  body.query = withCountry(body.query);
+  var input = body.variables && body.variables.input;
+  if (SHOP_COUNTRY && input && /cartCreate/.test(body.query)) {
+    input.buyerIdentity = Object.assign({ countryCode: SHOP_COUNTRY }, input.buyerIdentity);
+  }
+  return fetch(url, Object.assign({}, opts, { body: JSON.stringify(body) }));
+}
+
+// Vérifie le pays auprès de Shopify et lit sa devise. En cas d'échec : prix en euros.
+function loadCountry() {
+  SHOP_COUNTRY = guessCountry();
+  function probe() {
+    if (!SHOP_COUNTRY && !SHOP_LANG) return Promise.resolve();
+    return storefront('{ localization { country { currency { isoCode } } } }').then(function (d) {
+      SHOP_CURRENCY = d.localization.country.currency.isoCode;
+      MONEY_FORMAT = moneyFormatFor(SHOP_CURRENCY);
+      return syncCartCountry();
+    });
+  }
+  return probe().catch(function (err) {
+    if (!SHOP_LANG) throw err;
+    console.warn('Anglais refusé par Shopify, produits en français :', err);
+    SHOP_LANG = '';
+    return probe();
+  }).catch(function (err) {
+    console.warn('Pays du visiteur non reconnu par Shopify, prix en euros :', err);
+    SHOP_COUNTRY = ''; SHOP_CURRENCY = 'EUR'; MONEY_FORMAT = moneyFormatFor('EUR');
+  });
+}
+
+// Un panier déjà rempli garde le pays de sa création : on le passe au pays actuel
+// (mêmes articles, prix recalculés par Shopify).
+function syncCartCountry() {
+  var cartId, key = SHOP_TOKEN + '.' + SHOP_DOMAIN + '.checkoutId';
+  try {
+    cartId = localStorage.getItem(key);
+    if (!cartId || !SHOP_COUNTRY || localStorage.getItem('shopCountry') === SHOP_COUNTRY) return;
+  } catch (e) { return; }
+  return storefront('mutation { cartBuyerIdentityUpdate(cartId: ' + JSON.stringify(cartId) +
+    ', buyerIdentity: { countryCode: ' + SHOP_COUNTRY + ' }) { userErrors { message } } }')
+    .then(function () { try { localStorage.setItem('shopCountry', SHOP_COUNTRY); } catch (e) {} })
+    .catch(function (err) { console.warn('Panier non mis à jour pour le pays :', err); });
+}
+
+// Formate un prix Shopify dans la devise du visiteur, ex. « 12,00 € ».
 function formatPrice(p) {
   var v = p && p.variants && p.variants[0];
   if (!v) return '';
   var amt = (v.price && v.price.amount != null) ? v.price.amount : v.price;
   var n = parseFloat(amt);
   if (isNaN(n)) return '';
-  return n.toFixed(2).replace('.', ',') + ' €';
+  return new Intl.NumberFormat('fr-BE', { style: 'currency', currency: SHOP_CURRENCY }).format(n);
 }
 
 // Carte produit cliquable (image + titre + prix) qui ouvre le popup au clic.
@@ -187,7 +305,7 @@ function buildProductOverlay() {
   overlay.hidden = true;
   overlay.innerHTML =
     '<div class="product-modal-box">' +
-      '<button type="button" class="product-modal-close" aria-label="Fermer">×</button>' +
+      '<button type="button" class="product-modal-close" aria-label="' + t('Fermer') + '">×</button>' +
       '<div class="product-modal-body"></div>' +
       (PRODUCT_SHIP_NOTE ? '<p class="product-modal-note">' + PRODUCT_SHIP_NOTE + '</p>' : '') +
     '</div>';
@@ -208,7 +326,7 @@ function openProductModal(ui, productId) {
   ui.createComponent('product', {
     id: numericId(productId),
     node: body,
-    moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
+    moneyFormat: MONEY_FORMAT,
     options: window.SHOP_OPTIONS.productDetail
   });
   overlay.hidden = false;
@@ -228,7 +346,7 @@ function storefront(query) {
   return fetch('https://' + SHOP_DOMAIN + '/api/2024-10/graphql.json', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': SHOP_TOKEN },
-    body: JSON.stringify({ query: query })
+    body: JSON.stringify({ query: withCountry(query) })
   }).then(function (r) { return r.json(); }).then(function (res) {
     if (res.errors) throw new Error(res.errors.map(function (e) { return e.message; }).join(' ; '));
     return res.data;
@@ -310,7 +428,7 @@ function buildClubButtons(root, ui) {
     .then(function (products) {
       root.innerHTML = '';
       if (!products.length) {
-        root.innerHTML = '<p class="club-buy-loading">Les abonnements ouvrent bientôt 🌿</p>';
+        root.innerHTML = '<p class="club-buy-loading">' + t('Les abonnements ouvrent bientôt 🌿') + '</p>';
         return;
       }
       products.forEach(function (p) {
@@ -319,7 +437,7 @@ function buildClubButtons(root, ui) {
         if (p.onlineStoreUrl) {
           btn = el('a', 'btn btn-pill club-buy-btn');
           btn.href = p.onlineStoreUrl;
-          btn.textContent = 'S\u2019abonner · ' + label;
+          btn.textContent = t('S\u2019abonner · ') + label;
         } else {
           btn = el('button', 'btn btn-pill club-buy-btn');
           btn.type = 'button';
@@ -330,22 +448,22 @@ function buildClubButtons(root, ui) {
       });
     })
     .catch(function (err) {
-      root.innerHTML = '<p class="club-buy-loading">Impossible de charger les abonnements pour le moment.</p>';
+      root.innerHTML = '<p class="club-buy-loading">' + t('Impossible de charger les abonnements pour le moment.') + '</p>';
       console.error('Abonnements Refuge Club :', err);
     });
 }
 
 function buildTagShop(root, ui) {
   var kidsOnly = root.getAttribute('data-collection') === KIDS_COLLECTION;
-  root.innerHTML = '<p class="shop-loading">Chargement de la boutique…</p>';
+  root.innerHTML = '<p class="shop-loading">' + t('Chargement de la boutique…') + '</p>';
   fetchShopProducts(kidsOnly).then(function (products) {
     if (!products.length) {
-      root.innerHTML = '<p class="shop-empty">Bientôt de nouvelles créations 🌿</p>';
+      root.innerHTML = '<p class="shop-empty">' + t('Bientôt de nouvelles créations 🌿') + '</p>';
       return;
     }
     renderTagShop(root, products, ui);
   }).catch(function (err) {
-    root.innerHTML = '<p class="shop-empty">Impossible de charger la boutique pour le moment.</p>';
+    root.innerHTML = '<p class="shop-empty">' + t('Impossible de charger la boutique pour le moment.') + '</p>';
     console.error('Chargement de la boutique Shopify :', err);
   });
 }
@@ -371,13 +489,13 @@ function renderTagShop(root, products, ui) {
   root.innerHTML = '';
   var bar = el('div', 'shop-toolbar');
   var nav = el('nav', 'shop-cats');
-  nav.setAttribute('aria-label', 'Catégories de la boutique');
+  nav.setAttribute('aria-label', t('Catégories de la boutique'));
   [''].concat(order).forEach(function (key) {
     var catEl = el('div', 'shop-cat' + (key === '' ? ' is-active' : ''));
     catEl.dataset.cat = key;
     var btn = el('button', 'shop-cat-btn');
     btn.type = 'button';
-    btn.textContent = key || 'Tout';
+    btn.textContent = key || t('Tout');
     catEl.appendChild(btn);
     var subs = key ? byOrder(Object.keys(cats[key].subs), function (k) { return cats[key].subs[k]; }) : [];
     if (subs.length) {
@@ -391,7 +509,7 @@ function renderTagShop(root, products, ui) {
         b.type = 'button';
         b.dataset.sub = sub;
         b.setAttribute('role', 'menuitem');
-        b.textContent = sub || 'Tout';
+        b.textContent = sub || t('Tout');
         li.appendChild(b);
         ul.appendChild(li);
       });
@@ -401,10 +519,10 @@ function renderTagShop(root, products, ui) {
   });
   if (order.length) bar.appendChild(nav);
   var sortBar = el('label', 'shop-sort');
-  sortBar.innerHTML = '<span>Trier par</span><select>' +
-    '<option value="best">Meilleures ventes</option>' +
-    '<option value="asc">Prix croissant</option>' +
-    '<option value="desc">Prix décroissant</option></select>';
+  sortBar.innerHTML = '<span>' + t('Trier par') + '</span><select>' +
+    '<option value="best">' + t('Meilleures ventes') + '</option>' +
+    '<option value="asc">' + t('Prix croissant') + '</option>' +
+    '<option value="desc">' + t('Prix décroissant') + '</option></select>';
   bar.appendChild(sortBar);
   var grid = el('div', 'shop-collection');
   root.appendChild(bar);
@@ -423,7 +541,7 @@ function renderTagShop(root, products, ui) {
         : a.rank - b.rank;
     });
     grid.innerHTML = '';
-    if (!list.length) { grid.innerHTML = '<p class="shop-empty">Bientôt de nouvelles créations 🌿</p>'; return; }
+    if (!list.length) { grid.innerHTML = '<p class="shop-empty">' + t('Bientôt de nouvelles créations 🌿') + '</p>'; return; }
     list.forEach(function (p) { grid.appendChild(renderProductCard(p, ui)); });
   }
 
@@ -532,8 +650,8 @@ function renderTagShop(root, products, ui) {
     overlay.innerHTML =
       '<div class="search-box">' +
         '<div class="search-form">' +
-          '<input type="search" class="search-input" placeholder="Rechercher un produit…" aria-label="Rechercher un produit">' +
-          '<button type="button" class="search-close" aria-label="Fermer la recherche">×</button>' +
+          '<input type="search" class="search-input" placeholder="' + t('Rechercher un produit…') + '" aria-label="' + t('Rechercher un produit') + '">' +
+          '<button type="button" class="search-close" aria-label="' + t('Fermer la recherche') + '">×</button>' +
         '</div>' +
         '<p class="search-status"></p>' +
         '<div class="search-results"></div>' +
@@ -569,11 +687,11 @@ function renderTagShop(root, products, ui) {
 
     function runSearch(term) {
       var myId = ++reqId;
-      status.textContent = 'Recherche…';
+      status.textContent = t('Recherche…');
       results.innerHTML = '';
       client.product.fetchQuery({ first: 30, query: term }).then(function (products) {
         if (myId !== reqId) return; // une recherche plus récente a pris le relais
-        if (!products || !products.length) { status.textContent = 'Aucun produit trouvé.'; return; }
+        if (!products || !products.length) { status.textContent = t('Aucun produit trouvé.'); return; }
         status.textContent = '';
         products.forEach(function (p) {
           var card = el('article', 'shop-card shop-card-shopify');
@@ -583,13 +701,13 @@ function renderTagShop(root, products, ui) {
           ui.createComponent('product', {
             id: numericId(p.id),
             node: mount,
-            moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
+            moneyFormat: MONEY_FORMAT,
             options: window.SHOP_OPTIONS.product
           });
         });
       }).catch(function (err) {
         if (myId !== reqId) return;
-        status.textContent = 'Erreur lors de la recherche.';
+        status.textContent = t('Erreur lors de la recherche.');
         console.error('Recherche Shopify :', err);
       });
     }
@@ -618,11 +736,11 @@ function renderTagShop(root, products, ui) {
       "button": brandBtn
     },
     "text": {
-      "title": "Caisse de transport",
-      "total": "Sous-total",
-      "button": "Commander",
-      "empty": "Votre panier est vide.",
-      "notice": "Frais de livraison et codes de réduction calculés au paiement."
+      "title": t("Caisse de transport"),
+      "total": t("Sous-total"),
+      "button": t("Commander"),
+      "empty": t("Votre panier est vide."),
+      "notice": t("Frais de livraison et codes de réduction calculés au paiement.")
     }
   };
   var brandToggle = {
@@ -642,7 +760,7 @@ function renderTagShop(root, products, ui) {
       "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
       "button": brandBtn
     },
-    "text": { "button": "Ajouter au panier" }
+    "text": { "button": t("Ajouter au panier") }
   };
 
   // Options du carrousel d'accueil : une carte produit qui remplit sa case.
@@ -655,7 +773,7 @@ function renderTagShop(root, products, ui) {
         ),
         "button": brandBtn
       },
-      "text": { "button": "Ajouter au panier" }
+      "text": { "button": t("Ajouter au panier") }
     },
     "modalProduct": brandModal,
     "cart": brandCart,
@@ -706,7 +824,7 @@ function renderTagShop(root, products, ui) {
         "buttonWrapper": { "order": "5", "width": "100%" },
         "button": detailBtn
       },
-      "text": { "button": "Ajouter au panier" }
+      "text": { "button": t("Ajouter au panier") }
     },
     "cart": brandCart,
     "toggle": brandToggle
@@ -724,7 +842,7 @@ function renderTagShop(root, products, ui) {
   function buildFeatured(client, ui) {
     if (!featuredHost) return;
     var wanted = (featuredHost.getAttribute('data-featured') || '').trim().toLowerCase();
-    var empty = '<p class="shop-empty">Bientôt de nouvelles créations 🌿</p>';
+    var empty = '<p class="shop-empty">' + t('Bientôt de nouvelles créations 🌿') + '</p>';
     client.collection.fetchAll(250).then(function (cols) {
       var col = (cols || []).filter(function (c) {
         return parseOrdered(c.title || '').label.trim().toLowerCase() === wanted;
@@ -739,7 +857,7 @@ function renderTagShop(root, products, ui) {
         });
       });
     }).catch(function (err) {
-      featuredHost.innerHTML = '<p class="shop-empty">Impossible de charger les nouveautés.</p>';
+      featuredHost.innerHTML = '<p class="shop-empty">' + t('Impossible de charger les nouveautés.') + '</p>';
       console.error('Nouveautés Shopify :', err);
     });
   }
@@ -748,14 +866,15 @@ function renderTagShop(root, products, ui) {
   // panier de l'en-tête (présents partout) fonctionnent.
   function init() {
     var client = ShopifyBuy.buildClient({
-      domain: 'u17zw5-c9.myshopify.com',
-      storefrontAccessToken: '67936409c1773375c0943c4b698564c4',
-    });
-    ShopifyBuy.UI.onReady(client).then(function (ui) {
+      domain: SHOP_DOMAIN,
+      storefrontAccessToken: SHOP_TOKEN,
+    }, shopFetch);
+    loadCountry().then(function () { return ShopifyBuy.UI.onReady(client); }).then(function (ui) {
       // Crée le panier Shopify (avec son bouton/toggle natif) sur TOUTES les
       // pages : c'est le panier du site, qui ouvre le tiroir et persiste.
       try {
         var cartPromise = ui.createComponent('cart', {
+          moneyFormat: MONEY_FORMAT,
           options: { cart: brandCart, toggle: brandToggle }
         });
         if (cartPromise && typeof cartPromise.then === 'function') {
@@ -822,7 +941,7 @@ function renderTagShop(root, products, ui) {
 
       if (next) {   // le texte est dessiné sur le panneau : on adapte l'infobulle
         var last = (page === pages - 1);
-        var libelle = last ? 'Revenir à la première salle' : 'Salle suivante';
+        var libelle = last ? t('Revenir à la première salle') : t('Salle suivante');
         next.setAttribute('aria-label', libelle);
         next.setAttribute('title', libelle);
       }

@@ -313,6 +313,8 @@ em {
 
 .lang-switcher button:hover { color: var(--olive); }
 .lang-switcher .lang-active { color: var(--olive); font-weight: 600; }
+.lang-switcher a { color: var(--muted); text-decoration: none; padding: 0.25rem; transition: color 0.2s; }
+.lang-switcher a:hover { color: var(--olive); }
 
 .nav-social {
   display: inline-flex;
@@ -2319,6 +2321,8 @@ a.quick-btn:focus-visible {
 
 @media (max-width: 560px) {
   .site-header { padding: 0.85rem 1.25rem; }
+  .nav-actions { gap: 0.7rem; } /* place pour le choix de langue */
+  .lang-switcher .lang-active { display: none; } /* sur téléphone, seule l'autre langue est proposée */
   .logo { padding: 0.3rem 0; }
   .logo img { height: 1.45rem; }
   .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
