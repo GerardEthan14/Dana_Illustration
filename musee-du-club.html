@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f%5B%5D=bevellier@400,500,700&f%5B%5D=comico@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=65">
+  <link rel="stylesheet" href="styles.css?v=67">
 </head>
 <body class="page-musee-club">
   <!-- Google Tag Manager (noscript) -->
@@ -59,31 +59,28 @@
 
   <section class="page-header">
     <h1>Le Musée du Club</h1>
-    <p>Chaque lettre du Refuge Club contient une carte numérotée. Entrez le code imprimé au dos&nbsp;: la carte prend sa place au mur de votre salle.</p>
+    <p>Une lettre, une carte.</p>
   </section>
 
   <section class="club-section">
     <form class="refuge-code club-code" autocomplete="off">
-      <label for="club-code-input">Le code de votre carte</label>
+      <label for="club-code-input">Code de la carte</label>
       <div class="refuge-code-row">
-        <input id="club-code-input" name="code" type="text" placeholder="EX. ABCD1226-0001" required autocapitalize="characters" spellcheck="false">
+        <input id="club-code-input" name="code" type="text" placeholder="ABCD1226-0001" required autocapitalize="characters" spellcheck="false">
         <button class="btn btn-pill" type="submit">Ajouter</button>
       </div>
       <p class="refuge-code-msg" role="status" aria-live="polite"></p>
     </form>
 
-    <div class="club-progress">
-      <p class="club-progress-text"><span class="club-season">Saison 1</span> <span class="club-count">0 carte sur 12</span></p>
-      <span class="club-progress-bar" aria-hidden="true"><span class="club-progress-fill"></span></span>
-    </div>
-
     <div class="club-museum">
-      <h2 id="club-salle">Salle de la saison 1</h2>
+      <div class="club-head">
+        <h2 id="club-salle">Saison 1</h2>
+        <p class="club-count">0 / 12</p>
+      </div>
       <ol class="club-wall" aria-labelledby="club-salle"></ol>
     </div>
 
     <noscript><p class="club-note">Le musée a besoin de JavaScript pour afficher vos cartes.</p></noscript>
-    <p class="club-note">Votre salle est gardée dans ce navigateur. Sur un autre appareil, entrez à nouveau les codes de vos cartes.</p>
   </section>
 
   <div class="refuge-reveal club-reveal" hidden>
@@ -92,7 +89,7 @@
       <button class="refuge-crate" type="button">
         <span class="refuge-crate-label">Refuge Club<br>Fragile</span>
       </button>
-      <p class="refuge-crate-hint">Touchez la caisse pour l'ouvrir&nbsp;!</p>
+      <p class="refuge-crate-hint">Touchez la caisse</p>
       <div class="refuge-reveal-card club-reveal-card" hidden>
         <div class="club-tilt">
           <div class="club-tilt-card">
@@ -122,7 +119,6 @@
       <h3 id="club-viewer-title"></h3>
       <p></p>
     </div>
-    <p class="club-viewer-hint">Glissez le doigt ou la souris sur la carte pour la faire pencher.</p>
   </div>
 
   <footer class="site-footer">
@@ -132,7 +128,7 @@
   </footer>
 
   <script src="script.js?v=52" defer></script>
-  <script src="musee-club.js?v=3" defer></script>
+  <script src="musee-club.js?v=4" defer></script>
 
 </body>
 </html>
