@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f%5B%5D=bevellier@400,500,700&f%5B%5D=comico@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=63">
+  <link rel="stylesheet" href="styles.css?v=65">
 </head>
 <body class="page-musee-club">
   <!-- Google Tag Manager (noscript) -->
@@ -78,8 +78,8 @@
     </div>
 
     <div class="club-museum">
-      <ol class="club-wall" aria-label="Salle de la saison 1"></ol>
-      <div class="club-ground" aria-hidden="true"></div>
+      <h2 id="club-salle">Salle de la saison 1</h2>
+      <ol class="club-wall" aria-labelledby="club-salle"></ol>
     </div>
 
     <noscript><p class="club-note">Le musée a besoin de JavaScript pour afficher vos cartes.</p></noscript>
@@ -94,7 +94,13 @@
       </button>
       <p class="refuge-crate-hint">Touchez la caisse pour l'ouvrir&nbsp;!</p>
       <div class="refuge-reveal-card club-reveal-card" hidden>
-        <img src="" alt="">
+        <div class="club-tilt">
+          <div class="club-tilt-card">
+            <img src="" alt="">
+            <span class="club-tilt-holo" aria-hidden="true"></span>
+            <span class="club-tilt-glare" aria-hidden="true"></span>
+          </div>
+        </div>
         <p class="eyebrow"></p>
         <h3></h3>
         <p class="club-reveal-num"></p>
@@ -103,15 +109,20 @@
     </div>
   </div>
 
-  <div class="artwork-modal" hidden>
-    <div class="artwork-modal-box" role="dialog" aria-modal="true" aria-labelledby="artwork-modal-title">
-      <button class="artwork-modal-close" type="button" aria-label="Fermer">×</button>
-      <img class="artwork-modal-img" src="" alt="">
-      <div class="artwork-modal-text">
-        <h3 id="artwork-modal-title"></h3>
-        <p></p>
+  <div class="club-viewer" role="dialog" aria-modal="true" aria-labelledby="club-viewer-title" hidden>
+    <button class="club-viewer-close" type="button" aria-label="Fermer">×</button>
+    <div class="club-tilt">
+      <div class="club-tilt-card">
+        <img src="" alt="">
+        <span class="club-tilt-holo" aria-hidden="true"></span>
+        <span class="club-tilt-glare" aria-hidden="true"></span>
       </div>
     </div>
+    <div class="club-viewer-text">
+      <h3 id="club-viewer-title"></h3>
+      <p></p>
+    </div>
+    <p class="club-viewer-hint">Glissez le doigt ou la souris sur la carte pour la faire pencher.</p>
   </div>
 
   <footer class="site-footer">
@@ -121,7 +132,7 @@
   </footer>
 
   <script src="script.js?v=52" defer></script>
-  <script src="musee-club.js?v=1" defer></script>
+  <script src="musee-club.js?v=3" defer></script>
 
 </body>
 </html>

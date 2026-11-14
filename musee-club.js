@@ -77,26 +77,23 @@
       if (c.hs) { li.classList.add('is-hs'); li.appendChild(el('span', 'club-hs-tag', 'Hors-série')); }
 
       var card = el(owned ? 'button' : 'div', 'club-card');
-      var frame = el('span', 'artwork-frame');
       if (owned) {
         card.type = 'button';
         card.setAttribute('aria-label', c.title + ', carte n° ' + num + ' sur ' + c.total + ' : voir en grand');
         var img = el('img');
         img.src = c.img;
         img.alt = '';
-        frame.appendChild(img);
-        frame.appendChild(el('span', 'club-shine'));
-        card.addEventListener('click', function () { openModal(c, num, card); });
+        card.appendChild(img);
+        card.appendChild(el('span', 'club-shine'));
+        card.addEventListener('click', function () { openViewer(c, num, card); });
         li.classList.add('is-owned');
         if (c.id === newId) li.classList.add('is-new');
       } else {
-        frame.appendChild(el('span', 'club-blank', '?'));
+        var blank = el('span', 'club-blank', '?');
+        blank.setAttribute('aria-hidden', 'true');
+        card.appendChild(blank);
         li.classList.add(c.hash ? 'is-waiting' : 'is-future');
       }
-      card.appendChild(frame);
-      var label = el('span', 'artwork-label');
-      label.setAttribute('aria-hidden', 'true');
-      card.appendChild(label);
       li.appendChild(card);
 
       var cartel = el('p', 'club-cartel');
@@ -149,6 +146,34 @@
       document.body.appendChild(bit);
     }
   }
+  // la carte penche vers le doigt ou la souris, et la lumière glisse dessus
+  function tilt(zone) {
+    var card = zone.querySelector('.club-tilt-card');
+    function move(e) {
+      var r = card.getBoundingClientRect();
+      var x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+      var y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+      var max = calm ? 0 : 16;
+      card.classList.add('is-active');
+      card.style.setProperty('--ry', ((x - 0.5) * max).toFixed(2) + 'deg');
+      card.style.setProperty('--rx', ((0.5 - y) * max).toFixed(2) + 'deg');
+      card.style.setProperty('--mx', Math.round(x * 100) + '%');
+      card.style.setProperty('--my', Math.round(y * 100) + '%');
+      card.style.setProperty('--glare', '0.6');
+      card.style.setProperty('--holo', '0.7');
+    }
+    function rest() {
+      card.classList.remove('is-active');
+      ['--rx', '--ry', '--mx', '--my', '--glare', '--holo'].forEach(function (k) { card.style.removeProperty(k); });
+    }
+    zone.addEventListener('pointermove', move);
+    zone.addEventListener('pointerdown', move);
+    zone.addEventListener('pointerleave', rest);
+    zone.addEventListener('pointerup', function (e) { if (e.pointerType !== 'mouse') rest(); });
+    zone.addEventListener('pointercancel', rest);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.club-tilt'), tilt);
+
   function replay(e, cls) {
     e.classList.remove(cls);
     void e.offsetWidth;
@@ -187,15 +212,17 @@
     crate.hidden = false;
     hint.hidden = false;
     rcard.hidden = true;
-    rcard.querySelector('img').src = c.img;
-    rcard.querySelector('img').alt = c.alt;
+    rcard.querySelector('.club-tilt-card img').src = c.img;
+    rcard.querySelector('.club-tilt-card img').alt = c.alt;
     rcard.querySelector('.eyebrow').textContent = 'Nouvelle carte · ' + c.when;
     rcard.querySelector('h3').textContent = c.title;
     rcard.querySelector('.club-reveal-num').textContent = 'Carte n° ' + num + ' sur ' + nb(c.total);
     reveal.classList.remove('is-open');
     reveal.hidden = false;
     document.body.style.overflow = 'hidden';
-    crate.focus();
+    reveal.scrollTop = 0;
+    reveal.scrollLeft = 0;
+    crate.focus({ preventScroll: true });
   }
 
   crate.addEventListener('click', function () {
@@ -215,7 +242,7 @@
     burst(p, { count: 80, spread: 360 });
     burst(p, { count: 14, chars: ['⭐', '✨', '💛'], spread: 260 });
     setTimeout(function () { burst(p, { count: 30, spread: 220, lift: 80 }); }, 450);
-    go.focus();
+    go.focus({ preventScroll: true });
   });
 
   go.addEventListener('click', function () {
@@ -230,7 +257,7 @@
     msg.textContent = '';
     input.value = '';
     setTimeout(function () {
-      var p = center(slot.querySelector('.artwork-frame'));
+      var p = center(slot.querySelector('.club-card'));
       burst(p, { count: 50, spread: 180 });
       burst(p, { count: 8, chars: ['✨', '⭐'], spread: 140 });
       toast(a.card);
@@ -264,29 +291,30 @@
   });
 
   // ---- une carte en grand ----
-  var modal = document.querySelector('.artwork-modal');
-  var mImg = modal.querySelector('.artwork-modal-img');
-  var mTitle = modal.querySelector('.artwork-modal-text h3');
-  var mDesc = modal.querySelector('.artwork-modal-text p');
+  var viewer = document.querySelector('.club-viewer');
+  var vImg = viewer.querySelector('.club-tilt-card img');
+  var vTitle = viewer.querySelector('.club-viewer-text h3');
+  var vDesc = viewer.querySelector('.club-viewer-text p');
+  var vClose = viewer.querySelector('.club-viewer-close');
   var opener = null;
-  function openModal(c, num, btn) {
+  function openViewer(c, num, btn) {
     opener = btn;
-    mImg.src = c.img;
-    mImg.alt = c.alt;
-    mTitle.textContent = c.title;
-    mDesc.textContent = 'Carte n° ' + num + ' sur ' + nb(c.total) + ', arrivée avec la lettre de ' + c.month + '.';
-    modal.hidden = false;
+    vImg.src = c.img;
+    vImg.alt = c.alt;
+    vTitle.textContent = c.title;
+    vDesc.textContent = 'Carte n° ' + num + ' sur ' + nb(c.total) + ' · arrivée avec la lettre de ' + c.month;
+    viewer.hidden = false;
     document.body.style.overflow = 'hidden';
-    modal.querySelector('.artwork-modal-close').focus();
+    vClose.focus();
   }
-  function closeModal() {
-    modal.hidden = true;
+  function closeViewer() {
+    viewer.hidden = true;
     document.body.style.overflow = '';
     if (opener) { opener.focus(); opener = null; }
   }
-  modal.querySelector('.artwork-modal-close').addEventListener('click', closeModal);
-  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+  vClose.addEventListener('click', closeViewer);
+  viewer.addEventListener('click', function (e) { if (e.target === viewer) closeViewer(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !viewer.hidden) closeViewer(); });
 
   render();
 })();
