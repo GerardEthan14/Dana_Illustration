@@ -12,7 +12,7 @@
   var CARDS = [
     {
       id: '2026-12', no: 1, when: 'Décembre 2026', month: 'décembre',
-      title: 'Ours polaire', arrival: "L'ours polaire",
+      title: 'Ours polaire',
       img: 'photo/club-carte-ours-polaire.jpg',
       alt: "Carte de l'ours polaire : il n'est pas blanc, ses poils sont transparents et sa peau est noire",
       hash: '9b8195bf2f68f7c6174cd5219a88ae74beb5221253add4a4f5bf5b3169bb22d1',
@@ -74,7 +74,7 @@
       var owned = !!num && !!c.img;
       var li = el('li', 'club-slot');
       li.id = 'carte-' + c.id;
-      if (c.hs) { li.classList.add('is-hs'); li.appendChild(el('span', 'club-hs-tag', 'Hors-série')); }
+      if (c.hs) li.classList.add('is-hs');
 
       var card = el(owned ? 'button' : 'div', 'club-card');
       if (owned) {
@@ -89,27 +89,19 @@
         li.classList.add('is-owned');
         if (c.id === newId) li.classList.add('is-new');
       } else {
-        var blank = el('span', 'club-blank', '?');
-        blank.setAttribute('aria-hidden', 'true');
-        card.appendChild(blank);
         li.classList.add(c.hash ? 'is-waiting' : 'is-future');
       }
       li.appendChild(card);
 
       var cartel = el('p', 'club-cartel');
-      cartel.appendChild(el('span', '', c.hs ? 'Hors-série · ' + c.when : 'N°' + pad(c.no, 2) + ' · ' + c.when));
+      cartel.appendChild(el('span', '', c.hs ? 'Hors-série' : c.when));
       if (owned) {
         cartel.appendChild(el('strong', '', c.title));
-        cartel.appendChild(el('small', '', 'Carte n° ' + num + ' sur ' + nb(c.total)));
+        cartel.appendChild(el('small', '', 'n° ' + num + ' / ' + nb(c.total)));
       } else if (c.hash) {
-        cartel.appendChild(el('strong', '', 'Votre carte vous attend'));
-        cartel.appendChild(el('small', '', 'Entrez son code ci-dessus'));
+        cartel.appendChild(el('strong', 'club-todo', 'À ajouter'));
       } else if (c.hs) {
-        cartel.appendChild(el('strong', '', 'Édition boutique'));
-        cartel.appendChild(el('small', '', 'Bientôt'));
-      } else {
-        cartel.appendChild(el('strong', '', 'À découvrir'));
-        cartel.appendChild(el('small', '', 'Avec la lettre de ' + c.month));
+        cartel.appendChild(el('small', '', c.when));
       }
       li.appendChild(cartel);
       wall.appendChild(li);
@@ -117,8 +109,7 @@
 
     var season = CARDS.filter(function (c) { return !c.hs; });
     var got = season.filter(function (c) { return state.cards[c.id] && c.img; }).length;
-    document.querySelector('.club-count').textContent = got + (got > 1 ? ' cartes' : ' carte') + ' sur ' + season.length;
-    document.querySelector('.club-progress-fill').style.width = (got / season.length * 100) + '%';
+    document.querySelector('.club-count').textContent = got + ' / ' + season.length;
   }
 
   // ---- effets (les mêmes que dans le Sanctuaire) ----
@@ -191,7 +182,7 @@
     t.appendChild(icon);
     var txt = el('span');
     txt.appendChild(el('small', '', 'Nouvelle carte'));
-    txt.appendChild(el('strong', '', c.arrival + ' a rejoint votre salle'));
+    txt.appendChild(el('strong', '', c.title));
     t.appendChild(txt);
     toasts.appendChild(t);
     setTimeout(function () { t.classList.add('is-out'); }, 4200);
@@ -214,9 +205,9 @@
     rcard.hidden = true;
     rcard.querySelector('.club-tilt-card img').src = c.img;
     rcard.querySelector('.club-tilt-card img').alt = c.alt;
-    rcard.querySelector('.eyebrow').textContent = 'Nouvelle carte · ' + c.when;
+    rcard.querySelector('.eyebrow').textContent = c.when;
     rcard.querySelector('h3').textContent = c.title;
-    rcard.querySelector('.club-reveal-num').textContent = 'Carte n° ' + num + ' sur ' + nb(c.total);
+    rcard.querySelector('.club-reveal-num').textContent = 'n° ' + num + ' / ' + nb(c.total);
     reveal.classList.remove('is-open');
     reveal.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -230,13 +221,13 @@
     replay(crate, 'is-knock');
     burst(center(crate), { count: 6, chars: ['✨'], spread: 90 });
     if (knocks < 3 && !calm) {
-      hint.textContent = knocks === 1 ? 'Encore une fois…' : 'Une dernière fois !';
+      hint.textContent = knocks === 1 ? 'Encore' : 'Encore une fois';
       return;
     }
     var p = center(crate);
     crate.hidden = true;
     hint.hidden = true;
-    hint.textContent = "Touchez la caisse pour l'ouvrir !";
+    hint.textContent = 'Touchez la caisse';
     reveal.classList.add('is-open');
     rcard.hidden = false;
     burst(p, { count: 80, spread: 360 });
@@ -274,14 +265,14 @@
       msg.textContent = text;
       replay(form, 'is-wrong');
     }
-    if (!m) return wrong('Le code complet est au dos de la carte, par exemple ABCD1226-0001.');
+    if (!m) return wrong('Il manque une partie du code (ex. ABCD1226-0001).');
     sha256(m[1]).then(function (hash) {
       var c = CARDS.filter(function (x) { return x.hash === hash; })[0];
       var num = parseInt(m[2], 10);
-      if (!c) return wrong('Ce code ne correspond à aucune carte. Vérifiez les lettres et les chiffres.');
-      if (num < 1 || num > c.total) return wrong("Ce numéro de carte n'existe pas.");
+      if (!c) return wrong('Code inconnu.');
+      if (num < 1 || num > c.total) return wrong('Numéro inconnu.');
       if (state.cards[c.id]) {
-        msg.textContent = 'Cette carte est déjà accrochée dans votre salle.';
+        msg.textContent = 'Déjà au mur.';
         document.getElementById('carte-' + c.id).scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' });
         return;
       }
@@ -302,7 +293,7 @@
     vImg.src = c.img;
     vImg.alt = c.alt;
     vTitle.textContent = c.title;
-    vDesc.textContent = 'Carte n° ' + num + ' sur ' + nb(c.total) + ' · arrivée avec la lettre de ' + c.month;
+    vDesc.textContent = c.when + ' · n° ' + num + ' / ' + nb(c.total);
     viewer.hidden = false;
     document.body.style.overflow = 'hidden';
     vClose.focus();
