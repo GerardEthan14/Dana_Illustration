@@ -1706,36 +1706,45 @@ a.quick-btn:focus-visible {
 }
 
 /* ============================================
-   Le Refuge Club : visuel du mois + formules
+   Le Refuge Club : présentation, formules, étapes, FAQ
    ============================================ */
-.club-offer { padding: 1rem 2.5rem 5rem; }
-.club-offer-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  gap: 3.5rem;
-  align-items: start;
-}
-.club-visual img { width: 100%; height: auto; box-shadow: var(--shadow); }
-.club-formulas { display: grid; gap: 1.6rem; }
-.club-formula {
-  background: var(--cream);
-  border: 1px solid var(--border);
-  padding: 1.6rem 1.8rem;
-}
-.club-formula .eyebrow { margin-bottom: 0.3rem; }
-.club-formula h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: 0.8rem; }
-.club-formula ul { padding-left: 1.2rem; color: var(--muted); line-height: 1.75; }
-.club-formula li::marker { color: var(--orange); }
-.club-shipping h3 { margin-bottom: 0.3rem; }
-.club-shipping p { color: var(--muted); line-height: 1.7; }
-.club-buy { display: flex; flex-wrap: wrap; gap: 0.8rem; }
-.club-buy-loading { color: var(--muted); }
+.page-mailclub main h1, .page-mailclub main h2 { color: var(--green-dark); }
+.club-wrap { max-width: var(--max-w); margin: 0 auto; padding-inline: 2.5rem; }
+.club-hero { padding-block: 3rem 3.5rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3.5rem; align-items: center; }
+.club-hero h1 { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1.02; margin: 0.6rem 0 1.2rem; }
+.club-lead { font-size: 1.15rem; color: var(--muted); line-height: 1.75; max-width: 34rem; }
+.club-hero img { width: 100%; height: auto; box-shadow: var(--shadow); }
+.club-band { background: var(--cream); border-block: 1px solid var(--border); }
+.club-sec { padding-block: 4.5rem; }
+.club-sec h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin: 0.4rem 0 2rem; }
+.club-tabs[hidden], .club-plans[hidden], .club-plan[hidden] { display: none; }
+.club-tabs { display: inline-flex; border: 1px solid var(--green-dark); border-radius: var(--radius-pill); padding: 0.25rem; margin-bottom: 2rem; }
+.club-tabs button { border: 0; background: none; padding: 0.6rem 1.3rem; border-radius: var(--radius-pill); font-size: 0.95rem; color: var(--green-dark); }
+.club-tabs button[aria-selected="true"] { background: var(--green-dark); color: var(--cream); }
+.club-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; max-width: 60rem; }
+.club-plan { background: var(--cream-warm); border: 1px solid var(--border); padding: 2rem; display: flex; flex-direction: column; gap: 0.9rem; }
+.club-plan.is-main { border: 2px solid var(--green-dark); }
+.club-plan h3 { font-family: 'Bevellier', 'Jost', sans-serif; font-size: 1.7rem; color: var(--green-dark); }
+.club-price { font-family: 'Bevellier', 'Jost', sans-serif; font-size: 2.1rem; }
+.club-price small { font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--muted); }
+.club-plan ul { padding-left: 1.2rem; color: var(--muted); line-height: 1.8; flex: 1; }
+.club-plan li::marker { color: var(--orange); }
+.club-plan .btn { text-align: center; }
+.club-note { color: var(--muted); font-size: 0.92rem; margin-top: 1.2rem; }
+.club-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; counter-reset: club-step; }
+.club-step { border-top: 2px solid var(--green-dark); padding-top: 1.1rem; }
+.club-step h3 { font-family: 'Bevellier', 'Jost', sans-serif; font-size: 1.25rem; color: var(--green-dark); margin-bottom: 0.4rem; }
+.club-step h3::before { counter-increment: club-step; content: counter(club-step) " · "; color: var(--orange); }
+.club-step p { color: var(--muted); line-height: 1.65; }
+.club-faq { max-width: 48rem; }
+.club-faq details { border-bottom: 1px solid var(--border); padding: 1.1rem 0; }
+.club-faq summary { cursor: pointer; font-weight: 500; font-size: 1.05rem; }
+.club-faq details p { color: var(--muted); line-height: 1.7; margin-top: 0.6rem; }
 @media (max-width: 860px) {
-  .club-offer { padding: 0.5rem 1.4rem 4rem; }
-  .club-offer-inner { grid-template-columns: 1fr; gap: 2.2rem; }
-  .club-buy-btn { width: 100%; text-align: center; }
+  .club-wrap { padding-inline: 1.25rem; }
+  .club-hero, .club-plans, .club-steps { grid-template-columns: 1fr; }
+  .club-hero { padding-block: 1.5rem 3rem; gap: 2rem; }
+  .club-sec { padding-block: 3.5rem; }
 }
 
 /* ============================================

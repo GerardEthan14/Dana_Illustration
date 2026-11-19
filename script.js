@@ -5,8 +5,7 @@ var EN_TEXT = {
   'Mentions légales': 'Legal notice', 'CGV': 'Terms of sale', 'Confidentialité': 'Privacy',
   'Retours & remboursements': 'Returns & refunds', 'Réseaux sociaux': 'Social networks',
   'Informations légales': 'Legal information', 'Fermer': 'Close',
-  'Les abonnements ouvrent bientôt 🌿': 'Subscriptions open soon 🌿', 'S\u2019abonner · ': 'Subscribe · ',
-  'Impossible de charger les abonnements pour le moment.': 'Subscriptions cannot be loaded right now.',
+  'Les abonnements ouvrent bientôt.': 'Subscriptions open soon.', 'dès ': 'from ',
   'Chargement de la boutique…': 'Loading the shop…', 'Bientôt de nouvelles créations 🌿': 'New creations coming soon 🌿',
   'Impossible de charger la boutique pour le moment.': 'The shop cannot be loaded right now.',
   'Impossible de charger les nouveautés.': 'New arrivals cannot be loaded.',
@@ -406,52 +405,54 @@ function parseTag(tag) {
   return { cat: p.label, order: p.order, sub: c.label, subOrder: c.order };
 }
 
-// Page du Refuge Club : un bouton par abonnement (produit avec la balise refuge_club).
+// Page du Refuge Club : chaque formule porte la poignée (handle) de son produit Shopify.
 // Le panier du site ne gère pas les abonnements : le bouton mène à la page du produit dans
 // la boutique Shopify, où l'abonnement (ou l'achat unique) se choisit et se paie. Seul un
 // produit absent de la boutique en ligne Shopify ouvre la fiche comme ailleurs.
+// Une formule dont le produit n'existe pas (ou n'est pas publié) est masquée : l'onglet
+// « À offrir » n'apparaît donc qu'une fois les produits cadeau créés dans Shopify.
 function buildClubButtons(root, ui) {
-  // pas de liste des plans d'abonnement : la clé du site n'a pas le droit de la lire,
-  // et Shopify refuserait alors toute la demande
-  var fields = 'id title tags onlineStoreUrl priceRange { minVariantPrice { amount } }';
-  storefront('{ products(first: 10, query: "tag:' + CLUB_TAG + '") { edges { node { ' + fields + ' } } } }')
-    .then(function (d) {
-      var products = d.products.edges.map(function (e) { return e.node; });
-      if (products.length) return products;
-      // la recherche de Shopify met parfois du temps à voir une balise toute neuve :
-      // on relit alors tous les produits et on trie nous-mêmes
-      return storefront('{ products(first: 250) { edges { node { ' + fields + ' } } } }').then(function (d2) {
-        return d2.products.edges.map(function (e) { return e.node; })
-          .filter(function (p) { return (p.tags || []).some(isClubTag); });
-      });
-    })
-    .then(function (products) {
-      root.innerHTML = '';
-      if (!products.length) {
-        root.innerHTML = '<p class="club-buy-loading">' + t('Les abonnements ouvrent bientôt 🌿') + '</p>';
-        return;
+  var cards = Array.prototype.slice.call(root.querySelectorAll('[data-club-handle]'));
+  var query = cards.map(function (c, i) {
+    return 'p' + i + ': product(handle: ' + JSON.stringify(c.getAttribute('data-club-handle')) +
+      ') { id onlineStoreUrl priceRange { minVariantPrice { amount } } }';
+  }).join(' ');
+  storefront('{ ' + query + ' }').then(function (d) {
+    cards.forEach(function (card, i) {
+      var p = d['p' + i];
+      if (!p) { card.hidden = true; return; }
+      var price = card.querySelector('[data-club-price]');
+      if (price) {
+        price.textContent = (card.hasAttribute('data-club-from') ? t('dès ') : '') +
+          formatPrice({ variants: [{ price: { amount: p.priceRange.minVariantPrice.amount } }] });
       }
-      products.forEach(function (p) {
-        var label = p.title + ' · ' + formatPrice({ variants: [{ price: { amount: p.priceRange.minVariantPrice.amount } }] });
-        var btn;
-        if (p.onlineStoreUrl) {
-          btn = el('a', 'btn btn-pill club-buy-btn');
-          btn.href = p.onlineStoreUrl;
-          btn.textContent = t('S\u2019abonner · ') + label;
-        } else {
-          btn = el('button', 'btn btn-pill club-buy-btn');
-          btn.type = 'button';
-          btn.textContent = label;
-          btn.addEventListener('click', function () { openProductModal(ui, p.id); });
-        }
-        root.appendChild(btn);
-      });
-    })
-    .catch(function (err) {
-      root.innerHTML = '<p class="club-buy-loading">' + t('Impossible de charger les abonnements pour le moment.') + '</p>';
-      console.error('Abonnements Refuge Club :', err);
+      var btn = card.querySelector('[data-club-buy]');
+      if (p.onlineStoreUrl) {
+        btn.href = p.onlineStoreUrl;
+      } else {
+        btn.addEventListener('click', function (e) { e.preventDefault(); openProductModal(ui, p.id); });
+      }
     });
+    function hasOffers(name) {
+      var panel = root.querySelector('[data-panel="' + name + '"]');
+      return panel && panel.querySelector('[data-club-handle]:not([hidden])');
+    }
+    if (hasOffers('offrir')) root.querySelector('.club-tabs').hidden = false;
+    if (!hasOffers('moi')) {
+      root.querySelector('[data-panel="moi"]').innerHTML = '<p class="club-note">' + t('Les abonnements ouvrent bientôt.') + '</p>';
+    }
+  }).catch(function (err) {
+    console.error('Abonnements Refuge Club :', err);
+  });
 }
+
+// Onglets « Pour moi » / « À offrir » de la page du Refuge Club
+document.querySelectorAll('.club-tabs button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    document.querySelectorAll('.club-tabs button').forEach(function (x) { x.setAttribute('aria-selected', x === b); });
+    document.querySelectorAll('[data-panel]').forEach(function (p) { p.hidden = p.dataset.panel !== b.dataset.tab; });
+  });
+});
 
 function buildTagShop(root, ui) {
   var kidsOnly = root.getAttribute('data-collection') === KIDS_COLLECTION;
