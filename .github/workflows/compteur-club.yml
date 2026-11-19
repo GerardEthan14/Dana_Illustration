@@ -1,0 +1,33 @@
+name: Compteur des membres du Refuge Club
+
+on:
+  schedule:
+    - cron: "41 4 * * *"   # chaque jour vers 5h-6h (heure belge)
+  workflow_dispatch:        # bouton "Run workflow" pour lancer a la main
+
+permissions:
+  contents: write
+
+jobs:
+  compter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/test_compteur_club.py
+      - run: python scripts/compteur_club.py
+        env:
+          SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+      - name: Publier si le nombre a change
+        run: |
+          git add mail-club.html en/mail-club.html
+          if git diff --cached --quiet; then
+            echo "Nombre de membres inchange."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Refuge Club : mise a jour du nombre de membres"
+            git push
+          fi
